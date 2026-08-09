@@ -1,0 +1,359 @@
+.mortgage-calculator .section-heading {
+  margin-bottom: 48px;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.calc-card {
+  background: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.calc-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--axp-navy);
+  color: white;
+  padding: 18px 28px;
+  font: 500 14px var(--font-serif);
+  letter-spacing: .01em;
+}
+
+.calc-card-body {
+  padding: 32px 28px;
+}
+
+.calc-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.calc-field--full {
+  grid-column: 1 / -1;
+}
+
+.calc-field label {
+  display: block;
+  margin-bottom: 10px;
+  color: #656a76;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.calc-field input {
+  width: 100%;
+  border: 1px solid rgba(26,35,61,.16);
+  background: transparent;
+  padding: 12px 14px;
+  color: var(--axp-navy);
+  font-size: 13px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.calc-field input::placeholder {
+  color: var(--axp-grey);
+}
+
+.calc-field input:focus {
+  outline: 0;
+  border-color: var(--axp-gold);
+  box-shadow: 0 0 0 3px rgba(212,160,42,.16);
+}
+
+.calc-result-body {
+  padding: 40px 28px 32px;
+}
+
+.calc-result-empty {
+  text-align: center;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(26,35,61,.1);
+}
+
+.calc-result-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: rgba(212,160,42,.14);
+  color: var(--axp-gold);
+}
+
+.calc-result-empty h3 {
+  margin: 0 0 10px;
+  font: 500 22px var(--font-serif);
+  color: var(--axp-navy);
+}
+
+.calc-result-empty p {
+  margin: 6px 0 0;
+  color: #8a8e97;
+  font-size: 12px;
+}
+
+.calc-result-figure {
+  text-align: center;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(26,35,61,.1);
+}
+
+.calc-result-amount {
+  display: block;
+  font: 600 clamp(2rem,3.4vw,2.7rem) var(--font-serif);
+  color: var(--axp-navy);
+}
+
+.calc-result-amount--muted {
+  color: rgba(26,35,61,.3);
+}
+
+.calc-result-figure p {
+  margin: 8px 0 0;
+  color: #8a8e97;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.calc-result-rows {
+  padding-top: 6px;
+}
+
+.calc-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(26,35,61,.08);
+  font-size: 13px;
+}
+
+.calc-result-row span {
+  color: #666b76;
+}
+
+.calc-result-row strong {
+  color: var(--axp-navy);
+  font-weight: 600;
+}
+
+.calc-eligibility {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 14px 16px;
+  border: 1px solid rgba(26,35,61,.16);
+  color: var(--axp-navy);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.calc-eligibility--pass {
+  background: rgba(212,160,42,.08);
+}
+
+.calc-eligibility--pass svg {
+  color: var(--axp-gold);
+}
+
+.calc-eligibility--fail {
+  background: var(--axp-alabaster);
+}
+
+.calc-eligibility--fail svg {
+  color: #656a76;
+}
+
+.calc-eligibility svg {
+  flex-shrink: 0;
+}
+
+.calc-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.calc-actions .button {
+  width: 100%;
+}
+
+.calc-download-row {
+  display: flex;
+  gap: 12px;
+}
+
+.calc-download-row .button {
+  flex: 1;
+}
+
+.calc-schedule-card {
+  margin-top: 24px;
+}
+
+.calc-tabs {
+  display: flex;
+  gap: 32px;
+  padding: 0 28px;
+  border-bottom: 1px solid rgba(26,35,61,.1);
+}
+
+.calc-tabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  padding: 18px 0;
+  color: #8a8e97;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.calc-tabs button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--axp-navy);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.calc-tabs button:hover {
+  color: var(--axp-navy);
+}
+
+.calc-tabs button.active {
+  color: var(--axp-navy);
+}
+
+.calc-tabs button.active::after {
+  opacity: 1;
+}
+
+.calc-stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+  padding: 28px;
+}
+
+.calc-stat-tile {
+  text-align: center;
+  padding: 28px 16px;
+  background: var(--axp-alabaster);
+}
+
+.calc-stat-tile:nth-child(2) {
+  background: rgba(26,35,61,.05);
+}
+
+.calc-stat-tile:nth-child(3) {
+  background: rgba(26,35,61,.08);
+}
+
+.calc-stat-tile strong {
+  display: block;
+  font: 600 clamp(1.3rem,2vw,1.6rem) var(--font-serif);
+  color: var(--axp-navy);
+}
+
+.calc-stat-tile span {
+  display: block;
+  margin-top: 8px;
+  color: #666b76;
+  font-size: 12px;
+}
+
+.calc-schedule-table-wrap {
+  max-height: 480px;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 0 28px 28px;
+}
+
+.calc-schedule-empty {
+  padding: 40px 0;
+  text-align: center;
+  color: #8a8e97;
+  font-size: 13px;
+}
+
+.calc-schedule-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.calc-schedule-table thead th {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 12px 10px;
+  text-align: left;
+  color: #8a8e97;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 1px solid rgba(26,35,61,.12);
+}
+
+.calc-schedule-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(26,35,61,.06);
+  color: var(--axp-navy);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .calc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .calc-card-body {
+    padding: 24px 20px;
+  }
+
+  .calc-result-body {
+    padding: 28px 20px 24px;
+  }
+
+  .calc-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-tabs {
+    padding: 0 20px;
+    gap: 20px;
+  }
+
+  .calc-stat-tiles {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .calc-schedule-table-wrap {
+    padding: 0 20px 20px;
+  }
+}
