@@ -5,23 +5,47 @@ import { ELIGIBILITY_THRESHOLD } from "./mortgage";
 import type { AmortizationRow, EligibilityResult, MortgageInputs, MortgageResult } from "./mortgage";
 
 const NAVY: [number, number, number] = [26, 35, 61];
+const FONT_FAMILY = "NotoSans";
 
-export function downloadRepaymentPlanPdf(
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
+}
+
+async function registerFont(doc: jsPDF, fileName: string, style: "normal" | "bold"): Promise<void> {
+  // eslint-disable-next-line local/no-direct-api-request -- static bundled asset, not a backend API call
+  const buffer = await fetch(`${import.meta.env.BASE_URL}fonts/${fileName}`).then((res) => res.arrayBuffer());
+  const base64 = arrayBufferToBase64(buffer);
+  doc.addFileToVFS(fileName, base64);
+  doc.addFont(fileName, FONT_FAMILY, style);
+}
+
+export async function downloadRepaymentPlanPdf(
   inputs: MortgageInputs,
   result: MortgageResult,
   schedule: AmortizationRow[],
   eligibility: EligibilityResult | null
-): void {
+): Promise<void> {
   const doc = new jsPDF();
+  await Promise.all([
+    registerFont(doc, "NotoSans-Regular.ttf", "normal"),
+    registerFont(doc, "NotoSans-Bold.ttf", "bold"),
+  ]);
+
   const marginX = 14;
   let y = 20;
 
-  doc.setFont("helvetica", "bold");
+  doc.setFont(FONT_FAMILY, "bold");
   doc.setFontSize(16);
   doc.setTextColor(...NAVY);
   doc.text("AXP — Mortgage Repayment Plan", marginX, y);
 
-  doc.setFont("helvetica", "normal");
+  doc.setFont(FONT_FAMILY, "normal");
   doc.setFontSize(9);
   doc.setTextColor(120, 120, 120);
   y += 6;
@@ -41,11 +65,11 @@ export function downloadRepaymentPlanPdf(
   doc.setFontSize(11);
   for (const [label, value] of summaryRows) {
     doc.setTextColor(90, 90, 90);
+    doc.setFont(FONT_FAMILY, "normal");
     doc.text(label, marginX, y);
     doc.setTextColor(...NAVY);
-    doc.setFont("helvetica", "bold");
+    doc.setFont(FONT_FAMILY, "bold");
     doc.text(value, 130, y, { align: "left" });
-    doc.setFont("helvetica", "normal");
     y += 7;
   }
 
@@ -53,14 +77,13 @@ export function downloadRepaymentPlanPdf(
     y += 2;
     const pct = (eligibility.ratio * 100).toFixed(1);
     const status = eligibility.eligible ? "Eligible" : "Not eligible";
-    doc.setFont("helvetica", "bold");
+    doc.setFont(FONT_FAMILY, "bold");
     doc.setTextColor(...NAVY);
     doc.text(
       `Eligibility check: ${pct}% of net salary (threshold ${ELIGIBILITY_THRESHOLD * 100}%) — ${status}`,
       marginX,
       y
     );
-    doc.setFont("helvetica", "normal");
     y += 8;
   }
 
@@ -75,8 +98,8 @@ export function downloadRepaymentPlanPdf(
       formatNaira(row.interest),
       formatNaira(row.balance),
     ]),
-    headStyles: { fillColor: NAVY, textColor: 255 },
-    styles: { fontSize: 8 },
+    styles: { font: FONT_FAMILY, fontStyle: "normal", fontSize: 8 },
+    headStyles: { font: FONT_FAMILY, fontStyle: "bold", fillColor: NAVY, textColor: 255 },
     margin: { left: marginX, right: marginX },
   });
 

@@ -81,7 +81,7 @@ export function Calculator() {
   const handleDownloadPdf = async () => {
     if (!result) return;
     const { downloadRepaymentPlanPdf } = await import("@/lib/mortgage-pdf");
-    downloadRepaymentPlanPdf(numeric, result, schedule, visibleEligibility);
+    await downloadRepaymentPlanPdf(numeric, result, schedule, visibleEligibility);
   };
 
   const handleDownloadCsv = async () => {
