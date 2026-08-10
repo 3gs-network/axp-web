@@ -21,7 +21,7 @@ export function Footer() {
           <p>Building Africa’s future through housing, finance and strategic partnerships.</p>
           <span>We are invested in your investment.</span>
           <div className="footer-social">
-            <a href="http://linkedin.com/in/axp-solutionprolimited" target="_blank" rel="noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
+            <a href="https://www.linkedin.com/company/axp-limited/?viewAsMember=true" target="_blank" rel="noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
             <a href="http://x.com/axp_solutionpro?s=21" target="_blank" rel="noreferrer" aria-label="X (Twitter)"><FaXTwitter /></a>
             <a href="http://instagram.com/axplimited/" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
             <a href="http://facebook.com/share/165yuzKibv/?mibextid=wwXIfr" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebook /></a>
