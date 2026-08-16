@@ -102,6 +102,26 @@
   color: var(--axp-navy);
 }
 
+.nav-link--account {
+  border: 1px solid rgba(26,35,61,.16);
+  border-radius: 999px;
+  padding: 8px 14px;
+}
+
+.nav-link--account::after {
+  content: none;
+}
+
+.nav-link--account:hover, .nav-link--account.active {
+  border-color: var(--axp-navy);
+}
+
+.mobile-nav-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .header-actions {
   display: flex;
   align-items: center;

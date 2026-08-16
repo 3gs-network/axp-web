@@ -1,9 +1,10 @@
 import "./Header.css";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, type NavLinkRenderProps } from "react-router-dom";
-import { ChevronDown, ChevronRight, Menu, X, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, User, X, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { navItems } from "@/data/nav";
+import { useSession } from "@/hooks/useSession";
 import { BrandMark } from "./BrandMark";
 
 export function Header() {
@@ -11,6 +12,9 @@ export function Header() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const { isAuthenticated } = useSession();
+  const accountTo = isAuthenticated ? "/dashboard" : "/auth";
+  const accountLabel = isAuthenticated ? "Dashboard" : "Sign in";
 
   useEffect(() => {
     setOpen(false);
@@ -75,6 +79,12 @@ export function Header() {
           >
             Contact
           </NavLink>
+          <NavLink
+            to={accountTo}
+            className={({ isActive }: NavLinkRenderProps) => (isActive ? "nav-link nav-link--account active" : "nav-link nav-link--account")}
+          >
+            <User size={14} /> {accountLabel}
+          </NavLink>
         </nav>
         <div className="header-actions">
           <Link to="/contact" className="button button--small button--primary">Speak to an advisor <ArrowRight size={15} /></Link>
@@ -110,6 +120,7 @@ export function Header() {
             )
           )}
           <NavLink to="/contact">Contact<ChevronRight size={18} /></NavLink>
+          <NavLink to={accountTo}><span className="mobile-nav-account"><User size={16} /> {accountLabel}</span><ChevronRight size={18} /></NavLink>
           <Link to="/contact" className="button button--primary">Choose why you’re here <ArrowRight size={16} /></Link>
         </div>
       )}
