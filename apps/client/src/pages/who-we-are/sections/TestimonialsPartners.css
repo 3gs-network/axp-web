@@ -105,6 +105,13 @@
   opacity: 1;
 }
 
+.testimonial-partners-row img.partner-logo-dark {
+  padding: 14px 20px;
+  background: #08286c;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
 @media (max-width: 1100px) {
   .testimonial-grid {
     grid-template-columns: repeat(2,1fr);
