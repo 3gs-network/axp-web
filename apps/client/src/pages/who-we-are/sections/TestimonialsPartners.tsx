@@ -33,7 +33,7 @@ const testimonials = [
 const partners = [
   { name: "Federal Mortgage Bank of Nigeria", logo: "/images/partners/federal_mortgage_bank.webp" },
   { name: "AG Mortgage Bank", logo: "/images/partners/ag_mortgage_bank.webp" },
-  { name: "Infinity Trust Mortgage Bank", logo: "/images/partners/infinity_trust_mortgage_bank.webp" },
+  { name: "Prudential Mortgage Bank", logo: "/images/partners/prudential-blue-white-1024x196.png", dark: true },
   { name: "Family Homes Funds", logo: "/images/partners/family_homes_funds.webp" },
   { name: "MBAN", logo: "/images/partners/mban.webp" },
 ];
@@ -62,7 +62,7 @@ export function TestimonialsPartners() {
         <div className="testimonial-partners">
           <span className="testimonial-partners-label">In partnership with</span>
           <div className="testimonial-partners-row">
-            {partners.map((item) => <img key={item.name} src={item.logo} alt={item.name} loading="lazy" />)}
+            {partners.map((item) => <img key={item.name} className={item.dark ? "partner-logo-dark" : undefined} src={item.logo} alt={item.name} loading="lazy" />)}
           </div>
         </div>
       </div>
