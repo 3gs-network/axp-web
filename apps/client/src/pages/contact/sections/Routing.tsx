@@ -6,18 +6,18 @@ import { ArrowRight, ChevronRight, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
-const routes = ["Looking for a Home", "A Homeowner", "Interested in a Mortgage", "A Property Developer", "An Investor", "A Financial Institution", "Media", "Looking to Collaborate"];
+const routes = ["Looking for a Home", "A Homeowner", "Interested in a Mortgage", "A Property Developer", "An Investor", "A Financial Institution", "Looking to Collaborate", "Others"];
 
 const routeDetail: Record<string, string> = {
   "Looking for a Home": "Explore homeownership opportunities",
-  "A Homeowner": "Discuss an urban-living question",
+  "A Homeowner": "Explore how to unlock equity or value from your home",
   "Interested in a Mortgage": "Learn about mortgage readiness",
   "A Property Developer": "Discuss presenting an approved opportunity",
   "An Investor": "Discuss urban-living opportunities",
   "A Financial Institution": "Discuss expanding mortgage access",
   Government: "Discuss public-interest urban living",
-  Media: "Contact AXP about a media enquiry",
   "Looking to Collaborate": "Start a collaboration conversation",
+  Others: "Tell us what's on your mind, we're listening",
 };
 
 const panelTransition = { type: "spring" as const, stiffness: 300, damping: 32 };
