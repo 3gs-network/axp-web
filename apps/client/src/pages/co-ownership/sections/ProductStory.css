@@ -1,0 +1,72 @@
+.co-product-story .lead {
+  font-weight: 500;
+}
+
+@media (min-width: 901px) {
+  .co-product-story .co-story-copy {
+    padding-left: 56px;
+    border-left: 1px solid rgba(26,35,61,.12);
+  }
+}
+
+.co-product-story .co-story-headline {
+  position: relative;
+  isolation: isolate;
+}
+
+.co-product-story .co-story-headline::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.2em;
+  left: -0.05em;
+  z-index: -1;
+  font-family: var(--font-serif);
+  font-size: clamp(7rem,11vw,13rem);
+  line-height: 1;
+  color: rgba(212,160,42,.1);
+  pointer-events: none;
+}
+
+.co-product-story .co-story-grid h2 {
+  font-size: clamp(2.1rem,4vw,4.1rem);
+  letter-spacing: -.035em;
+}
+
+.co-product-story .co-story-pillars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid rgba(26,35,61,.12);
+}
+
+.co-product-story .co-story-pillars li {
+  padding: 8px 16px;
+  border: 1px solid rgba(26,35,61,.16);
+  border-radius: 999px;
+  background: var(--axp-alabaster);
+  color: var(--axp-navy);
+  font: 600 11px var(--font-sans);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 680px) {
+  .co-product-story .co-story-headline::before {
+    font-size: 5.5rem;
+    top: -0.16em;
+  }
+
+  .co-product-story .co-story-pillars {
+    gap: 8px;
+    margin-top: 26px;
+    padding-top: 20px;
+  }
+
+  .co-product-story .co-story-pillars li {
+    padding: 7px 14px;
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,82 @@
+.equity-stepper {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 18px;
+  margin-top: 60px;
+  padding-top: 44px;
+}
+
+.equity-stepper::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: calc(100% / 14);
+  right: calc(100% / 14);
+  height: 1px;
+  background: rgba(26,35,61,.14);
+}
+
+.equity-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.equity-node-dot {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--axp-navy);
+  color: white;
+  font: 600 12px var(--font-sans);
+}
+
+.equity-node--gold .equity-node-dot {
+  background: var(--axp-gold);
+  color: var(--axp-navy-2);
+}
+
+.equity-node strong {
+  margin-bottom: 6px;
+  color: var(--axp-navy);
+  font: 600 13px var(--font-sans);
+  line-height: 1.4;
+}
+
+.equity-node p {
+  margin: 0;
+  color: #707580;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.equity-disclaimer {
+  margin: 40px 0 0;
+  color: #8a8f99;
+  font-size: 12px;
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .equity-stepper {
+    grid-template-columns: repeat(4,1fr);
+    row-gap: 40px;
+  }
+
+  .equity-stepper::before {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .equity-stepper {
+    grid-template-columns: repeat(2,1fr);
+  }
+}

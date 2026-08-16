@@ -1,0 +1,128 @@
+.co-product-hero {
+  position: relative;
+  padding: 130px 0 110px;
+  color: white;
+  background: var(--axp-navy-2);
+  overflow: hidden;
+}
+
+.co-product-hero::after {
+  content: "";
+  position: absolute;
+  width: 670px;
+  height: 670px;
+  right: -250px;
+  top: -220px;
+  border: 1px solid rgba(212,160,42,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 90px rgba(255,255,255,.014), 0 0 0 180px rgba(255,255,255,.012);
+}
+
+.co-product-hero-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.1fr .6fr;
+  gap: 110px;
+  align-items: center;
+}
+
+.co-product-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(212,160,42,.4);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--axp-gold-light);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.co-product-hero h1 {
+  margin: 24px 0 16px;
+  font: 500 clamp(3rem,6.2vw,6.1rem)/1 var(--font-serif);
+  color: var(--axp-gold-light);
+  letter-spacing: -.055em;
+}
+
+.co-product-hero h2 {
+  margin: 0 0 28px;
+  max-width: 750px;
+  font: 500 clamp(2rem,3.5vw,3.7rem)/1.1 var(--font-serif);
+}
+
+.co-product-hero p {
+  margin: 0 0 40px;
+  max-width: 690px;
+  color: rgba(255,255,255,.68);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.co-ledger-card {
+  width: min(100%,380px);
+  margin-left: auto;
+  padding: 32px;
+  background: #fff;
+  border: 1px solid rgba(26,35,61,.13);
+  box-shadow: 0 2px 8px rgba(26,35,61,.05);
+}
+
+.co-ledger-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(26,35,61,.13);
+}
+
+.co-ledger-card-header svg {
+  color: var(--axp-gold);
+  width: 17px;
+}
+
+.co-ledger-card-header span {
+  font: 500 16px var(--font-serif);
+  color: var(--axp-navy);
+}
+
+.co-ledger-card .check-list {
+  margin: 0;
+}
+
+@media (max-width: 1120px) {
+  .co-product-hero-grid {
+    gap: 45px;
+  }
+}
+
+@media (max-width: 900px) {
+  .co-product-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .co-ledger-card {
+    margin: 20px auto 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .co-product-hero {
+    padding: 100px 0 70px;
+  }
+
+  .co-product-hero h1 {
+    font-size: 4.25rem;
+  }
+
+  .co-product-hero h2 {
+    font-size: 2.3rem;
+  }
+
+  .co-ledger-card {
+    width: 94%;
+  }
+}

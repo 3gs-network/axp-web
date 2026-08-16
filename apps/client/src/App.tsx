@@ -7,6 +7,7 @@ import { HomeOwnershipOpportunitiesPage } from "@/pages/home-ownership-opportuni
 import { OpportunityDetailPage } from "@/pages/opportunity-detail/Index";
 import { WhoWeArePage } from "@/pages/who-we-are/Index";
 import { HomeReadyPage } from "@/pages/homeready/Index";
+import { CoOwnershipPage } from "@/pages/co-ownership/Index";
 import { WorkWithAXPPage } from "@/pages/work-with-axp/Index";
 import { KnowledgePage } from "@/pages/knowledge/Index";
 import { ImpactPage } from "@/pages/impact/Index";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/ecosystem" element={<Navigate to="/who-we-are" replace />} />
           <Route path="/solutions" element={<Navigate to="/home-ownership-opportunities" replace />} />
           <Route path="/homeready" element={<HomeReadyPage />} />
+          <Route path="/co-ownership" element={<CoOwnershipPage />} />
           <Route path="/work-with-axp" element={<WorkWithAXPPage />} />
           <Route path="/partnership-hub" element={<Navigate to="/work-with-axp" replace />} />
           <Route path="/knowledge" element={<KnowledgePage />} />

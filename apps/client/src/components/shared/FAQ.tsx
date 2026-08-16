@@ -2,13 +2,7 @@ import "./FAQ.css";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-const items: [string, string][] = [
-  ["Is HomeReady™ a mortgage lender?", "No. HomeReady™ is a guidance and preparation experience. Any formal finance decision would remain with an approved financial institution and be subject to its criteria."],
-  ["Does a readiness score guarantee a mortgage?", "No. Readiness indicators support planning and education; they do not constitute an approval, offer or guarantee of finance."],
-  ["Who is HomeReady™ for?", "It is designed for aspiring homeowners who want to understand the journey, improve their preparation and ask more informed questions."],
-];
-
-export function FAQ() {
+export function FAQ({ items }: { items: [string, string][] }) {
   const [open, setOpen] = useState(0);
   return (
     <div className="faq-list">

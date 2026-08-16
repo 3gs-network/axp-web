@@ -28,7 +28,7 @@ export function JourneySection() {
         <div className="journey-stage">
           <div className="journey-path" aria-hidden="true">
             <div className="journey-line"><i style={{ transform: `scaleX(${step * 0.25})` }} /></div>
-            {steps.map((item, index) => <div key={item.title} className={index <= step ? "reached" : ""}>{index < step ? <Check /> : index + 1}</div>)}
+            {steps.map((item, index) => <div key={item.title} className={index <= step ? "journey-node reached" : "journey-node"}>{index < step ? <Check /> : index + 1}</div>)}
           </div>
           <div key={step} className="journey-stage-content"><p className="eyebrow">{steps[step].label}</p><h3>{steps[step].title}</h3><p>{steps[step].copy}</p></div>
           <ArrowRight />
