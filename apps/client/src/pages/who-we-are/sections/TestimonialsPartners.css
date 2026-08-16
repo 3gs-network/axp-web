@@ -97,13 +97,11 @@
   max-width: 200px;
   max-height: 90px;
   object-fit: contain;
-  filter: grayscale(1);
-  opacity: .55;
-  transition: opacity .2s ease, filter .2s ease;
+  opacity: .9;
+  transition: opacity .2s ease;
 }
 
 .testimonial-partners-row img:hover {
-  filter: grayscale(0);
   opacity: 1;
 }
 
