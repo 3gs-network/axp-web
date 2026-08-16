@@ -14,6 +14,8 @@ import { ImpactPage } from "@/pages/impact/Index";
 import { MediaPage } from "@/pages/media/Index";
 import { CareersPage } from "@/pages/careers/Index";
 import { ContactPage } from "@/pages/contact/Index";
+import AuthPage from "@/pages/auth/Index";
+import { DashboardPage } from "@/pages/dashboard/Index";
 import { NotFoundPage } from "@/pages/not-found/Index";
 
 const queryClient = new QueryClient();
@@ -40,6 +42,8 @@ const App = () => (
           <Route path="/investors-partners" element={<Navigate to="/work-with-axp" replace />} />
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
