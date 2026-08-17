@@ -3,15 +3,32 @@ import { motion, useReducedMotion } from "framer-motion";
 import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { staggerContainer, staggerItem } from "@/lib/motion";
+import { getInitials } from "@/lib/format";
 
 const team = [
   {
+    name: "Joy Coker",
+    title: "Managing Director / CEO",
+    photo: "/images/team/joy_coker.webp",
+    bio: "Leads AXP's enterprise direction, bringing together housing, strategic partnerships and institutional relationships around the company's growth and delivery agenda.",
+    facebook: "#",
+    linkedin: "#",
+  },
+  {
     name: "Judith Eyo",
-    title: "Managing Director",
+    title: "Head, Corporate Services",
     photo: "/images/team/judith_eyo.webp",
-    bio: "Judith is our managing director with over 18 years of experience in real estate, specialising in conversions, refurbishments, and new builds.",
+    bio: "Judith is our Head of Corporate Services with over 18 years of experience in real estate, specialising in conversions, refurbishments, and new builds.",
     facebook: "http://facebook.com/judithsalami",
     linkedin: "http://linkedin.com/in/judith-eyo-02944a28",
+  },
+  {
+    name: "Hakeem Sadiku",
+    title: "Enterprise Strategy, PMO & Transformation",
+    photo: "/images/team/hakeem_sadiku.webp",
+    bio: "Leads enterprise strategy, programme governance and transformation, translating strategic priorities into structured initiatives and coordinated execution.",
+    facebook: "#",
+    linkedin: "#",
   },
   {
     name: "Edidiong Inyang",
@@ -21,18 +38,31 @@ const team = [
     facebook: "https://web.facebook.com/profile.php?id=100008518124329",
     linkedin: "https://www.linkedin.com/in/edidiong-inyang-332b17256",
   },
+  {
+    name: "Victor Arinze",
+    title: "Technology & Digital Services",
+    bio: "Supports AXP's technology environment, digital infrastructure and enterprise systems across operations and customer experience.",
+    facebook: "#",
+    linkedin: "#",
+  },
 ];
 
 export function Team() {
   const reduce = useReducedMotion();
   return (
-    <section className="section team-section section--alabaster">
+    <section className="section team-section section--navy">
       <div className="shell">
-        <SectionHeading eyebrow="Leadership" title="The team behind AXP" copy="Meet the people steering AXP's mission to make mortgage access clear and dependable." />
+        <SectionHeading light eyebrow="Executive Management" title="The team behind AXP" copy="Meet the people steering AXP's mission to make mortgage access clear and dependable." />
         <motion.div className="team-grid" variants={staggerContainer} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
           {team.map((member) => (
             <motion.figure key={member.name} variants={staggerItem}>
-              <img className="team-photo" src={member.photo} alt={member.name} loading="lazy" />
+              <div className="team-photo">
+                {member.photo ? (
+                  <img src={member.photo} alt={member.name} loading="lazy" />
+                ) : (
+                  <span className="avatar-initials" aria-hidden="true">{getInitials(member.name)}</span>
+                )}
+              </div>
               <figcaption>
                 <strong>{member.name}</strong>
                 <span>{member.title}</span>

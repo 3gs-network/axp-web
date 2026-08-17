@@ -1,29 +1,44 @@
 .team-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 64px 56px;
   margin-top: 56px;
 }
 
 .team-grid figure {
   display: flex;
   align-items: flex-start;
-  gap: 32px;
+  gap: 24px;
   margin: 0;
 }
 
 .team-photo {
-  display: block;
-  width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
   flex-shrink: 0;
   aspect-ratio: 4/5;
-  object-fit: cover;
-  transition: transform .2s ease;
+  background: var(--axp-alabaster);
+  color: var(--axp-navy);
+  overflow: hidden;
+  transition: transform 0.2s ease;
 }
 
 .team-grid figure:hover .team-photo {
   transform: translateY(-4px);
+}
+
+.team-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  font: 600 26px/1 var(--font-serif);
+  color: var(--axp-navy);
 }
 
 .team-grid figcaption {
@@ -33,22 +48,22 @@
 .team-grid figcaption strong {
   display: block;
   font: 500 18px/1.3 var(--font-serif);
-  color: var(--axp-navy);
+  color: white;
 }
 
 .team-grid figcaption span {
   display: block;
   margin-top: 4px;
-  color: var(--axp-gold);
+  color: var(--axp-gold-light);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .team-grid figcaption p {
   margin: 12px 0 0;
-  color: #656a76;
+  color: rgba(255, 255, 255, 0.62);
   font-size: 14px;
   line-height: 1.7;
 }
@@ -65,9 +80,9 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(26,35,61,.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
-  color: var(--axp-navy);
+  color: white;
   font-size: 13px;
   transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
 }
@@ -76,6 +91,12 @@
   border-color: var(--axp-gold);
   background-color: var(--axp-gold);
   color: white;
+}
+
+@media (max-width: 800px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 560px) {
