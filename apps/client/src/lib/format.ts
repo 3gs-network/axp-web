@@ -26,3 +26,11 @@ export function parseInputValue(display: string): string {
   if (firstDot === -1) return digits;
   return digits.slice(0, firstDot + 1) + digits.slice(firstDot + 1).replace(/\./g, "");
 }
+
+/** Derives up to two uppercase initials from a full name, e.g. "Victor Arinze" -> "VA". */
+export function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
