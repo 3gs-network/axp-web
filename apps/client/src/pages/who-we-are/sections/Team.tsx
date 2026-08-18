@@ -17,7 +17,7 @@ const team = [
   {
     name: "Judith Eyo",
     title: "Head, Corporate Services",
-    photo: "/images/team/judith_eyo.webp",
+    photo: "https://res.cloudinary.com/gxhmv4fu/image/upload/v1787093665/judith-eyo_bhike3.jpg",
     bio: "Judith is our Head of Corporate Services with over 18 years of experience in real estate, specialising in conversions, refurbishments, and new builds.",
     facebook: "http://facebook.com/judithsalami",
     linkedin: "http://linkedin.com/in/judith-eyo-02944a28",
@@ -33,7 +33,7 @@ const team = [
   {
     name: "Edidiong Inyang",
     title: "Head, Real Estate Investments",
-    photo: "/images/team/edidiong_inyang.webp",
+    photo: "https://res.cloudinary.com/gxhmv4fu/image/upload/v1787093665/edidiong-inyang_h22hvs.jpg",
     bio: "Edidiong is Head of Real Estate Investment at AXP, with expertise in corporate communications, business management, and stakeholder engagement.",
     facebook: "https://web.facebook.com/profile.php?id=100008518124329",
     linkedin: "https://www.linkedin.com/in/edidiong-inyang-332b17256",
@@ -41,7 +41,16 @@ const team = [
   {
     name: "Victor Arinze",
     title: "Technology & Digital Services",
+    photo: "https://res.cloudinary.com/gxhmv4fu/image/upload/v1787090994/victor-arinze_mxldal.jpg",
     bio: "Supports AXP's technology environment, digital infrastructure and enterprise systems across operations and customer experience.",
+    facebook: "#",
+    linkedin: "#",
+  },
+  {
+    name: "Atinuke Jose",
+    title: "Brand & Communications",
+    photo: "https://res.cloudinary.com/gxhmv4fu/image/upload/v1787093665/atinuke-jose_nzjqbu.jpg",
+    bio: "Strategic communications and marketing professional with over 15 years of experience building brands, shaping corporate narratives and connecting organisations with their audiences.",
     facebook: "#",
     linkedin: "#",
   },
