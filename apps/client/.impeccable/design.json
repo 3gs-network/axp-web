@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-02T00:00:00Z",
+  "title": "Design System: AXP Africa",
+  "extensions": {
+    "colorMeta": {
+      "deep-ledger-navy": {
+        "role": "primary",
+        "displayName": "Deep Ledger Navy",
+        "canonical": "oklch(0.275 0.046 259)",
+        "tonalRamp": [
+          "oklch(0.14 0.030 259)",
+          "oklch(0.22 0.040 259)",
+          "oklch(0.30 0.045 259)",
+          "oklch(0.42 0.050 259)",
+          "oklch(0.55 0.045 259)",
+          "oklch(0.68 0.035 259)",
+          "oklch(0.82 0.020 259)",
+          "oklch(0.95 0.010 259)"
+        ]
+      },
+      "deep-ledger-navy-hover": {
+        "role": "primary-state",
+        "displayName": "Deep Ledger Navy — Hover",
+        "canonical": "#263455"
+      },
+      "ledger-navy-ink": {
+        "role": "neutral",
+        "displayName": "Ledger Navy Ink",
+        "canonical": "#0e172c"
+      },
+      "signal-gold": {
+        "role": "secondary",
+        "displayName": "Signal Gold",
+        "canonical": "oklch(0.72 0.143 83)",
+        "tonalRamp": [
+          "oklch(0.20 0.050 83)",
+          "oklch(0.32 0.080 83)",
+          "oklch(0.44 0.110 83)",
+          "oklch(0.56 0.135 83)",
+          "oklch(0.68 0.145 83)",
+          "oklch(0.72 0.143 83)",
+          "oklch(0.85 0.090 83)",
+          "oklch(0.95 0.030 83)"
+        ]
+      },
+      "signal-gold-light": {
+        "role": "secondary-state",
+        "displayName": "Signal Gold — Light",
+        "canonical": "#e9c66c"
+      },
+      "signal-gold-hover": {
+        "role": "secondary-state",
+        "displayName": "Signal Gold — Hover",
+        "canonical": "#e2b240"
+      },
+      "alabaster-paper": {
+        "role": "neutral",
+        "displayName": "Alabaster Paper",
+        "canonical": "#F5F3ED",
+        "tonalRamp": [
+          "oklch(0.20 0.010 90)",
+          "oklch(0.32 0.010 90)",
+          "oklch(0.44 0.010 90)",
+          "oklch(0.56 0.010 90)",
+          "oklch(0.68 0.010 90)",
+          "oklch(0.80 0.010 90)",
+          "oklch(0.90 0.010 90)",
+          "oklch(0.97 0.008 90)"
+        ]
+      },
+      "paper-white": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#ffffff"
+      },
+      "ledger-slate": {
+        "role": "neutral",
+        "displayName": "Ledger Slate",
+        "canonical": "#656a76",
+        "tonalRamp": [
+          "oklch(0.15 0.015 257)",
+          "oklch(0.25 0.016 257)",
+          "oklch(0.35 0.017 257)",
+          "oklch(0.45 0.018 257)",
+          "oklch(0.55 0.018 257)",
+          "oklch(0.65 0.016 257)",
+          "oklch(0.80 0.012 257)",
+          "oklch(0.92 0.008 257)"
+        ]
+      },
+      "surface-canvas": {
+        "role": "neutral",
+        "displayName": "Surface Canvas",
+        "canonical": "oklch(0.977 0.008 90)"
+      },
+      "surface-border": {
+        "role": "neutral",
+        "displayName": "Surface Border",
+        "canonical": "oklch(0.887 0.015 90)"
+      },
+      "surface-destructive": {
+        "role": "neutral",
+        "displayName": "Surface Destructive",
+        "canonical": "oklch(0.58 0.18 28)"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page-hero H1s only — the single largest statement on a page." },
+      "headline": { "displayName": "Headline", "purpose": "Section H2s throughout the site." },
+      "body": { "displayName": "Body", "purpose": "Standard paragraph copy, ~65-75ch line length." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, buttons, nav links, badges — the busiest type role." }
+    },
+    "shadows": [
+      { "name": "rest", "value": "0 2px 8px rgba(26,35,61,.05)", "purpose": "New baseline resting elevation for cards/frames." },
+      { "name": "soft", "value": "0 24px 60px rgba(26,35,61,.09)", "purpose": "Hover response for cards, frames, interactive grid items." },
+      { "name": "deep", "value": "0 30px 80px rgba(4,10,25,.28)", "purpose": "Floating chrome above page content (nav overflow dropdown)." }
+    ],
+    "motion": [
+      { "name": "interactive-fast", "value": "0.25s ease", "purpose": "Button/link color, transform, and border-color transitions on hover/focus." },
+      { "name": "card-lift", "value": "0.3s ease", "purpose": "Card/frame transform and box-shadow transition on hover." },
+      { "name": "hero-breathe", "value": "14s ease-in-out infinite alternate", "purpose": "Slow ambient zoom on page-hero background photography (scale 1.06 to 1)." }
+    ],
+    "breakpoints": [
+      { "name": "tablet-collapse", "value": "900px" },
+      { "name": "mobile", "value": "680px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call-to-action. Navy fill, white uppercase label, lifts on hover.",
+      "html": "<button class=\"ds-btn-primary\">Become a partner<svg class=\"ds-btn-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 13px 22px; border: 1px solid transparent; border-radius: 3px; background: var(--axp-navy); color: #fff; font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; transition: transform .25s ease, background .25s ease; } .ds-btn-primary:hover { background: #263455; transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--axp-gold); outline-offset: 3px; } .ds-btn-icon { width: 16px; height: 16px; }"
+    },
+    {
+      "name": "Secondary (Gold) Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The one inverted button — dark label on gold fill. Used sparingly for the single most-wanted action on a surface.",
+      "html": "<button class=\"ds-btn-gold\">Explore HomeReady™</button>",
+      "css": ".ds-btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 13px 22px; border: 1px solid transparent; border-radius: 3px; background: var(--axp-gold); color: var(--axp-navy-2); font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; transition: transform .25s ease, background .25s ease; } .ds-btn-gold:hover { background: #e2b240; transform: translateY(-2px); } .ds-btn-gold:focus-visible { outline: 2px solid var(--axp-gold); outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on light surfaces — navy outline, transparent fill.",
+      "html": "<button class=\"ds-btn-outline\">Learn more</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 13px 22px; border: 1px solid var(--axp-navy); border-radius: 3px; background: transparent; color: var(--axp-navy); font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; transition: transform .25s ease; } .ds-btn-outline:hover { transform: translateY(-2px); } .ds-btn-outline:focus-visible { outline: 2px solid var(--axp-gold); outline-offset: 3px; }"
+    },
+    {
+      "name": "Opportunity Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat hairline-bordered card with a faint resting shadow that lifts and deepens on hover.",
+      "html": "<article class=\"ds-card\"><h3 class=\"ds-card-title\">Two-Bedroom Starter Home</h3><p class=\"ds-card-copy\">A clearly-labelled concept illustrating one possible ownership route.</p></article>",
+      "css": ".ds-card { padding: 28px; background: #fff; border: 1px solid rgba(26,35,61,.13); border-radius: 0; box-shadow: 0 2px 8px rgba(26,35,61,.05); transition: transform .3s ease, box-shadow .3s ease; } .ds-card:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(26,35,61,.09); } .ds-card-title { margin: 0 0 10px; font-family: var(--font-serif); font-weight: 500; font-size: 20px; color: var(--axp-navy); } .ds-card-copy { margin: 0; font-family: var(--font-sans); font-size: 15px; line-height: 1.7; color: #656a76; }"
+    },
+    {
+      "name": "Input Field (dark panel)",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square-cornered field as used inside dark form panels (e.g. the opportunity interest form).",
+      "html": "<div class=\"ds-field-panel\"><label class=\"ds-field-label\">Email address</label><input class=\"ds-field-input\" type=\"email\" placeholder=\"you@example.com\" /></div>",
+      "css": ".ds-field-panel { padding: 32px; background: var(--axp-navy-2); border-radius: 0; } .ds-field-label { display: block; margin-bottom: 8px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.7); } .ds-field-input { width: 100%; padding: 11px 12px; border: 1px solid rgba(255,255,255,.16); border-radius: 0; background: rgba(255,255,255,.92); font-family: var(--font-sans); font-size: 14px; color: var(--axp-navy); } .ds-field-input:focus-visible { outline: 2px solid var(--axp-gold); outline-offset: 3px; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Header navigation link with a gold underline that slides in from the left on hover/active.",
+      "html": "<a class=\"ds-nav-link ds-nav-link--active\">Home Ownership</a>",
+      "css": ".ds-nav-link { position: relative; padding: 28px 0 25px; font-family: var(--font-sans); font-size: 11px; font-weight: 600; color: #4f5564; text-decoration: none; white-space: nowrap; } .ds-nav-link::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px; background: var(--axp-gold); transition: right .25s ease; } .ds-nav-link:hover, .ds-nav-link--active { color: var(--axp-navy); } .ds-nav-link:hover::after, .ds-nav-link--active::after { right: 0; }"
+    },
+    {
+      "name": "Eyebrow Label",
+      "kind": "custom",
+      "refersTo": "eyebrow",
+      "description": "The small gold uppercase label that introduces nearly every section — the system's primary wayfinding device.",
+      "html": "<p class=\"ds-eyebrow\">What AXP Offers</p>",
+      "css": ".ds-eyebrow { margin: 0 0 16px; color: var(--axp-gold); font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Circular Gold-Ring Emblem",
+      "kind": "custom",
+      "refersTo": "signature-ring",
+      "description": "The system's one decorative signature — a thin gold-stroke circle with soft glow rings, always bled off the corner of a dark navy surface, never on light backgrounds.",
+      "html": "<div class=\"ds-ring-surface\"><div class=\"ds-ring\"></div></div>",
+      "css": ".ds-ring-surface { position: relative; overflow: hidden; background: var(--axp-navy); min-height: 260px; } .ds-ring { position: absolute; right: -150px; top: -220px; width: 680px; height: 680px; border: 1px solid rgba(212,160,42,.22); border-radius: 50%; box-shadow: 0 0 0 90px rgba(255,255,255,.014), 0 0 0 180px rgba(255,255,255,.012); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Trusted Ledger",
+    "overview": "AXP's interface reads like a well-kept institutional record: navy and gold, hairline rules, generous margins, and information presented with the quiet confidence of something that has already earned trust rather than something straining to earn it. The system is warm and reassuring rather than corporate-cold — it borrows the precision of a ledger or letterhead, not the sterility of one, because the audience is often making the biggest financial decision of their life and needs to feel guided, not processed.\n\nDensity stays low and unhurried: sections breathe at 112px of vertical padding, copy blocks cap around 65-75 characters, and every major section opens with a small gold eyebrow label before its heading — a consistent wayfinding device that lets a visitor scan the page's structure at a glance. Serif display type (Lora) carries the emotional register of the big claims and section headings; a clean geometric sans (Poppins) carries everything functional — body copy, labels, navigation, buttons — so warmth and precision never compete for the same word.\n\nGold is treated as a signal, not a fill: it marks eyebrows, focus rings, the accent button, and the active-nav underline, but it never becomes a background or a body-text color. Confirmed visual rejection: this is explicitly not a real-estate-listing aesthetic — no bright multi-photo carousels-as-hero, no urgency badges, no saturated CTA gradients. AXP is 'not selling houses,' and the interface should never look like it's trying to.",
+    "keyCharacteristics": [
+      "Navy-and-gold institutional palette, used with restraint (gold is rare by design)",
+      "Serif display headlines (Lora) paired with a geometric sans for everything functional (Poppins)",
+      "Small gold uppercase eyebrow labels as a structural, repeated wayfinding device",
+      "Flat, hairline-bordered surfaces with a hover lift + shadow response, plus a faint resting shadow for depth",
+      "Near-square button corners (3px) — precise, not soft — contrasted with fully pill-shaped micro-badges",
+      "A recurring circular gold-ring emblem as the system's one decorative signature, always on dark/navy grounds"
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Gold never fills a large surface or colors body text — it always marks a small, deliberate point of attention.", "section": "colors" },
+      { "name": "The One-Voice-Per-Job Rule", "body": "Lora is exclusively for emotional/display headlines; Poppins is exclusively for everything functional. Never swap them.", "section": "typography" },
+      { "name": "The Hover-Lift Rule", "body": "Depth is a response to interaction, not a resting decoration. A card's shadow always deepens and the card always rises -5px on hover — never the reverse, and never a static heavy shadow at rest.", "section": "elevation" },
+      { "name": "The Square-Precision Rule", "body": "Anything the visitor acts on directly (buttons, menu items) stays close to square (3px). Anything that's a compact status marker goes fully pill-shaped (999px). Nothing sits in between in the marketing vocabulary.", "section": "typography" }
+    ],
+    "dos": [
+      "Do treat gold as a rare signal — eyebrows, one button variant, focus rings, nav underline, the ring emblem — never a fill or body-text color (The One Signal Rule).",
+      "Do pair Lora exclusively with display/headline roles and Poppins with everything else; never mix them within the same text role.",
+      "Do give interactive surfaces a hairline border + faint rest shadow, then a stronger lift + shadow only on hover (The Hover-Lift Rule).",
+      "Do open new major sections with a small gold uppercase eyebrow label above the heading — it's the system's primary wayfinding device and visitors will expect it.",
+      "Do use the .prototype-note pill pattern (or an equivalent) whenever a surface shows illustrative/placeholder content (e.g. example opportunity listings), so visitors aren't misled into treating concept content as confirmed fact."
+    ],
+    "donts": [
+      "Don't round marketing buttons or menu items beyond 3px, and don't leave a badge/chip square — the system has exactly two corner treatments (near-square, full pill), nothing in between.",
+      "Don't fill a card, section, or button with gold, and don't set body copy in gold — it must stay a small, deliberate mark.",
+      "Don't introduce urgency/hype patterns (countdown badges, saturated gradient CTAs, stacked photo carousels as hero) — confirmed anti-reference: this is explicitly not a real-estate-listing aesthetic.",
+      "Don't invent a new headline clamp() range per component; consolidate new section headings onto the canonical headline token instead of adding another slightly-different size.",
+      "Don't treat the currently-unused --axp-blue / --axp-green / --axp-orange tokens as available accents without an explicit design decision to adopt them."
+    ]
+  }
+}

@@ -13,7 +13,7 @@ const traverse = _traverse.default ?? _traverse;
 
 const DEFAULT_INPUT = "src/App.tsx";
 const DEFAULT_OUTPUT = "dist/sitemap-routes.json";
-const EXCLUDED_PREFIXES = ["/api", "/assets", "/publish", "/.well-known"];
+const EXCLUDED_PREFIXES = ["/api", "/assets", "/publish", "/.well-known", "/auth", "/dashboard"];
 const EXCLUDED_FILES = new Set([
   "/favicon.ico",
   "/manifest.json",

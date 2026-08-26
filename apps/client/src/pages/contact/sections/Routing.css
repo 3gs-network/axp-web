@@ -26,24 +26,39 @@
   background: white;
   padding: 16px;
   font-size: 11px;
+  font-weight: 500;
   text-align: left;
+  color: var(--axp-navy);
   cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+
+.route-grid button:hover {
+  border-color: rgba(212,160,42,.6);
 }
 
 .route-grid button.active {
   background: var(--axp-navy);
+  border-color: var(--axp-navy);
   color: white;
 }
 
 .route-grid svg {
   width: 16px;
   color: var(--axp-gold);
+  transition: transform .2s ease;
+}
+
+.route-grid button:hover svg {
+  transform: translateX(3px);
 }
 
 .route-result, .route-empty {
   min-height: 510px;
-  padding: 48px;
+  padding: 40px;
   background: var(--axp-alabaster);
+  border-top: 2px solid var(--axp-gold);
+  box-shadow: var(--shadow-soft);
 }
 
 .route-result > span {
@@ -95,11 +110,39 @@
   min-height: 85px;
 }
 
-.route-result > small {
-  display: block;
-  margin-top: 12px;
-  color: #8a8d94;
-  font-size: 8px;
+.route-form-preview input:disabled, .route-form-preview textarea:disabled {
+  background: rgba(26,35,61,.04);
+  color: #9a9ea6;
+  cursor: not-allowed;
+}
+
+.route-form-preview input::placeholder, .route-form-preview textarea::placeholder {
+  color: #9a9ea6;
+}
+
+.route-form-note {
+  margin: 16px 0 0;
+  color: #696e79;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.route-form-note a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--axp-navy);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(26,35,61,.35);
+}
+
+.route-form-note a:hover {
+  color: var(--axp-gold);
+  border-color: var(--axp-gold);
+}
+
+.route-form-note svg {
+  color: var(--axp-gold);
 }
 
 .route-empty {

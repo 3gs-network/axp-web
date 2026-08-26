@@ -51,14 +51,6 @@
   line-height: 1.75;
 }
 
-.selection-note small {
-  display: block;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.48);
-  font-size: 10px;
-  line-height: 1.55;
-}
 
 @media (max-width: 1120px) {
   .opportunity-detail-grid {

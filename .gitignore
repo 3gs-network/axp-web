@@ -104,6 +104,14 @@ Thumbs.db
 # --- Uploaded Files ---
 uploaded_files/
 
+# --- Impeccable / AI agent tooling (local-only) ---
+.agents/
+.claude/
+.codex/
+skills-lock.json
+apps/client/.impeccable/
+.impeccable/
+
 # !!! DO NOT DELETE OR ADJUST: required by FC deploy flow !!!
 !apps/server/dist/
 # !!! END: changing this will break FC deployment !!!

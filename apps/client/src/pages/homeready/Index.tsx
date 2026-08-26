@@ -5,6 +5,7 @@ import { JourneySection } from "./sections/JourneySection";
 import { ModuleGrid } from "./sections/ModuleGrid";
 import { Benefits } from "./sections/Benefits";
 import { FaqSection } from "./sections/FaqSection";
+import { NextStepBand } from "./sections/NextStepBand";
 
 export function HomeReadyPage() {
   return (
@@ -15,6 +16,7 @@ export function HomeReadyPage() {
       <ModuleGrid />
       <Benefits />
       <FaqSection />
+      <NextStepBand />
     </SiteLayout>
   );
 }

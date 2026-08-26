@@ -24,10 +24,6 @@
   gap: 18px;
 }
 
-.opportunity-guidance-action .prototype-note {
-  color: rgba(255,255,255,.55);
-}
-
 @media (max-width: 900px) {
   .opportunity-guidance-grid {
     grid-template-columns: 1fr;

@@ -13,7 +13,7 @@ export function PublicPromise() {
           <ArrowLink to="/who-we-are">Discover who AXP is</ArrowLink>
         </div>
         <div className="public-promise-cards">
-          <article><span>01</span><h3>Explore opportunities</h3><p>Review clearly labelled homeownership concepts and the kinds of ownership routes that may fit your goals.</p><Link to="/home-ownership-opportunities">View opportunities <ArrowRight size={15} /></Link></article>
+          <article><span>01</span><h3>Explore opportunities</h3><p>Review homeownership opportunities and the kinds of ownership routes that may fit your goals.</p><Link to="/home-ownership-opportunities">View opportunities <ArrowRight size={15} /></Link></article>
           <article><span>02</span><h3>Prepare with confidence</h3><p>Use HomeReady™ to understand the journey, build readiness and identify a practical next step.</p><Link to="/homeready">Explore HomeReady™ <ArrowRight size={15} /></Link></article>
         </div>
       </div>

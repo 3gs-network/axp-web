@@ -1,0 +1,24 @@
+.dashboard-welcome {
+  padding: 64px 0;
+}
+
+.dashboard-welcome-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.dashboard-welcome h1 {
+  margin: 0 0 10px;
+  font: 500 clamp(1.9rem,3.2vw,2.8rem)/1.1 var(--font-serif);
+  color: white;
+  letter-spacing: -.02em;
+}
+
+.dashboard-welcome-copy {
+  margin: 0;
+  color: rgba(255,255,255,.65);
+  font-size: 15px;
+}

@@ -18,16 +18,9 @@
 }
 
 .locality-grid h3 {
-  margin: 0 0 10px;
+  margin: 0;
   color: var(--axp-navy);
   font: 500 23px var(--font-serif);
-}
-
-.locality-grid p {
-  margin: 0;
-  color: #747985;
-  font-size: 12px;
-  line-height: 1.65;
 }
 
 @media (max-width: 900px) {

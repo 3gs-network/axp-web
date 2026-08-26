@@ -1,5 +1,7 @@
 import "./ModuleGrid.css";
 import { ArrowRight, BarChart3, FileText, GraduationCap, Target, WalletCards } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem } from "@/lib/motion";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const modules = [
@@ -12,11 +14,16 @@ const modules = [
 ];
 
 export function ModuleGrid() {
+  const reduce = useReducedMotion();
   return (
     <section className="section">
       <div className="shell">
-        <SectionHeading eyebrow="Practical support" title="Build confidence one practical step at a time." />
-        <div className="module-grid">{modules.map(({ t, d, icon: ModuleIcon }) => <article key={t}><ModuleIcon /><h3>{t}</h3><p>{d}</p></article>)}</div>
+        <motion.div variants={fadeInUp} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+          <SectionHeading eyebrow="Practical support" title="Build confidence one practical step at a time." />
+        </motion.div>
+        <motion.div className="module-grid" variants={staggerContainer} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.15 }}>
+          {modules.map(({ t, d, icon: ModuleIcon }) => <motion.article key={t} variants={staggerItem}><ModuleIcon /><h3>{t}</h3><p>{d}</p></motion.article>)}
+        </motion.div>
       </div>
     </section>
   );

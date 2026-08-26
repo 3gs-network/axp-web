@@ -29,7 +29,6 @@ export function OpportunityGuidance() {
           <Link to="/homeready" className="button button--gold">
             Start with HomeReady™ <ArrowRight size={16} />
           </Link>
-          <span className="prototype-note">Guidance concept · not a financial or eligibility assessment</span>
         </div>
       </div>
     </section>

@@ -1,8 +1,24 @@
 .work-contact {
+  position: relative;
+  overflow: hidden;
   color: white;
 }
 
+.work-contact::after {
+  content: "";
+  position: absolute;
+  right: -140px;
+  top: -170px;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(212,160,42,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 60px rgba(255,255,255,.014), 0 0 0 120px rgba(255,255,255,.012);
+}
+
 .work-contact-grid {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: 1.25fr .75fr;
   gap: 90px;
@@ -10,9 +26,7 @@
 }
 
 .work-contact h2 {
-  margin: 0 0 22px;
-  font: 500 clamp(2.4rem,4.4vw,4.5rem)/1.08 var(--font-serif);
-  letter-spacing: -.04em;
+  margin-bottom: 22px;
   color: white;
 }
 
@@ -27,12 +41,6 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
-}
-
-.work-contact-action small {
-  color: rgba(255,255,255,.48);
-  font-size: 9px;
-  letter-spacing: .04em;
 }
 
 @media (max-width: 900px) {

@@ -28,8 +28,8 @@
 }
 
 .product-story .story-grid h2 {
-  font-size: clamp(2.5rem,5.2vw,5rem);
-  letter-spacing: -.045em;
+  font-size: clamp(2.1rem,4vw,4.1rem);
+  letter-spacing: -.035em;
 }
 
 .product-story .story-pillars {
@@ -54,10 +54,6 @@
 }
 
 @media (max-width: 680px) {
-  .product-story .story-grid h2 {
-    font-size: clamp(2.3rem,8vw,2.6rem);
-  }
-
   .product-story .story-headline::before {
     font-size: 5.5rem;
     top: -0.16em;

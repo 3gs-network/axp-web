@@ -50,7 +50,7 @@
   align-items: center;
   gap: 13px;
   color: rgba(255,255,255,.75);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .benefit-column svg:not(.benefit-icon) {

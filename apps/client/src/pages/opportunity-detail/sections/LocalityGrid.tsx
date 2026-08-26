@@ -10,7 +10,7 @@ export function LocalityGrid() {
       <div className="shell">
         <SectionHeading eyebrow="Place and possibility" title="The details that shape everyday living." />
         <div className="locality-grid">
-          {localityItems.map((item) => <article key={item}><MapIcon /><h3>{item}</h3><p>Representative information for this concept only. Specific local details require a verified live opportunity.</p></article>)}
+          {localityItems.map((item) => <article key={item}><MapIcon /><h3>{item}</h3></article>)}
         </div>
       </div>
     </section>

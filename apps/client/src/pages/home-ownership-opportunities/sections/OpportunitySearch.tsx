@@ -51,7 +51,7 @@ export function OpportunitySearch() {
       <div className="shell">
         <div className="opportunity-filter-panel">
           <div className="opportunity-filter-head">
-            <p className="eyebrow">Explore concepts</p>
+            <p className="eyebrow">Explore opportunities</p>
             <h2>Start with what matters to you.</h2>
           </div>
 
@@ -135,7 +135,6 @@ export function OpportunitySearch() {
           </fieldset>
 
           <div className="opportunity-filter-foot">
-            <p className="filter-note">Filter interactions demonstrate how a future curated-opportunities experience could work. Prices, availability and financing are not live or verified.</p>
             {isFiltered && (
               <button type="button" className="filter-reset" onClick={resetFilters}>
                 <RotateCcw aria-hidden />
@@ -147,12 +146,11 @@ export function OpportunitySearch() {
 
         <div className="opportunity-results-head">
           <div>
-            <p className="eyebrow">Curated concepts</p>
+            <p className="eyebrow">Curated opportunities</p>
             <h2>
-              {visible.length} opportunity {visible.length === 1 ? "concept" : "concepts"} to explore
+              {visible.length} {visible.length === 1 ? "opportunity" : "opportunities"} to explore
             </h2>
           </div>
-          <span className="concept-label">Illustrative content only</span>
         </div>
 
         <div className="opportunity-grid">
@@ -164,8 +162,8 @@ export function OpportunitySearch() {
         {visible.length === 0 && (
           <div className="empty-state">
             <Search aria-hidden />
-            <h3>No concept matches</h3>
-            <p>Try another filter combination to explore the full illustrative set.</p>
+            <h3>No matches</h3>
+            <p>Try another filter combination to explore the full set.</p>
             <button type="button" className="filter-reset" onClick={resetFilters}>
               <RotateCcw aria-hidden />
               Reset filters

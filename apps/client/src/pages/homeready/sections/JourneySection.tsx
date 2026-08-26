@@ -1,6 +1,8 @@
 import "./JourneySection.css";
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem } from "@/lib/motion";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const steps = [
@@ -13,15 +15,20 @@ const steps = [
 
 export function JourneySection() {
   const [step, setStep] = useState(0);
+  const reduce = useReducedMotion();
   return (
     <section id="journey" className="section journey-section section--alabaster">
       <div className="shell">
-        <SectionHeading eyebrow="Interactive journey" title="Five stages. One visible path forward." copy="Select a stage to preview the customer experience." />
-        <div className="journey-tabs">{steps.map((item, index) => <button key={item.title} className={step === index ? "active" : ""} onClick={() => setStep(index)}><span>{String(index + 1).padStart(2, "0")}</span>{item.title}</button>)}</div>
+        <motion.div variants={fadeInUp} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.4 }}>
+          <SectionHeading eyebrow="Interactive journey" title="Five stages. One visible path forward." copy="Select a stage to preview the customer experience." />
+        </motion.div>
+        <motion.div className="journey-tabs" variants={staggerContainer} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
+          {steps.map((item, index) => <motion.button key={item.title} variants={staggerItem} className={step === index ? "active" : ""} onClick={() => setStep(index)}><span>{String(index + 1).padStart(2, "0")}</span>{item.title}</motion.button>)}
+        </motion.div>
         <div className="journey-stage">
-          <div className="journey-path">
-            <div className="journey-line"><i style={{ width: `${step * 25}%` }} /></div>
-            {steps.map((item, index) => <button key={item.title} className={index <= step ? "reached" : ""} onClick={() => setStep(index)}>{index < step ? <Check /> : index + 1}</button>)}
+          <div className="journey-path" aria-hidden="true">
+            <div className="journey-line"><i style={{ transform: `scaleX(${step * 0.25})` }} /></div>
+            {steps.map((item, index) => <div key={item.title} className={index <= step ? "journey-node reached" : "journey-node"}>{index < step ? <Check /> : index + 1}</div>)}
           </div>
           <div key={step} className="journey-stage-content"><p className="eyebrow">{steps[step].label}</p><h3>{steps[step].title}</h3><p>{steps[step].copy}</p></div>
           <ArrowRight />

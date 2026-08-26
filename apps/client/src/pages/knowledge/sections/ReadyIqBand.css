@@ -4,9 +4,14 @@
 
 .readyiq-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 90px;
+  grid-template-columns: 1.1fr 1px .9fr;
+  gap: 64px;
   align-items: center;
+}
+
+.readyiq-band .product-badge {
+  border-color: rgba(26,35,61,.22);
+  color: var(--axp-navy);
 }
 
 .readyiq-grid h2 {
@@ -20,8 +25,13 @@
   line-height: 1.75;
 }
 
+.readyiq-divider {
+  align-self: stretch;
+  background: rgba(26,35,61,.12);
+}
+
 .insight-widget {
-  padding: 34px;
+  padding: 36px;
   background: white;
   box-shadow: var(--shadow-soft);
 }
@@ -36,43 +46,69 @@
 
 .widget-head span {
   font: 500 16px var(--font-serif);
+  color: var(--axp-navy);
 }
 
-.widget-head small {
-  color: #8b8e96;
-  font-size: 9px;
-}
-
-.bar-row {
+.signal-grid {
   display: grid;
-  grid-template-columns: 95px 1fr 35px;
-  gap: 12px;
+  grid-template-columns: repeat(2,1fr);
+  gap: 28px 20px;
+  padding-top: 26px;
+}
+
+.signal-tile {
+  display: flex;
   align-items: center;
-  padding: 12px 0;
+  gap: 16px;
 }
 
-.bar-row > span {
-  font-size: 10px;
+.signal-ring {
+  --v: 0;
+  position: relative;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: conic-gradient(var(--axp-gold) calc(var(--v) * 3.6deg), rgba(26,35,61,.09) 0deg);
+  display: grid;
+  place-items: center;
 }
 
-.bar-row i {
-  height: 5px;
-  background: #e9e7e0;
+.signal-ring::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  background: white;
 }
 
-.bar-row b {
-  display: block;
-  height: 100%;
-  background: var(--axp-gold);
+.signal-ring span {
+  position: relative;
+  font: 600 13px var(--font-sans);
+  color: var(--axp-navy);
 }
 
-.bar-row strong {
-  font-size: 10px;
+.signal-tile p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: #4f5564;
 }
 
 @media (max-width: 900px) {
   .readyiq-grid {
     grid-template-columns: 1fr;
-    gap: 55px;
+    gap: 40px;
+  }
+
+  .readyiq-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .signal-grid {
+    grid-template-columns: 1fr;
   }
 }

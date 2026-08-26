@@ -2,44 +2,82 @@
   margin-bottom: 55px;
 }
 
-.architecture-stack {
-  width: min(100%,920px);
+.architecture-track {
+  position: relative;
+  width: min(100%,720px);
   margin-left: auto;
-  display: grid;
-  gap: 8px;
 }
 
-.architecture-stack article {
+.architecture-rail {
+  position: absolute;
+  left: 19px;
+  top: 48px;
+  bottom: 48px;
+  width: 2px;
+  background: rgba(26,35,61,.13);
+}
+
+.architecture-rail-progress {
+  position: absolute;
+  left: 19px;
+  top: 48px;
+  bottom: 48px;
+  width: 2px;
+  background: var(--axp-gold);
+  transform-origin: top;
+}
+
+.architecture-node {
+  position: relative;
   display: grid;
-  grid-template-columns: 70px 1fr;
+  grid-template-columns: 40px 1fr;
+  gap: 24px;
+  align-items: start;
+  padding: 28px 0;
+}
+
+.architecture-dot {
+  position: relative;
+  z-index: 1;
+  display: flex;
   align-items: center;
-  padding: 23px 28px;
-  background: var(--axp-alabaster);
-  border-left: 4px solid var(--axp-gold);
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(26,35,61,.2);
+  font: 700 13px var(--font-sans);
+  letter-spacing: .02em;
 }
 
-.architecture-stack article:nth-child(2) { margin-left: 50px; }
-.architecture-stack article:nth-child(3) { margin-left: 100px; }
-.architecture-stack article:nth-child(4) { margin-left: 150px; }
-
-.architecture-stack span {
-  color: var(--axp-gold);
-  font: 500 13px var(--font-serif);
-}
-
-.architecture-stack h3 {
-  margin: 0 0 3px;
+.architecture-node h3 {
+  margin: 6px 0 4px;
   font: 500 20px var(--font-serif);
+  color: var(--axp-navy);
 }
 
-.architecture-stack p {
+.architecture-node p {
   margin: 0;
-  color: #737781;
-  font-size: 12px;
+  color: #656a76;
+  font-size: 17px;
+  line-height: 1.75;
 }
 
-@media (max-width: 900px) {
-  .architecture-stack article:nth-child(n) {
-    margin-left: 0;
+@media (max-width: 680px) {
+  .architecture-node {
+    gap: 18px;
+    padding: 22px 0;
+  }
+
+  .architecture-dot {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .architecture-rail, .architecture-rail-progress {
+    left: 16px;
+    top: 39px;
+    bottom: 39px;
   }
 }

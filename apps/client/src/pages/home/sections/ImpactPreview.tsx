@@ -15,7 +15,7 @@ export function ImpactPreview() {
   return (
     <section className="section impact-preview section--alabaster">
       <div className="shell">
-        <div className="split-heading"><SectionHeading eyebrow="Our intended impact" title="Progress should be meaningful to people and communities." copy="AXP is focused on practical outcomes: greater confidence, stronger readiness, clearer opportunities and more inclusive urban-living possibilities." /><span className="concept-label">Impact commitments · not reported performance</span></div>
+        <div className="split-heading"><SectionHeading eyebrow="Our intended impact" title="Progress should be meaningful to people and communities." copy="AXP is focused on practical outcomes: greater confidence, stronger readiness, clearer opportunities and more inclusive urban-living possibilities." /></div>
         <div className="impact-framework">
           {impactAreas.map(({ name, icon: Icon, note }, i) => <article key={name} className={`impact-frame impact-frame--${i + 1}`}><Icon /><span>{name}</span><p>{note}</p></article>)}
         </div>

@@ -1,0 +1,83 @@
+.who-hero {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: end;
+  padding: 145px 0 95px;
+  color: white;
+  background: var(--axp-navy);
+  overflow: hidden;
+}
+
+.who-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: whoHeroBreathe 16s ease-in-out infinite alternate;
+}
+
+@keyframes whoHeroBreathe {
+  from { transform: scale(1.06); }
+  to { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .who-hero-bg {
+    animation: none;
+  }
+}
+
+.who-hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7,14,32,.94), rgba(7,14,32,.6) 55%, rgba(7,14,32,.26));
+}
+
+.who-hero::after {
+  content: "";
+  position: absolute;
+  right: -150px;
+  top: -220px;
+  width: 680px;
+  height: 680px;
+  border: 1px solid rgba(212,160,42,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 90px rgba(255,255,255,.014), 0 0 0 180px rgba(255,255,255,.012);
+  pointer-events: none;
+}
+
+.who-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.who-hero h1 {
+  margin: 16px 0 24px;
+  font: 500 clamp(3rem,6.2vw,6.1rem)/1 var(--font-serif);
+  letter-spacing: -.055em;
+}
+
+.who-hero-lead {
+  margin: 0 0 32px;
+  color: rgba(255,255,255,.73);
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+@media (max-width: 680px) {
+  .who-hero {
+    min-height: 460px;
+    padding: 110px 0 65px;
+  }
+
+  .who-hero h1 {
+    font-size: 3.25rem;
+  }
+
+  .who-hero-lead {
+    font-size: 14px;
+  }
+}

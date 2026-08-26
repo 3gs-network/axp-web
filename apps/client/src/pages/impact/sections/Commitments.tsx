@@ -14,7 +14,7 @@ export function Commitments() {
   return (
     <section className="section impact-preview">
       <div className="shell">
-        <div className="split-heading"><SectionHeading eyebrow="What impact means to AXP" title="Focus on outcomes people can understand." copy="These are AXP’s intended areas of contribution. They are not performance claims, reported results or forecasts." /><span className="concept-label">Commitments only · no reported metrics</span></div>
+        <div className="split-heading"><SectionHeading eyebrow="What impact means to AXP" title="Focus on outcomes people can understand." copy="These are AXP’s intended areas of contribution." /></div>
         <div className="impact-framework">
           {impactAreas.map(({ name, icon: Icon, note }, index) => <article key={name} className={`impact-frame impact-frame--${index + 1}`}><Icon /><span>{name}</span><p>{note}</p></article>)}
         </div>

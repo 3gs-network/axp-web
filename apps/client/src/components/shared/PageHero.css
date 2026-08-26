@@ -38,6 +38,19 @@
   to { transform: scale(1); }
 }
 
+.page-hero--flip > img {
+  transform: scaleX(-1);
+}
+
+.page-hero--flip.page-hero--breathe > img {
+  animation-name: pageHeroBreatheFlip;
+}
+
+@keyframes pageHeroBreatheFlip {
+  from { transform: scale(1.06) scaleX(-1); }
+  to { transform: scale(1) scaleX(-1); }
+}
+
 .page-hero-scrim {
   position: absolute;
   inset: 0;

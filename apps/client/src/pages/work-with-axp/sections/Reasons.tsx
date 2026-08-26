@@ -12,8 +12,8 @@ export function Reasons() {
   return (
     <section className="section section--alabaster">
       <div className="shell work-reasons-grid">
-        <div><p className="eyebrow">Why work with AXP</p><h2>Keep people, confidence and long-term value in view.</h2><p>AXP brings a customer-first perspective to homeownership and urban-living conversations. We focus on clarity, responsible communication and practical outcomes.</p></div>
-        <div className="work-reasons-list">{reasons.map((reason) => <div key={reason}><Check /><span>{reason}</span></div>)}</div>
+        <div><p className="eyebrow">Why work with AXP</p><h2 className="display-heading">Keep people, confidence and long-term value in view.</h2><p>AXP brings a customer-first perspective to homeownership and urban-living conversations. We focus on clarity, responsible communication and practical outcomes.</p></div>
+        <div className="work-reasons-list">{reasons.map((reason) => { const [lead, ...rest] = reason.split(" "); return <div key={reason}><Check aria-hidden="true" /><span><strong>{lead}</strong> {rest.join(" ")}</span></div>; })}</div>
       </div>
     </section>
   );

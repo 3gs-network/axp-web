@@ -52,13 +52,8 @@
   text-transform: none;
 }
 
-.interest-form .button, .interest-form small {
+.interest-form .button {
   grid-column: span 2;
-}
-
-.interest-form small {
-  color: rgba(255,255,255,.5);
-  font-size: 9px;
 }
 
 @media (max-width: 1120px) {
@@ -79,7 +74,7 @@
     grid-template-columns: 1fr;
   }
 
-  .interest-form .button, .interest-form small {
+  .interest-form .button {
     grid-column: auto;
   }
 }

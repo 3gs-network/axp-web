@@ -1,0 +1,38 @@
+.next-step-band {
+  color: white;
+}
+
+.next-step-grid {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 90px;
+  align-items: center;
+}
+
+.next-step-grid h2 {
+  margin: 0 0 22px;
+  font: 500 clamp(2.4rem,4.4vw,4.5rem)/1.08 var(--font-serif);
+  letter-spacing: -.04em;
+  color: white;
+}
+
+.next-step-grid > div:first-child > p:not(.eyebrow) {
+  max-width: 720px;
+  color: rgba(255,255,255,.68);
+  line-height: 1.8;
+}
+
+.next-step-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+
+@media (max-width: 900px) {
+  .next-step-grid {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
+}

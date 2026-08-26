@@ -100,12 +100,6 @@
   border: 1px solid rgba(26,35,61,.07);
 }
 
-.media-category-placeholder small {
-  color: #7c8089;
-  font-size: 9px;
-  line-height: 1.5;
-}
-
 @media (max-width: 900px) {
   .media-feature {
     grid-template-columns: 1fr;

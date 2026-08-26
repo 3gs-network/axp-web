@@ -16,7 +16,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  font: 500 18px var(--font-serif);
+  font: 600 15px var(--font-sans);
   color: var(--axp-navy);
   text-align: left;
   cursor: pointer;
@@ -79,7 +79,6 @@
 @media (max-width: 680px) {
   .faq-list button {
     padding: 18px 0;
-    font-size: 16px;
   }
 
   .faq-answer p {

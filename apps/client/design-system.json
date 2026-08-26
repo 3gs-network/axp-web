@@ -1,0 +1,370 @@
+{
+  "$schema": "AXP Africa Design System — extracted for app development",
+  "meta": {
+    "name": "AXP Africa",
+    "tagline": "Making Urban Living Possible",
+    "northStar": "The Trusted Ledger — a well-kept institutional record: navy and gold, hairline rules, generous margins, quiet confidence rather than sales pressure.",
+    "personality": ["trustworthy", "institutional", "warm", "precise", "unhurried", "guided-not-processed"],
+    "antiPatterns": [
+      "real-estate-listing aesthetic",
+      "bright multi-photo carousels as hero",
+      "urgency/countdown badges",
+      "saturated gradient CTAs",
+      "gold used as a large fill or body-text color"
+    ],
+    "sourceOfTruth": "apps/client/DESIGN.md and apps/client/src/index.css"
+  },
+
+  "color": {
+    "usageRule": "The One Signal Rule: gold marks small deliberate points of attention (eyebrows, one button variant, focus rings, active-nav underline, the ring emblem). It never fills a large surface or colors body text. Navy is the dominant surface/brand color.",
+    "brand": {
+      "navy": {
+        "value": "#1A233D",
+        "oklch": "oklch(0.275 0.046 259)",
+        "role": "primary",
+        "usage": "Dominant surface color — hero backgrounds, primary buttons, headline text, dark section bands, sidebar."
+      },
+      "navyHover": {
+        "value": "#263455",
+        "role": "primary-state",
+        "usage": "Primary button hover only."
+      },
+      "navyInk": {
+        "value": "#0e172c",
+        "role": "neutral-deepest",
+        "usage": "Text-on-gold (gold button label), darkest surface tone, dark form panels."
+      },
+      "gold": {
+        "value": "#D4A02A",
+        "oklch": "oklch(0.72 0.143 83)",
+        "role": "secondary/accent",
+        "usage": "Eyebrow labels, gold button variant, focus-visible outlines, active/hover nav underline, decorative ring emblem. Reserved and rare by design."
+      },
+      "goldLight": {
+        "value": "#e9c66c",
+        "role": "secondary-state",
+        "usage": "Eyebrow labels on navy/dark backgrounds, for legibility."
+      },
+      "goldHover": {
+        "value": "#e2b240",
+        "role": "secondary-state",
+        "usage": "Gold button hover state."
+      }
+    },
+    "neutrals": {
+      "alabasterPaper": {
+        "value": "#F5F3ED",
+        "usage": "Warm off-white for bounded 'quiet' section backgrounds and the mobile nav panel. Distinct from and warmer than the default canvas."
+      },
+      "paperWhite": {
+        "value": "#ffffff",
+        "usage": "Cards, dropdown menus, text-on-dark contexts."
+      },
+      "ledgerSlate": {
+        "value": "#656a76",
+        "usage": "Secondary body-text color used for section/feature/story copy. Close variants (#4f5564, #515665, #606574) appear in nav and micro-labels — treat as one family."
+      },
+      "surfaceCanvas": {
+        "value": "oklch(0.977 0.008 90)",
+        "usage": "Default page/body background for the functional (app/form) UI layer."
+      },
+      "surfaceBorder": {
+        "value": "oklch(0.887 0.015 90)",
+        "usage": "Functional-component border/input stroke (distinct from hand-authored hairline navy borders)."
+      }
+    },
+    "semantic": {
+      "destructive": {
+        "value": "oklch(0.58 0.18 28)",
+        "usage": "Validation/error red — forms, alerts, functional UI only. Never part of the marketing palette."
+      }
+    },
+    "reservedUnused": {
+      "note": "Present as CSS variables but not adopted anywhere in the app. Do not use without an explicit design decision.",
+      "axpBlue": "#315eaa",
+      "axpGreen": "#71997b",
+      "axpOrange": "#c77a35"
+    },
+    "darkMode": {
+      "background": "oklch(.205 .038 259)",
+      "foreground": "oklch(.977 .008 90)",
+      "card": "oklch(.24 .038 259)",
+      "primary": "oklch(.72 .143 83)",
+      "primaryForeground": "oklch(.22 .04 259)",
+      "border": "oklch(.36 .04 259)",
+      "note": "Only defined for the shadcn/functional component layer (dashboards, forms) — marketing pages are light-mode only."
+    }
+  },
+
+  "typography": {
+    "usageRule": "The One-Voice-Per-Job Rule: Lora is exclusively for emotional/display headlines; Poppins is exclusively for everything functional (body, labels, nav, buttons). Never mix roles.",
+    "fontFamilies": {
+      "display": "'Lora', Georgia, serif",
+      "body": "'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif"
+    },
+    "googleFontsImport": "family=Lora:ital,wght@0,400;0,500;0,600;1,500&family=Poppins:wght@300;400;500;600;700",
+    "scale": {
+      "display": {
+        "fontFamily": "display",
+        "fontSize": "clamp(3rem, 6.2vw, 6.1rem)",
+        "fontWeight": 500,
+        "lineHeight": 1,
+        "letterSpacing": "-0.055em",
+        "usage": "Page-hero H1s only — the single largest statement on a page."
+      },
+      "headline": {
+        "fontFamily": "display",
+        "fontSize": "clamp(2.1rem, 4vw, 4.1rem)",
+        "fontWeight": 500,
+        "lineHeight": 1.08,
+        "letterSpacing": "-0.035em",
+        "usage": "Section H2s throughout the app. Canonical — consolidate new headings here rather than inventing new clamp ranges."
+      },
+      "lead": {
+        "fontFamily": "body",
+        "fontSize": "18-20px",
+        "fontWeight": 400,
+        "lineHeight": "1.65-1.8",
+        "usage": "The one enlarged intro paragraph directly under a hero or section headline."
+      },
+      "body": {
+        "fontFamily": "body",
+        "fontSize": "16-17px",
+        "fontWeight": 400,
+        "lineHeight": "1.75-1.8",
+        "color": "ledgerSlate",
+        "usage": "Standard paragraph copy, capped ~65-75ch."
+      },
+      "label": {
+        "fontFamily": "body",
+        "fontSize": "10-12px",
+        "fontWeight": 700,
+        "lineHeight": 1,
+        "letterSpacing": "0.04em-0.18em",
+        "textTransform": "uppercase",
+        "usage": "Eyebrows, button text, nav links, badges — the busiest type role in the system."
+      }
+    }
+  },
+
+  "spacing": {
+    "system": "8px base rhythm, generous and unhurried",
+    "sectionVerticalPadding": "112px",
+    "containerMaxWidth": "1240px",
+    "containerGutter": "20px (shell = min(100% - 40px, 1240px), centered)",
+    "featureSplitGap": "95px (grid-template-columns: 1.08fr .92fr)",
+    "storyGridGap": "100px (grid-template-columns: .8fr 1.2fr)",
+    "splitHeadingGap": "50px",
+    "mobileCollapseGap": "55px"
+  },
+
+  "radius": {
+    "usageRule": "The Square-Precision Rule: anything directly actionable (buttons, menu items) stays near-square (3px). Anything a compact status marker goes fully pill (999px). Nothing in between in the marketing vocabulary. The functional/app layer (cards, dialogs, forms) uses a rounder, more conventional scale.",
+    "marketing": {
+      "none": "0px",
+      "button": "3px",
+      "menuItem": "3px",
+      "pill": "999px"
+    },
+    "functional": {
+      "sm": "calc(0.6rem - 4px)",
+      "md": "calc(0.6rem - 2px)",
+      "lg": "0.6rem",
+      "xl": "calc(0.6rem + 4px)",
+      "base": "0.6rem"
+    }
+  },
+
+  "elevation": {
+    "usageRule": "The Hover-Lift Rule: depth responds to interaction, not resting decoration. Cards rise -5px and shadow deepens on hover; never a static heavy shadow at rest.",
+    "rest": {
+      "boxShadow": "0 2px 8px rgba(26,35,61,.05)",
+      "usage": "Baseline elevation for cards/frames at rest."
+    },
+    "soft": {
+      "boxShadow": "0 24px 60px rgba(26,35,61,.09)",
+      "usage": "Hover response for cards, frames, interactive grid items."
+    },
+    "deep": {
+      "boxShadow": "0 30px 80px rgba(4,10,25,.28)",
+      "usage": "Floating chrome above page content — nav overflow dropdowns, overlays."
+    },
+    "hoverLift": "translateY(-5px)"
+  },
+
+  "motion": {
+    "interactiveFast": {
+      "value": "0.25s ease",
+      "usage": "Button/link color, transform, border-color transitions on hover/focus."
+    },
+    "cardLift": {
+      "value": "0.3s ease",
+      "usage": "Card/frame transform and box-shadow transition on hover."
+    },
+    "heroBreathe": {
+      "value": "14s ease-in-out infinite alternate",
+      "usage": "Slow ambient zoom on hero background photography (scale 1.06 to 1)."
+    },
+    "buttonHover": "translateY(-2px)",
+    "reducedMotion": "Always respect prefers-reduced-motion — disable non-essential animation and cap transition durations at .01ms.",
+    "library": "Framer Motion vocabulary (fadeInUp, staggerContainer/staggerItem, springPresets) via @/lib/motion — reuse instead of inventing new easing/timing."
+  },
+
+  "breakpoints": {
+    "tabletCollapse": "900px",
+    "mobile": "680px",
+    "note": "No dedicated tablet tier beyond these two steps."
+  },
+
+  "focusState": {
+    "outline": "2px solid gold (#D4A02A)",
+    "outlineOffset": "3px",
+    "usage": "Applied uniformly to buttons, nav links, and form controls on focus-visible."
+  },
+
+  "components": {
+    "button": {
+      "shape": "near-square, 3px radius",
+      "minHeight": "50px",
+      "padding": "13px 22px",
+      "typography": "label",
+      "variants": {
+        "primary": {
+          "background": "navy",
+          "text": "white",
+          "hoverBackground": "navyHover"
+        },
+        "secondary_gold": {
+          "background": "gold",
+          "text": "navyInk",
+          "hoverBackground": "goldHover",
+          "note": "The only variant that inverts to dark-on-light label."
+        },
+        "outline": {
+          "background": "transparent",
+          "border": "1px solid navy",
+          "text": "navy",
+          "usage": "On light grounds only."
+        },
+        "ghostLight": {
+          "border": "1px solid rgba(255,255,255,.35)",
+          "text": "white",
+          "usage": "Dark-background-only."
+        },
+        "glass": {
+          "background": "rgba(255,255,255,.1)",
+          "border": "1px solid rgba(255,255,255,.35)",
+          "backdropFilter": "blur(12px)",
+          "text": "white",
+          "usage": "Over photography or navy hero surfaces."
+        },
+        "small": {
+          "minHeight": "40px",
+          "padding": "9px 16px",
+          "fontSize": "10px"
+        }
+      },
+      "hover": "translateY(-2px)",
+      "disabled": "opacity: .45, cursor: not-allowed — fade only, no color change"
+    },
+    "card": {
+      "marketing": {
+        "background": "white or canvas (never navy)",
+        "border": "1px solid rgba(26,35,61,.13)",
+        "radius": "0px",
+        "shadow": "rest -> soft on hover",
+        "hoverLift": "-5px"
+      },
+      "functional": {
+        "radius": "xl (1rem)",
+        "usage": "shadcn-derived cards, dialogs, popovers"
+      }
+    },
+    "badge_chip": {
+      "shape": "999px pill",
+      "border": "1px solid navy at ~18% opacity",
+      "typography": "10px/600 uppercase, generous letter-spacing",
+      "usage": "Small meta markers only — e.g. flagging illustrative/placeholder content ('prototype-note'). Never used for buttons or cards."
+    },
+    "input": {
+      "radius": "0px — sharpest element in the system",
+      "border": "1px solid hairline",
+      "backgroundOnLight": "white",
+      "backgroundOnDarkPanel": "rgba(255,255,255,.92)",
+      "focus": "same gold 2px outline / 3px offset as buttons",
+      "darkPanel": {
+        "background": "navyInk",
+        "innerCard": "rgba(255,255,255,.06)",
+        "border": "faint white"
+      }
+    },
+    "navigation": {
+      "header": {
+        "style": "sticky",
+        "background": "rgba(245,243,237,.94) with 18px backdrop blur",
+        "border": "thin bottom hairline"
+      },
+      "link": {
+        "typography": "11px/600 muted slate",
+        "activeHover": "gold 2px underline slides in from left; color shifts to full navy"
+      },
+      "overflowMenu": {
+        "background": "white",
+        "shadow": "deep",
+        "itemRadius": "3px",
+        "hoverFill": "alabaster"
+      },
+      "mobile": {
+        "style": "full-panel alabaster overlay",
+        "linkTypography": "serif display, 19px/500 — the one navigational use of the display font"
+      }
+    },
+    "eyebrowLabel": {
+      "color": "gold (goldLight on dark backgrounds)",
+      "typography": "11px/700, letter-spacing .18em, uppercase",
+      "usage": "Primary wayfinding device — opens nearly every major section."
+    },
+    "signatureEmblem": {
+      "name": "Circular Gold-Ring Emblem",
+      "description": "Large (~680px) thin gold-stroke circle with 1-2 soft glow rings, bled off the top-right corner of dark navy surfaces only.",
+      "border": "1px solid rgba(212,160,42,.22-.28)",
+      "constraint": "Never on light backgrounds, never carries content, max once per section."
+    }
+  },
+
+  "layoutPatterns": {
+    "shell": "width: min(100% - 40px, 1240px), centered container",
+    "section": "112px vertical padding, alternating bands: default canvas / navy / alabaster",
+    "featureSplit": "asymmetric two-column, 1.08fr/.92fr, 95px gap, collapses to 1 column under 900px",
+    "storyGrid": "asymmetric two-column, .8fr/1.2fr, 100px gap, collapses under 900px",
+    "splitHeading": "heading left + supporting link/action right, 50px gap"
+  },
+
+  "rules": [
+    {
+      "name": "The One Signal Rule",
+      "body": "Gold never fills a large surface or colors body text — it always marks a small, deliberate point of attention."
+    },
+    {
+      "name": "The One-Voice-Per-Job Rule",
+      "body": "Lora is exclusively for emotional/display headlines; Poppins is exclusively for everything functional. Never swap them."
+    },
+    {
+      "name": "The Hover-Lift Rule",
+      "body": "Depth is a response to interaction, not a resting decoration. A card's shadow always deepens and the card always rises -5px on hover — never the reverse."
+    },
+    {
+      "name": "The Square-Precision Rule",
+      "body": "Actionable elements stay near-square (3px). Compact status markers go fully pill (999px). Nothing in between in the marketing vocabulary."
+    }
+  ],
+
+  "doNotUse": [
+    "Rounded marketing buttons/menu items beyond 3px",
+    "Square badges/chips",
+    "Gold as a card/section/button fill or body-text color",
+    "Urgency patterns: countdown badges, saturated gradient CTAs, stacked photo carousels as hero",
+    "New headline clamp() ranges — consolidate onto the canonical headline token",
+    "The unused --axp-blue / --axp-green / --axp-orange tokens without an explicit adoption decision"
+  ]
+}

@@ -1,0 +1,119 @@
+.work-hero {
+  position: relative;
+  padding: 130px 0 110px;
+  color: white;
+  background: var(--axp-navy);
+  overflow: hidden;
+}
+
+.work-hero::after {
+  content: "";
+  position: absolute;
+  width: 670px;
+  height: 670px;
+  right: -230px;
+  top: -220px;
+  border: 1px solid rgba(212,160,42,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 90px rgba(255,255,255,.014), 0 0 0 180px rgba(255,255,255,.012);
+}
+
+.work-hero-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 100px;
+  align-items: center;
+}
+
+.work-hero h1 {
+  margin: 0 0 20px;
+  max-width: 620px;
+  font: 500 clamp(2.6rem,4.6vw,4.6rem)/1.1 var(--font-serif);
+  letter-spacing: -.045em;
+}
+
+.work-hero-grid > div:first-child > p:not(.eyebrow) {
+  max-width: 520px;
+  margin: 0 0 36px;
+  color: rgba(255,255,255,.7);
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.work-hero-card {
+  width: min(100%,380px);
+  margin-left: auto;
+  padding: 32px;
+  background: white;
+  border: 1px solid rgba(26,35,61,.13);
+  box-shadow: 0 2px 8px rgba(26,35,61,.05);
+}
+
+.work-hero-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(26,35,61,.13);
+}
+
+.work-hero-card-header svg {
+  color: var(--axp-gold);
+  width: 17px;
+}
+
+.work-hero-card-header span {
+  font: 500 16px var(--font-serif);
+  color: var(--axp-navy);
+}
+
+.work-hero-card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.work-hero-card-list li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--axp-navy);
+  font-size: 14px;
+}
+
+.work-hero-card-list svg {
+  flex: 0 0 auto;
+  color: var(--axp-gold);
+}
+
+@media (max-width: 1120px) {
+  .work-hero-grid {
+    gap: 55px;
+  }
+}
+
+@media (max-width: 900px) {
+  .work-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work-hero-card {
+    width: 100%;
+    margin: 8px 0 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .work-hero {
+    padding: 100px 0 70px;
+  }
+
+  .work-hero h1 {
+    font-size: 2.5rem;
+  }
+}

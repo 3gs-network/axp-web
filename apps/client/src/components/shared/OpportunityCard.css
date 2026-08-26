@@ -24,15 +24,6 @@
   transform: scale(1.035);
 }
 
-.opportunity-card-image .concept-label {
-  position: absolute;
-  left: 13px;
-  bottom: 13px;
-  color: white;
-  border-color: rgba(255,255,255,.42);
-  background: rgba(14,23,44,.72);
-  backdrop-filter: blur(8px);
-}
 
 .opportunity-card-body {
   display: flex;

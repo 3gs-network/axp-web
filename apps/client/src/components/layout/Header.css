@@ -28,6 +28,9 @@
 
 .nav-link {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   border: 0;
   background: transparent;
   padding: 28px 0 25px;
@@ -57,38 +60,66 @@
   right: 0;
 }
 
-.nav-more {
+.nav-item-dropdown {
   position: relative;
 }
 
-.nav-more-button {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.nav-caret {
+  color: #9096a3;
+  transition: transform .2s ease;
 }
 
-.more-menu {
+.nav-caret--open {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-panel {
   position: absolute;
-  top: 63px;
-  right: -18px;
-  width: 220px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: grid;
+  min-width: 210px;
   padding: 8px;
   background: white;
-  box-shadow: var(--shadow-deep);
-  border: 1px solid #e8e3d8;
+  border: 1px solid rgba(26,35,61,.12);
+  box-shadow: 0 16px 32px rgba(26,35,61,.12);
 }
 
-.more-menu a {
-  display: block;
-  padding: 12px;
-  color: #515665;
+.nav-dropdown-panel a {
+  padding: 12px 14px;
+  border-radius: 2px;
   font-size: 12px;
-  border-radius: 3px;
+  font-weight: 600;
+  color: #4f5564;
+  white-space: nowrap;
 }
 
-.more-menu a:hover {
+.nav-dropdown-panel a:hover,
+.nav-dropdown-panel a.active {
   background: var(--axp-alabaster);
   color: var(--axp-navy);
+}
+
+.nav-link--account {
+  border: 1px solid rgba(26,35,61,.16);
+  border-radius: 999px;
+  padding: 8px 14px;
+}
+
+.nav-link--account::after {
+  content: none;
+}
+
+.nav-link--account:hover, .nav-link--account.active {
+  border-color: var(--axp-navy);
+}
+
+.mobile-nav-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .header-actions {
@@ -129,6 +160,39 @@
 .mobile-nav .button {
   margin-top: 24px;
   width: 100%;
+}
+
+.mobile-nav-group-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(26,35,61,.12);
+  background: transparent;
+  padding: 17px 4px;
+  font: 500 19px var(--font-serif);
+  color: var(--axp-navy);
+  cursor: pointer;
+}
+
+.mobile-nav-subgroup {
+  display: grid;
+  padding: 4px 4px 10px 18px;
+  border-bottom: 1px solid rgba(26,35,61,.12);
+}
+
+.mobile-nav-subgroup a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 4px;
+  color: #4f5564;
+  font-size: 15px;
+}
+
+.mobile-nav-subgroup a.active {
+  color: var(--axp-navy);
 }
 
 @media (max-width: 1120px) {

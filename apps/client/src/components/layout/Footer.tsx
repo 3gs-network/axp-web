@@ -21,7 +21,7 @@ export function Footer() {
           <p>Building Africa’s future through housing, finance and strategic partnerships.</p>
           <span>We are invested in your investment.</span>
           <div className="footer-social">
-            <a href="http://linkedin.com/in/axp-solutionprolimited" target="_blank" rel="noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
+            <a href="https://www.linkedin.com/company/axp-limited/?viewAsMember=true" target="_blank" rel="noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
             <a href="http://x.com/axp_solutionpro?s=21" target="_blank" rel="noreferrer" aria-label="X (Twitter)"><FaXTwitter /></a>
             <a href="http://instagram.com/axplimited/" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
             <a href="http://facebook.com/share/165yuzKibv/?mibextid=wwXIfr" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebook /></a>
@@ -30,14 +30,14 @@ export function Footer() {
         <div className="footer-links">
           <div><h3>Explore</h3><Link to="/who-we-are">Who we are</Link><Link to="/home-ownership-opportunities">Home ownership opportunities</Link><Link to="/homeready">HomeReady™</Link><Link to="/impact">Impact</Link></div>
           <div><h3>Learn</h3><Link to="/knowledge">Knowledge Centre</Link><Link to="/work-with-axp">Work with AXP</Link><Link to="/contact">Contact AXP</Link></div>
-          <div><h3>Company</h3><Link to="/media">Media Centre</Link><Link to="/careers">Careers</Link><Link to="/contact">Contact</Link></div>
+          <div><h3>Company</h3><Link to="/contact">Contact</Link></div>
           <div className="footer-contact-row">
             <a href="https://wa.me/+2349026211153" target="_blank" rel="noreferrer"><FaWhatsapp /><span>WhatsApp</span></a>
             <a href="mailto:info@axplimited.com"><Mail size={15} /><span>Email</span></a>
           </div>
         </div>
       </div>
-      <div className="footer-bottom shell"><span>© 2026 AXP Africa Limited. Website concept.</span><span>Making Urban Living Possible · Africa</span></div>
+      <div className="footer-bottom shell"><span>© 2026 AXP Africa Limited.</span><span>Making Urban Living Possible · Africa</span></div>
     </footer>
   );
 }

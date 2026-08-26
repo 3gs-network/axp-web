@@ -163,13 +163,6 @@
   margin-top: 24px;
 }
 
-.filter-note {
-  margin: 0;
-  max-width: 560px;
-  color: #737781;
-  font-size: 12px;
-  line-height: 1.65;
-}
 
 .filter-reset {
   display: inline-flex;

@@ -21,14 +21,8 @@
 }
 
 .download-grid h3 {
-  margin: 0 0 4px;
-  font: 500 17px var(--font-serif);
-}
-
-.download-grid p {
   margin: 0;
-  color: #858890;
-  font-size: 9px;
+  font: 500 17px var(--font-serif);
 }
 
 @media (max-width: 680px) {

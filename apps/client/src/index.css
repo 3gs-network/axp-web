@@ -351,36 +351,6 @@
   transform: translateX(4px);
 }
 
-.concept-label, .prototype-note {
-  display: inline-flex;
-  border: 1px solid rgba(26,35,61,.18);
-  color: #606574;
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.prototype-note {
-  color: rgba(255,255,255,.7);
-  border-color: rgba(255,255,255,.25);
-}
-
-.opportunity-disclaimer {
-  margin: -33px 0 32px;
-  color: #737781;
-  font-size: 12px;
-  line-height: 1.65;
-}
-
-@media (max-width: 680px) {
-  .opportunity-disclaimer {
-    margin: -18px 0 27px;
-  }
-}
-
 .feature-split {
   display: grid;
   grid-template-columns: 1.08fr .92fr;
@@ -477,7 +447,10 @@
   .module-grid article,
   .culture-grid article,
   .roles-grid article,
-  .opportunity-card {
+  .opportunity-card,
+  .collaboration-grid article,
+  .knowledge-grid article:not(.featured),
+  .contact-office-grid > div {
     transition: transform .3s ease, box-shadow .3s ease;
   }
 
@@ -485,7 +458,10 @@
   .module-grid article:hover,
   .culture-grid article:hover,
   .roles-grid article:hover,
-  .opportunity-card:hover {
+  .opportunity-card:hover,
+  .collaboration-grid article:hover,
+  .knowledge-grid article:not(.featured):hover,
+  .contact-office-grid > div:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-soft);
   }

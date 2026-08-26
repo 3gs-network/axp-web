@@ -17,7 +17,7 @@ export function VisitorPathways() {
         <SectionHeading eyebrow="Where do I start?" title="Choose the next step that fits your goal." copy="The AXP website is organised around the questions visitors are most likely to ask—from understanding who we are to exploring a home or starting a conversation." />
         <div className="platforms-grid">
           <Link to="/home-ownership-opportunities" className="platform-card platform-card--feature">
-            <div className="platform-number">01</div><div><span className="platform-kicker">Core offering</span><h3>Explore opportunities</h3><p>See clearly labelled homeownership concepts, locations and possible ownership pathways in one customer-friendly experience.</p></div><ArrowRight />
+            <div className="platform-number">01</div><div><span className="platform-kicker">Core offering</span><h3>Explore opportunities</h3><p>See homeownership opportunities, locations and possible ownership pathways in one customer-friendly experience.</p></div><ArrowRight />
           </Link>
           {pathways.map((item) => <Link to={item.to} className="platform-card" key={item.n}><div className="platform-number">{item.n}</div><div><h3>{item.t}</h3><p>{item.c}</p></div><ArrowRight /></Link>)}
         </div>
