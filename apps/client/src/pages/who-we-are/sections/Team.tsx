@@ -2,7 +2,7 @@ import "./Team.css";
 import { motion, useReducedMotion } from "framer-motion";
 import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { staggerContainer, staggerItem } from "@/lib/motion";
+import { staggerItem } from "@/lib/motion";
 import { getInitials } from "@/lib/format";
 
 const team = [
@@ -62,9 +62,15 @@ export function Team() {
     <section className="section team-section section--navy">
       <div className="shell">
         <SectionHeading light eyebrow="Executive Management" title="The team behind AXP" copy="Meet the people steering AXP's mission to make mortgage access clear and dependable." />
-        <motion.div className="team-grid" variants={staggerContainer} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
+        <div className="team-grid">
           {team.map((member) => (
-            <motion.figure key={member.name} variants={staggerItem}>
+            <motion.figure
+              key={member.name}
+              variants={staggerItem}
+              initial={reduce ? false : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+            >
               <div className="team-photo">
                 {member.photo ? (
                   <img src={member.photo} alt={member.name} loading="lazy" />
@@ -83,7 +89,7 @@ export function Team() {
               </figcaption>
             </motion.figure>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
