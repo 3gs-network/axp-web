@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { FaAward, FaBookOpen, FaBuildingColumns, FaBullseye, FaCalendarDays, FaCity, FaClipboardList, FaCoins, FaDesktop, FaGear, FaGlobe, FaHandshake, FaHouse, FaLandmark, FaLeaf, FaLinkedin, FaPeopleGroup, FaRegBuilding, FaShieldHalved, FaTrophy, FaUser, FaUserGroup } from "react-icons/fa6";
 import type { IconType } from "react-icons";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { staggerContainer, staggerItem } from "@/lib/motion";
+import { staggerItem } from "@/lib/motion";
 import { getInitials } from "@/lib/format";
 
 interface AdvisorStat {
@@ -254,9 +254,16 @@ export function BoardOfAdvisory() {
           title="Depth of experience. Broader perspective."
           copy="The Advisory Board strengthens AXP with external perspective across institutional strategy, finance, capital projects and governance."
         />
-        <motion.div className="advisory-list" variants={staggerContainer} initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.15 }}>
+        <div className="advisory-list">
           {advisors.map((advisor) => (
-            <motion.article className="advisory-card" key={advisor.name} variants={staggerItem}>
+            <motion.article
+              className="advisory-card"
+              key={advisor.name}
+              variants={staggerItem}
+              initial={reduce ? false : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
               <div className="advisory-rail">
                 <div className="advisory-photo">
                   {advisor.photo ? (
@@ -410,7 +417,7 @@ export function BoardOfAdvisory() {
               </div>
             </motion.article>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
