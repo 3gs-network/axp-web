@@ -1,12 +1,15 @@
 import "./Portal.css";
 import { useState } from "react";
 import { RotateCcw, Search } from "lucide-react";
-import { knowledgeItems } from "@/data/knowledge";
+import { useKnowledge } from "@/data/useKnowledge";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const types = ["All", "Housing guides", "Mortgage education", "Market intelligence", "Urban Living Reports", "Policy insights", "ReadyIQ™", "Research publications", "Videos", "Downloads"];
 
 export function Portal() {
+  // Published posts from the AXP CRM, falling back to the built-in list until
+  // somebody publishes one. Everything below is unchanged.
+  const { items: knowledgeItems } = useKnowledge();
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
   const filtered = knowledgeItems.filter((item) => (filter === "All" || item.type === filter) && item.title.toLowerCase().includes(query.toLowerCase()));
