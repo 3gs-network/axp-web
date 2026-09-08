@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronRight, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { staggerContainer, staggerItem } from "@/lib/motion";
+import { apiFetch } from "@/lib/api";
 
 const routes = ["Looking for a Home", "A Homeowner", "Interested in a Mortgage", "A Property Developer", "An Investor", "A Financial Institution", "Looking to Collaborate", "Others"];
 
@@ -28,6 +29,57 @@ export function Routing() {
   const [selected, setSelected] = useState(initialRoute);
   useEffect(() => setSelected(initialRoute), [initialRoute]);
   const reduce = useReducedMotion();
+
+  // The enquiry itself. It goes to /api/leads -- the same queue the Register
+  // Interest form feeds -- so an advisor picks it up in the CRM rather than
+  // somebody watching an inbox. The route the visitor chose travels with it,
+  // because "I am a Property Developer" is the most useful thing on the form.
+  const [form, setForm] = useState({ fullName: "", email: "", message: "", website: "" });
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
+  const set = (key: keyof typeof form, value: string) =>
+    setForm((current) => ({ ...current, [key]: value }));
+
+  // Changing who you are starts a fresh enquiry rather than carrying a sent
+  // state across, which would look like the new one had already gone.
+  useEffect(() => {
+    setState("idle");
+    setError("");
+  }, [selected]);
+
+  const submitEnquiry = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (state === "sending") return;
+    setState("sending");
+    setError("");
+
+    try {
+      const response = await apiFetch("/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.fullName,
+          email: form.email,
+          message: form.message,
+          interest: selected,
+          website: form.website
+        })
+      });
+      const payload = (await response.json()) as
+        | { ok: true }
+        | { ok: false; error: { message: string } };
+
+      if (!response.ok || !payload.ok) {
+        setState("error");
+        setError(!payload.ok ? payload.error.message : "We could not send that just now.");
+        return;
+      }
+      setState("sent");
+    } catch {
+      setState("error");
+      setError("We could not send that just now. Please try again shortly.");
+    }
+  };
 
   return (
     <section className="section contact-routing">
@@ -54,14 +106,28 @@ export function Routing() {
             >
               <span>Your next step</span>
               <h2>{routeDetail[selected]}</h2>
-              <div className="route-form-preview">
-                <label><span>Email</span><input placeholder="you@example.com" disabled /></label>
-                <label><span>What would you like to discuss?</span><textarea placeholder="Briefly describe your question" disabled /></label>
-                <button className="button button--primary" disabled>Continue</button>
-                <p className="route-form-note">
-                  Direct submission is on its way. For now, <a href="mailto:info@axplimited.com"><Mail size={13} /> email us</a> or <a href="https://wa.me/+2349026211153" target="_blank" rel="noreferrer"><FaWhatsapp size={13} /> message us on WhatsApp</a>.
-                </p>
-              </div>
+              {state === "sent" ? (
+                <div className="route-form-preview">
+                  <p className="route-form-note">
+                    <strong>Thank you — we have your enquiry.</strong> An advisor will be in
+                    touch. If it is urgent, <a href="https://wa.me/+2349026211153" target="_blank" rel="noreferrer"><FaWhatsapp size={13} /> message us on WhatsApp</a>.
+                  </p>
+                </div>
+              ) : (
+                <form className="route-form-preview" onSubmit={submitEnquiry}>
+                  <label><span>Name</span><input required value={form.fullName} onChange={(event) => set("fullName", event.target.value)} placeholder="Your name" disabled={state === "sending"} /></label>
+                  <label><span>Email</span><input required type="email" value={form.email} onChange={(event) => set("email", event.target.value)} placeholder="you@example.com" disabled={state === "sending"} /></label>
+                  <label><span>What would you like to discuss?</span><textarea value={form.message} onChange={(event) => set("message", event.target.value)} placeholder="Briefly describe your question" disabled={state === "sending"} /></label>
+                  {/* Hidden from people, filled in by bots. Off-screen rather
+                      than display:none, which some bots skip. */}
+                  <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={form.website} onChange={(event) => set("website", event.target.value)} style={{ position: "absolute", left: "-9999px", width: 1, height: 1 }} />
+                  {state === "error" && error && <p className="route-form-note" role="alert" style={{ color: "#b3261e" }}>{error}</p>}
+                  <button className="button button--primary" type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : "Continue"}</button>
+                  <p className="route-form-note">
+                    Prefer another way? <a href="mailto:info@axplimited.com"><Mail size={13} /> email us</a> or <a href="https://wa.me/+2349026211153" target="_blank" rel="noreferrer"><FaWhatsapp size={13} /> message us on WhatsApp</a>.
+                  </p>
+                </form>
+              )}
             </motion.div>
           ) : (
             <motion.div
