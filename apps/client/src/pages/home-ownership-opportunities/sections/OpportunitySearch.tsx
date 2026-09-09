@@ -1,32 +1,50 @@
 import "./OpportunitySearch.css";
-import { useState } from "react";
-import { BedDouble, Building2, ChevronDown, MapPin, RotateCcw, Search, Wallet } from "lucide-react";
+import { useMemo, useState } from "react";
+import { AlertCircle, BedDouble, Building2, ChevronDown, MapPin, RotateCcw, Search, Wallet } from "lucide-react";
 import { OpportunityCard } from "@/components/shared/OpportunityCard";
-import { opportunityData } from "@/data/opportunities";
+import { useOpportunities } from "@/hooks/useOpportunities";
 
-const pathwayOptions = ["Mortgage Available", "Ready to Move", "Off-Plan", "Flexible Payment"];
+const pathwayOptions = ["Mortgage Available", "Ready to Move", "Off-Plan", "Flexible Payment", "Price Reduced"];
+
+const budgetBrackets = [
+  { label: "Under ₦50m", test: (value: number) => value < 50_000_000 },
+  { label: "₦50m – ₦150m", test: (value: number) => value >= 50_000_000 && value < 150_000_000 },
+  { label: "₦150m – ₦400m", test: (value: number) => value >= 150_000_000 && value < 400_000_000 },
+  { label: "Over ₦400m", test: (value: number) => value >= 400_000_000 && Number.isFinite(value) },
+];
 
 export function OpportunitySearch() {
+  const { data, isPending, isError, refetch } = useOpportunities();
+  const opportunities = useMemo(() => data ?? [], [data]);
+
   const [locationFilter, setLocationFilter] = useState("All locations");
   const [typeFilter, setTypeFilter] = useState("All types");
   const [budgetFilter, setBudgetFilter] = useState("All budgets");
   const [bedroomFilter, setBedroomFilter] = useState("All bedrooms");
   const [pathwayFilters, setPathwayFilters] = useState<string[]>([]);
 
+  const locationOptions = useMemo(
+    () => Array.from(new Set(opportunities.map((item) => item.location))).sort((a, b) => a.localeCompare(b)),
+    [opportunities],
+  );
+  const typeOptions = useMemo(
+    () => Array.from(new Set(opportunities.map((item) => item.type))).sort((a, b) => a.localeCompare(b)),
+    [opportunities],
+  );
+  const bedroomOptions = useMemo(
+    () => Array.from(new Set(opportunities.flatMap((item) => item.bedroomCounts))).sort((a, b) => a - b),
+    [opportunities],
+  );
+
   const togglePathway = (pathway: string) =>
     setPathwayFilters((current) => (current.includes(pathway) ? current.filter((item) => item !== pathway) : [...current, pathway]));
 
-  const visible = opportunityData.filter((item) => {
-    const matchesLocation = locationFilter === "All locations" || item.location.includes(locationFilter);
+  const visible = opportunities.filter((item) => {
+    const matchesLocation = locationFilter === "All locations" || item.location === locationFilter;
     const matchesType = typeFilter === "All types" || item.type === typeFilter;
-    const matchesBudget =
-      budgetFilter === "All budgets" ||
-      (budgetFilter === "Up to ₦100m" && item.price.includes("₦85")) ||
-      (budgetFilter === "Flexible payment" && item.tags.includes("Flexible Payment")) ||
-      (budgetFilter === "Mortgage pathway" && item.tags.includes("Mortgage Available")) ||
-      (budgetFilter === "To be confirmed" && item.price === "Details to be confirmed");
-    const matchesBedrooms =
-      bedroomFilter === "All bedrooms" || item.bedrooms === bedroomFilter || (bedroomFilter === "To be confirmed" && item.bedrooms === "To be confirmed");
+    const bracket = budgetBrackets.find((entry) => entry.label === budgetFilter);
+    const matchesBudget = !bracket || bracket.test(item.priceValue);
+    const matchesBedrooms = bedroomFilter === "All bedrooms" || item.bedroomCounts.includes(Number(bedroomFilter));
     const matchesPathways = pathwayFilters.every((pathway) => item.tags.includes(pathway));
     return matchesLocation && matchesType && matchesBudget && matchesBedrooms && matchesPathways;
   });
@@ -62,12 +80,11 @@ export function OpportunitySearch() {
                 Location
               </span>
               <span className="opportunity-select">
-                <select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)}>
+                <select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)} disabled={isPending || isError}>
                   <option>All locations</option>
-                  <option>Lekki</option>
-                  <option>Abuja</option>
-                  <option>Ibadan</option>
-                  <option>Nigeria</option>
+                  {locationOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -79,12 +96,11 @@ export function OpportunitySearch() {
                 Property type
               </span>
               <span className="opportunity-select">
-                <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
+                <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)} disabled={isPending || isError}>
                   <option>All types</option>
-                  <option>Terrace</option>
-                  <option>Family Home</option>
-                  <option>Apartment</option>
-                  <option>Upcoming</option>
+                  {typeOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -96,12 +112,11 @@ export function OpportunitySearch() {
                 Budget / pathway
               </span>
               <span className="opportunity-select">
-                <select value={budgetFilter} onChange={(event) => setBudgetFilter(event.target.value)}>
+                <select value={budgetFilter} onChange={(event) => setBudgetFilter(event.target.value)} disabled={isPending || isError}>
                   <option>All budgets</option>
-                  <option>Up to ₦100m</option>
-                  <option>Flexible payment</option>
-                  <option>Mortgage pathway</option>
-                  <option>To be confirmed</option>
+                  {budgetBrackets.map((bracket) => (
+                    <option key={bracket.label}>{bracket.label}</option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -113,11 +128,13 @@ export function OpportunitySearch() {
                 Bedrooms
               </span>
               <span className="opportunity-select">
-                <select value={bedroomFilter} onChange={(event) => setBedroomFilter(event.target.value)}>
-                  <option>All bedrooms</option>
-                  <option>2 Bedrooms</option>
-                  <option>3 Bedrooms</option>
-                  <option>To be confirmed</option>
+                <select value={bedroomFilter} onChange={(event) => setBedroomFilter(event.target.value)} disabled={isPending || isError}>
+                  <option value="All bedrooms">All bedrooms</option>
+                  {bedroomOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} {option === 1 ? "Bedroom" : "Bedrooms"}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -128,7 +145,12 @@ export function OpportunitySearch() {
             <legend>Ownership features</legend>
             {pathwayOptions.map((pathway) => (
               <label key={pathway} className="pathway-chip">
-                <input type="checkbox" checked={pathwayFilters.includes(pathway)} onChange={() => togglePathway(pathway)} />
+                <input
+                  type="checkbox"
+                  checked={pathwayFilters.includes(pathway)}
+                  onChange={() => togglePathway(pathway)}
+                  disabled={isPending || isError}
+                />
                 <span>{pathway}</span>
               </label>
             ))}
@@ -148,18 +170,52 @@ export function OpportunitySearch() {
           <div>
             <p className="eyebrow">Curated opportunities</p>
             <h2>
-              {visible.length} {visible.length === 1 ? "opportunity" : "opportunities"} to explore
+              {isPending
+                ? "Loading opportunities"
+                : isError
+                  ? "Opportunities unavailable"
+                  : `${visible.length} ${visible.length === 1 ? "opportunity" : "opportunities"} to explore`}
             </h2>
           </div>
         </div>
 
-        <div className="opportunity-grid">
-          {visible.map((opportunity) => (
-            <OpportunityCard key={opportunity.slug} opportunity={opportunity} />
-          ))}
-        </div>
+        {isPending && (
+          <div className="opportunity-grid" aria-hidden>
+            {Array.from({ length: 6 }).map((_, index) => (
+              <article key={index} className="opportunity-card opportunity-card--skeleton">
+                <div className="opportunity-card-image" />
+                <div className="opportunity-card-body">
+                  <span className="skeleton-line skeleton-line--eyebrow" />
+                  <span className="skeleton-line skeleton-line--title" />
+                  <span className="skeleton-line" />
+                  <span className="skeleton-line skeleton-line--short" />
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
 
-        {visible.length === 0 && (
+        {isError && (
+          <div className="empty-state">
+            <AlertCircle aria-hidden />
+            <h3>We couldn&rsquo;t load opportunities</h3>
+            <p>Something interrupted the connection. Please try again in a moment.</p>
+            <button type="button" className="filter-reset" onClick={() => refetch()}>
+              <RotateCcw aria-hidden />
+              Retry
+            </button>
+          </div>
+        )}
+
+        {!isPending && !isError && (
+          <div className="opportunity-grid">
+            {visible.map((opportunity) => (
+              <OpportunityCard key={opportunity.slug} opportunity={opportunity} />
+            ))}
+          </div>
+        )}
+
+        {!isPending && !isError && opportunities.length > 0 && visible.length === 0 && (
           <div className="empty-state">
             <Search aria-hidden />
             <h3>No matches</h3>
@@ -168,6 +224,14 @@ export function OpportunitySearch() {
               <RotateCcw aria-hidden />
               Reset filters
             </button>
+          </div>
+        )}
+
+        {!isPending && !isError && opportunities.length === 0 && (
+          <div className="empty-state">
+            <Search aria-hidden />
+            <h3>No opportunities listed yet</h3>
+            <p>New curated opportunities are added regularly. Please check back soon.</p>
           </div>
         )}
       </div>

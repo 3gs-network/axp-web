@@ -1,4 +1,4 @@
-import { apiUrl } from "@/lib/api-base";
+import { apiUrl, listingsUrl } from "@/lib/api-base";
 import { notifyApiError } from "@/lib/api-error";
 import { getAuthToken, setAuthToken } from "@/lib/auth";
 
@@ -23,6 +23,16 @@ export async function apiFetch(path: string, init?: ApiFetchInit) {
   }
 
   return response;
+}
+
+// Public, unauthenticated read of the AXP platform's home-ownership listings.
+// It targets a different origin than apiFetch (see listingsUrl), so it can't go
+// through that helper; callers own status handling.
+export async function fetchPublicListings(signal?: AbortSignal) {
+  return fetch(listingsUrl("/api/public/listings"), {
+    signal,
+    headers: { Accept: "application/json" }
+  });
 }
 
 export async function startThirdPartyGoogleAuth(landingPath = window.location.pathname) {
