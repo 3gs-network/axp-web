@@ -191,6 +191,8 @@ const advisors: Advisor[] = [
     ],
     linkedin: "#",
   },
+  /* Temporarily hidden from the Board of Advisory list — remove this comment
+     block to restore Salma Mohammed and Adebayo Femi Adewole.
   {
     name: "Salma Mohammed",
     title: "Lorem Ipsum Dolor Sit Amet",
@@ -242,6 +244,7 @@ const advisors: Advisor[] = [
     ],
     linkedin: "#",
   },
+  */
 ];
 
 export function BoardOfAdvisory() {
