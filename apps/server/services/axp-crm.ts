@@ -32,6 +32,11 @@ export type KnowledgePost = {
   tags: string[];
   published_at: string | null;
   author_name: string | null;
+  // Set when the post is an event; null for an ordinary article.
+  event_starts_at: string | null;
+  event_location: string | null;
+  cta_url: string | null;
+  cta_label: string | null;
 };
 
 export type LeadInput = {

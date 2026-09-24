@@ -21,9 +21,20 @@ type KnowledgePost = {
   slug: string;
   title: string;
   excerpt: string | null;
+  cover_image_url: string | null;
   tags: unknown;
   published_at: string | null;
+  event_starts_at: string | null;
+  event_location: string | null;
+  cta_url: string | null;
+  cta_label: string | null;
 };
+
+// Only https links are rendered as buttons. The CRM already refuses anything
+// else; checking again here means a bad row can never become a javascript: or
+// plain-http link on the public site.
+const safeHttps = (value: string | null): string | null =>
+  value && /^https:\/\/\S+$/i.test(value.trim()) ? value.trim() : null;
 
 // The CRM stores a post; the page renders a card. `type` comes from the first
 // tag, because that is what the filter row is built from, and the read time is
@@ -33,10 +44,20 @@ function toItem(post: KnowledgePost, index: number): KnowledgeItem {
   const tags = Array.isArray(post.tags) ? (post.tags as string[]) : [];
   const words = (post.excerpt ?? "").trim().split(/\s+/).filter(Boolean).length;
   return {
-    type: tags[0] ?? "Housing guides",
+    type: tags[0] ?? (post.event_starts_at ? "Events" : "Housing guides"),
     title: post.title,
     read: `${Math.max(1, Math.round(words / 200))} min`,
-    featured: index === 0
+    featured: index === 0,
+    slug: post.slug,
+    image: safeHttps(post.cover_image_url) ?? undefined,
+    event: post.event_starts_at
+      ? {
+          startsAt: post.event_starts_at,
+          location: post.event_location,
+          ctaUrl: safeHttps(post.cta_url),
+          ctaLabel: post.cta_label
+        }
+      : undefined
   };
 }
 

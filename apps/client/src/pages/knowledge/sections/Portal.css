@@ -228,6 +228,48 @@
   color: rgba(255,255,255,.58);
 }
 
+/* Event posts from the AXP CRM: the date and venue replace the read time, and
+   an upcoming event gets an invite button. */
+.knowledge-grid .knowledge-event-meta {
+  margin: 0 0 16px;
+  color: var(--axp-navy);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.knowledge-grid .featured .knowledge-event-meta {
+  color: rgba(255,255,255,.85);
+  font-size: 14px;
+}
+
+.knowledge-event-cta {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 11px 22px;
+  background: var(--axp-gold);
+  color: var(--axp-navy);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: filter .2s ease;
+}
+
+.knowledge-event-cta:hover {
+  filter: brightness(1.08);
+}
+
+.knowledge-event-cta:focus-visible {
+  outline: 2px solid var(--axp-navy);
+  outline-offset: 3px;
+}
+
+.featured .knowledge-event-cta:focus-visible {
+  outline-color: white;
+}
+
 .empty-state {
   min-height: 350px;
   display: grid;
