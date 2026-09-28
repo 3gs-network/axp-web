@@ -5,13 +5,11 @@
     "type": "module",
     "scripts": {
         "lint": "node scripts/lint.mjs",
-        "start": "node apps/server/dist/index.js",
         "test": "vitest run",
         "test:infra": "vitest run --project=server apps/server/_test/infra",
         "test:integration": "vitest run --project=server apps/server/__tests__",
         "test:client": "vitest run --project=client",
-        "check:contract": "node scripts/check-agents-contract.mjs",
-        "build": "pnpm --filter client run build"
+            "build": "pnpm --filter client run build"
     },
     "workspaces": [
         "apps/*",

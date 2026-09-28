@@ -7,7 +7,7 @@
     "dev": "LOVABLE_DEV_SERVER=true VITE_ENABLE_ROUTE_MESSAGING=true vite",
     "build": "LOVABLE_DEV_SERVER=true VITE_ENABLE_ROUTE_MESSAGING=true vite build --mode development",
     "postbuild": "node scripts/postbuild.mjs",
-    "build:api": "SERVER_BUILD_TARGET=vercel pnpm --filter server run build",
+    "build:api": "pnpm --filter server run build",
     "vercel-build": "pnpm run build:api && pnpm run build",
     "lint": "eslint ."
   },
@@ -16,7 +16,6 @@
     "@iconify/react": "^6.0.2",
     "@tanstack/react-query": "^5.56.2",
     "axios": "^1.13.2",
-    "better-auth": "^1.6.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

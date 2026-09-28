@@ -28,11 +28,11 @@ describe("history routing", () => {
     const routePaths = collectRoutePathsForMessaging(
       <>
         <Route path="/" element={<div />} />
-        <Route path="/dashboard" element={<div />} />
+        <Route path="/contact" element={<div />} />
       </>
     );
 
-    expect(routePaths).toContain("/dashboard");
+    expect(routePaths).toContain("/contact");
     expect(routePaths.every((path) => !path.includes("/#/"))).toBe(true);
   });
 

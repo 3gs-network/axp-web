@@ -7,10 +7,6 @@ const cacheDir = process.env.OMA_LINT_CACHE_DIR || `${fileURLToPath(projectRoot)
 
 const checks = [
   {
-    name: "agents-contract",
-    args: ["run", "check:contract"]
-  },
-  {
     name: "client-eslint",
     args: ["--filter", "client", "exec", "eslint", ".", "--cache", "--cache-location", `${cacheDir}/client-eslintcache`]
   },

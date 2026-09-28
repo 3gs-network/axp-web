@@ -22,13 +22,13 @@ AXP Africa helps individuals and organisations unlock homeownership and urban-li
 
 ## Operating Context
 
-Public marketing/informational site (React SPA) with a small authenticated dimension (Better Auth: email/password, username/password, Google, bearer token) inherited from the app scaffold. Content areas: home, home-ownership-opportunities (+ opportunity-detail, which captures visitor interest via a form rather than a purchase/checkout flow), homeready (the HomeReady™ readiness program), impact, knowledge, who-we-are, work-with-axp (partner outreach), careers, media, contact.
+Public marketing/informational site (React SPA) with light website accounts (email + password, held in the AXP CRM). Enquiries, interest forms and sign-ups all land in the AXP CRM. Content areas: home, home-ownership-opportunities (+ opportunity-detail, which captures visitor interest via a form rather than a purchase/checkout flow), homeready (the HomeReady™ readiness program), impact, knowledge, who-we-are, work-with-axp (partner outreach), careers, media, contact.
 
 ## Capabilities and Constraints
 
 - Opportunity detail pages capture interest via a lead-capture form (InterestForm); there is no transactional/checkout flow.
 - Business model is still forming — do not assume or imply commission, referral fees, or a specific monetization mechanic in design or copy.
-- Auth exists in the app (Better Auth) but is **not yet wired to a specific product feature** — no confirmed save-progress, saved-opportunities, or partner-portal capability yet. Treat any such capability as undecided, not implemented.
+- Accounts exist (sign-up, sign-in, a dashboard) but are **not yet wired to a specific product feature** — the dashboard shows example previews only. No confirmed save-progress, saved-opportunities or partner-portal capability yet. Treat any such capability as undecided, not implemented.
 
 ## Brand Commitments
 

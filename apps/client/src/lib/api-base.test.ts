@@ -15,18 +15,11 @@ describe("api-base", () => {
   it("normalizes apiUrl paths with an /api prefix", async () => {
     const { apiUrl } = await loadApiBase();
 
-    expect(apiUrl("/api/todos")).toBe("http://localhost:3100/api/todos");
+    expect(apiUrl("/api/knowledge")).toBe("http://localhost:3100/api/knowledge");
     expect(apiUrl("/counter/stats")).toBe("http://localhost:3100/api/counter/stats");
     expect(apiUrl("counter/stats")).toBe("http://localhost:3100/api/counter/stats");
     expect(apiUrl("api/counter/stats")).toBe("http://localhost:3100/api/counter/stats");
-    expect(apiUrl("/api/auth-config")).toBe("http://localhost:3100/api/auth-config");
+    expect(apiUrl("/api/leads")).toBe("http://localhost:3100/api/leads");
     expect(apiUrl("/api")).toBe("http://localhost:3100/api");
-  });
-
-  it("keeps authUrl mounted under /api/auth", async () => {
-    const { authUrl } = await loadApiBase();
-
-    expect(authUrl()).toBe("http://localhost:3100/api/auth");
-    expect(authUrl("/sign-in/social")).toBe("http://localhost:3100/api/auth/sign-in/social");
   });
 });

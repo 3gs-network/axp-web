@@ -1,9 +1,6 @@
 import { Hono, type Context } from "hono";
 import { apiSuccess } from "@repo/shared/http";
 
-// Public: health checks must work without a session.
-export const isPublic = true;
-
 export const healthRouter = new Hono();
 
 const healthHandler = (c: Context) => {

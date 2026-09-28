@@ -1,5 +1,5 @@
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { RequireAuth } from "@/components/auth/route-guards";
+import { RequireAuth } from "@/components/auth/RequireAuth";
 import { Welcome } from "./sections/Welcome";
 import { Overview } from "./sections/Overview";
 
