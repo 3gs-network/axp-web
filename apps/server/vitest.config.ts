@@ -10,14 +10,7 @@ export default defineConfig({
     environment: "node",
     setupFiles: ["./_test/setup.ts"],
     include: ["_test/infra/**/*.test.ts", "__tests__/**/*.test.ts"],
-    // T4-infra and integration tests share the in-memory libsql DB cached in
-    // _core/db.ts — running them in the same worker keeps that cache hot and
-    // avoids "each file applies migrations again" churn. Each *.test.ts file
-    // still runs in a fresh Vitest worker (default isolate=true), which gives
-    // us a fresh module load and a fresh :memory: DB between files.
     pool: "forks",
-    // 10s per test is enough for libsql in-memory; signUp/signIn round-trips
-    // are sub-100ms. Anything slower is a real bug.
     testTimeout: 10000
   },
   resolve: {

@@ -1,22 +1,10 @@
 import { Hono, type Context } from "hono";
 import { z } from "zod";
 import { apiFailure, apiSuccess } from "@repo/shared/http";
-import { publicRoute, protectedRoute } from "../_core/route-helpers";
-import {
-  CrmUnconfiguredError,
-  createLead,
-  isCrmConfigured,
-  registerCustomer
-} from "../services/axp-crm";
+import { CrmUnconfiguredError, createLead, isCrmConfigured } from "../services/axp-crm";
 
 /**
- * POST /api/leads       — an enquiry from the public site, into the CRM queue.
- * POST /api/leads/me    — record the signed-in visitor as a CRM contact.
- *
- * The second is deliberately `protectedRoute`: it takes the name and email from
- * the session the SERVER has verified, never from the request body. Trusting
- * the body would let anybody write anybody's details into the firm's contact
- * list.
+ * POST /api/leads — an enquiry from the public site, into the CRM queue.
  */
 export const leadsRouter = new Hono();
 
@@ -28,7 +16,7 @@ const LeadSchema = z.object({
   message: z.string().trim().max(4000).optional(),
   interest: z.string().trim().max(200).optional(),
   // A field a person cannot see and a bot fills in. Empty means human.
-  website: z.string().max(0).optional()
+  website: z.string().max(500).optional()
 });
 
 async function createHandler(c: Context) {
@@ -82,26 +70,5 @@ async function createHandler(c: Context) {
   }
 }
 
-leadsRouter.post("", publicRoute, createHandler);
-leadsRouter.post("/", publicRoute, createHandler);
-
-leadsRouter.post("/me", protectedRoute, async (c) => {
-  const user = c.var.currentUser;
-
-  if (!isCrmConfigured()) {
-    // Nothing the visitor did, and nothing they can fix. Their account on this
-    // site is unaffected either way.
-    return c.json(apiSuccess({ recorded: false, reason: "unconfigured" }));
-  }
-
-  try {
-    await registerCustomer({ email: user.email, fullName: user.name ?? "" });
-    return c.json(apiSuccess({ recorded: true }));
-  } catch (error) {
-    console.error("[leads] could not record the sign-up with the AXP CRM:", error);
-    // Deliberately not an error response: failing to mirror a sign-up into the
-    // CRM must never make the sign-up itself look broken to the person who
-    // just completed it.
-    return c.json(apiSuccess({ recorded: false, reason: "unavailable" }));
-  }
-});
+leadsRouter.post("", createHandler);
+leadsRouter.post("/", createHandler);

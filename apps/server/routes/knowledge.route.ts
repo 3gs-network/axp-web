@@ -1,6 +1,5 @@
 import { Hono, type Context } from "hono";
 import { apiFailure, apiSuccess } from "@repo/shared/http";
-import { publicRoute } from "../_core/route-helpers";
 import { CrmUnconfiguredError, isCrmConfigured, listKnowledge } from "../services/axp-crm";
 
 /**
@@ -12,8 +11,8 @@ import { CrmUnconfiguredError, isCrmConfigured, listKnowledge } from "../service
  */
 export const knowledgeRouter = new Hono();
 
-knowledgeRouter.get("", publicRoute, handler);
-knowledgeRouter.get("/", publicRoute, handler);
+knowledgeRouter.get("", handler);
+knowledgeRouter.get("/", handler);
 
 async function handler(c: Context) {
   // Not configured is not an error the visitor caused, and the page has its own

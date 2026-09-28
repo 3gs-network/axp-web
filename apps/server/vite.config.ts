@@ -1,19 +1,11 @@
 import { defineConfig } from "vite";
 import { fileURLToPath } from "node:url";
 
-const serverBuildTarget = (["web", "vercel"] as const).find((target) => target === process.env.SERVER_BUILD_TARGET) ?? "fc";
 const fromRoot = (path: string) => fileURLToPath(new URL(`../../${path}`, import.meta.url));
 
-const buildEntries = {
-  fc: "_core/fc-entry.ts",
-  web: "_core/fc-entry.web.ts",
-  vercel: "_core/vercel-entry.ts"
-};
-
-// The Vercel bundle lands inside the client project's api/ folder; the leading
-// underscore keeps Vercel from treating it as a function of its own.
-const outDir = serverBuildTarget === "vercel" ? fromRoot("apps/client/api/_server") : "dist";
-
+// Bundles the API into the client project's api/ folder, where
+// apps/client/api/index.js re-exports it as the Vercel Function. The leading
+// underscore keeps Vercel from treating the bundle as a function of its own.
 export default defineConfig({
   envDir: "../..",
   ssr: {
@@ -21,14 +13,13 @@ export default defineConfig({
   },
   resolve: {
     alias: [
-      { find: /^@libsql\/client$/, replacement: "@libsql/client/web" },
       { find: /^@repo\/shared\/http$/, replacement: fromRoot("packages/shared/src/http.ts") },
       { find: /^@repo\/shared$/, replacement: fromRoot("packages/shared/src/index.ts") }
     ]
   },
   build: {
-    ssr: buildEntries[serverBuildTarget],
-    outDir,
+    ssr: "_core/vercel-entry.ts",
+    outDir: fromRoot("apps/client/api/_server"),
     emptyOutDir: true,
     target: "node20",
     rollupOptions: {

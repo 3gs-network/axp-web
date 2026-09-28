@@ -15,6 +15,9 @@ import { env } from "../_core/env";
  *   - file an enquiry                          (mortgage_loans insert policy)
  *   - register a sign-up as a contact          (register_website_customer)
  *
+ * It also fronts the CRM's Supabase Auth for website accounts (sign-up,
+ * sign-in, refresh, sign-out). Those calls act as the account holder only.
+ *
  * It cannot read a client case, a staff record, another customer, or a draft
  * post. That is deliberate: a compromise of this deployment must not become a
  * compromise of the firm's client files. No service_role key is used here and
@@ -136,9 +139,8 @@ export async function createLead(input: LeadInput): Promise<void> {
 /**
  * Record a website sign-up as a CRM contact.
  *
- * Called with the email the SERVER has verified through Better Auth, never one
- * the browser supplied -- otherwise anybody could write anybody's name into the
- * firm's contact list.
+ * Takes the same unverified name and email any enquiry does -- the RPC only
+ * ever creates or updates a contact card, it grants nothing.
  */
 export async function registerCustomer(input: {
   email: string;
@@ -152,5 +154,125 @@ export async function registerCustomer(input: {
       p_full_name: input.fullName ?? "",
       p_phone: input.phone ?? null
     })
+  });
+}
+
+/* ------------------------------------------------------------------------ */
+/* Website accounts: the CRM's Supabase Auth (GoTrue), proxied so the key    */
+/* never reaches the browser.                                                */
+/* ------------------------------------------------------------------------ */
+
+export type AccountUser = {
+  id: string;
+  email: string;
+  name: string;
+};
+
+export type AccountSession = {
+  accessToken: string;
+  refreshToken: string;
+  /** Unix seconds. */
+  expiresAt: number;
+  user: AccountUser;
+};
+
+type GoTrueUser = {
+  id: string;
+  email?: string;
+  user_metadata?: { full_name?: string };
+};
+
+type GoTrueSession = {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  expires_at?: number;
+  user: GoTrueUser;
+};
+
+function toAccountUser(user: GoTrueUser): AccountUser {
+  return { id: user.id, email: user.email ?? "", name: user.user_metadata?.full_name ?? "" };
+}
+
+function toAccountSession(session: GoTrueSession): AccountSession {
+  return {
+    accessToken: session.access_token,
+    refreshToken: session.refresh_token,
+    expiresAt: session.expires_at ?? Math.floor(Date.now() / 1000) + session.expires_in,
+    user: toAccountUser(session.user)
+  };
+}
+
+/**
+ * GoTrue's machine-readable reason for a refusal, e.g. "invalid_credentials"
+ * or "email_not_confirmed". Older GoTrue versions put it in `error`.
+ */
+export function authErrorCode(error: unknown): string | null {
+  if (!(error instanceof CrmRequestError)) return null;
+  try {
+    const body = JSON.parse(error.message) as { error_code?: string; error?: string };
+    return body.error_code ?? body.error ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Create an account. The CRM requires email confirmation, so this normally
+ * returns `null` and the person signs in after clicking the emailed link, which
+ * lands on `redirectTo`. Returns a session only if confirmation is switched off.
+ */
+export async function signUpAccount(input: {
+  email: string;
+  password: string;
+  fullName: string;
+  redirectTo: string;
+}): Promise<AccountSession | null> {
+  const response = await crmFetch(`/auth/v1/signup?redirect_to=${encodeURIComponent(input.redirectTo)}`, {
+    method: "POST",
+    body: JSON.stringify({
+      email: input.email,
+      password: input.password,
+      data: { full_name: input.fullName }
+    })
+  });
+  const body = (await response.json()) as Partial<GoTrueSession>;
+  return body.access_token ? toAccountSession(body as GoTrueSession) : null;
+}
+
+export async function signInAccount(email: string, password: string): Promise<AccountSession> {
+  const response = await crmFetch("/auth/v1/token?grant_type=password", {
+    method: "POST",
+    body: JSON.stringify({ email, password })
+  });
+  return toAccountSession((await response.json()) as GoTrueSession);
+}
+
+export async function refreshAccountSession(refreshToken: string): Promise<AccountSession> {
+  const response = await crmFetch("/auth/v1/token?grant_type=refresh_token", {
+    method: "POST",
+    body: JSON.stringify({ refresh_token: refreshToken })
+  });
+  return toAccountSession((await response.json()) as GoTrueSession);
+}
+
+export async function getAccountUser(accessToken: string): Promise<AccountUser> {
+  const response = await crmFetch("/auth/v1/user", {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+  return toAccountUser((await response.json()) as GoTrueUser);
+}
+
+export async function signOutAccount(accessToken: string): Promise<void> {
+  await crmFetch("/auth/v1/logout", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+}
+
+export async function resendConfirmation(email: string, redirectTo: string): Promise<void> {
+  await crmFetch(`/auth/v1/resend?redirect_to=${encodeURIComponent(redirectTo)}`, {
+    method: "POST",
+    body: JSON.stringify({ type: "signup", email })
   });
 }

@@ -210,14 +210,14 @@ function cdnPrefixImages(): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   // The in-process Hono dev server (@hono/vite-dev-server) reads runtime config
-  // such as SKYBASE_DB_* / BETTER_AUTH_* from process.env. Vite's envDir only
-  // exposes VITE_-prefixed vars to the client bundle, so without this the
-  // embedded server boots with no DB config and every /api/auth call 503s.
+  // such as AXP_CRM_* from process.env. Vite's envDir only exposes VITE_-prefixed
+  // vars to the client bundle, so without this the embedded server boots with
+  // the CRM unconfigured.
   // Guarded to `serve` so `vite build` and vitest (which uses its own
   // vitest.config.ts and never loads this file) are unaffected. We never
   // overwrite vars already present, so deploy-injected env still wins.
   if (command === 'serve') {
-    const runtimeEnv = loadEnv(mode, path.resolve(__dirname, '../..'), ['SKYBASE_DB_', 'BETTER_AUTH_', 'ALLOWED_ORIGINS', 'AXP_CRM_']);
+    const runtimeEnv = loadEnv(mode, path.resolve(__dirname, '../..'), ['AXP_CRM_']);
     for (const [key, value] of Object.entries(runtimeEnv)) {
       if (process.env[key] === undefined && value !== '') process.env[key] = value;
     }

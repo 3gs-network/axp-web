@@ -9,22 +9,16 @@ import type { Hono } from "hono";
  * Auto-discovery route registry.
  *
  * Every `apps/server/routes/<name>.route.ts` is discovered at build time and
- * mounted at `/api/<name>` (see `create-app.ts`). Nothing here, in
- * `create-app.ts`, or in `with-session.ts` needs editing to add a route — drop
- * a new `*.route.ts` file into `routes/` and it is wired automatically. This is
- * what lets feature overlays (e.g. Shopify's `commerce.route.ts`) light up with
- * zero manual wiring.
+ * mounted at `/api/<name>` (see `create-app.ts`). Nothing here or in
+ * `create-app.ts` needs editing to add a route — drop a new `*.route.ts` file
+ * into `routes/` and it is wired automatically.
  *
- * Conventions a route module may follow:
- *   - Export the Hono router (any export name, or `default`). The first export
- *     that looks like a Hono instance is used.
- *   - `export const isPublic = true` to opt the route's `/api/<name>` prefix out
- *     of session auth (consumed by `with-session.ts`).
+ * A route module exports its Hono router (any export name, or `default`). The
+ * first export that looks like a Hono instance is used.
  */
 
 type RouteModule = {
   default?: unknown;
-  isPublic?: boolean;
   [key: string]: unknown;
 };
 
@@ -34,15 +28,7 @@ export type RouteEntry = {
   /** Mount path, e.g. "/api/auth-config". */
   path: string;
   router: Hono;
-  /** True when the module opted out of session auth via `isPublic`. */
-  isPublic: boolean;
 };
-
-/**
- * Better-auth's handler lives inline in `create-app.ts` (it is not a route
- * module), so its prefix is always public and is seeded here.
- */
-const ALWAYS_PUBLIC_PREFIXES = ["/api/auth"];
 
 /**
  * Structural Hono check. A structural test (rather than `instanceof Hono`) keeps
@@ -96,16 +82,7 @@ export const routeEntries: RouteEntry[] = Object.entries(modules)
       return null;
     }
     const name = routeNameFromPath(filePath);
-    return { name, path: `/api/${name}`, router, isPublic: mod.isPublic === true } satisfies RouteEntry;
+    return { name, path: `/api/${name}`, router } satisfies RouteEntry;
   })
   .filter((entry): entry is RouteEntry => entry !== null)
   .sort((a, b) => a.name.localeCompare(b.name));
-
-/**
- * Prefixes that bypass session auth: better-auth's own prefix plus every route
- * module that declared `isPublic = true`.
- */
-export const publicApiPrefixes: string[] = [
-  ...ALWAYS_PUBLIC_PREFIXES,
-  ...routeEntries.filter((entry) => entry.isPublic).map((entry) => entry.path)
-];

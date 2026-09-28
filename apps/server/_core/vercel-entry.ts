@@ -1,7 +1,7 @@
 import { handle } from "hono/vercel";
 import app from "./create-app";
 
-// Vercel Function entry. Built by `SERVER_BUILD_TARGET=vercel vite build` into
+// Vercel Function entry. Built by `pnpm --filter server run build` into
 // apps/client/api/_server/, then re-exported by apps/client/api/index.js so the
 // API ships in the same Vercel project (and on the same origin) as the site.
 const handler = handle(app);

@@ -1,32 +1,19 @@
-import { authClient, clearAuthToken } from "@/lib/auth";
+import { useSyncExternalStore } from "react";
+import { getServerSnapshot, getSnapshot, signOut, subscribe } from "@/lib/session";
 
 /**
- * Template-level session hook so agents no longer call authClient.useSession() everywhere.
- *
- * Contract:
- * - `user` is the current signed-in user, or null when signed out.
- * - `isPending` is used for loading UI.
- * - `isAuthenticated` is the single auth check used by AuthGate and business pages.
- * - `signOut()` signs out from Better Auth and clears the local Bearer token.
+ * The website account session: `status` is "loading" until the stored session
+ * has been checked, then "authenticated" or "guest". Never treat "loading" as
+ * "guest" -- that bounces a signed-in person to /auth on first paint.
  */
 export function useSession() {
-  const session = authClient.useSession();
-
-  const user = session.data?.user ?? null;
-  const isPending = Boolean(session.isPending);
-  const isAuthenticated = Boolean(user);
-
-  async function signOut() {
-    await authClient.signOut().catch(() => undefined);
-    clearAuthToken();
-    window.location.reload();
-  }
+  const session = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   return {
-    session: session.data ?? null,
-    user,
-    isPending,
-    isAuthenticated,
+    status: session.status,
+    user: session.user,
+    isPending: session.status === "loading",
+    isAuthenticated: session.status === "authenticated",
     signOut
   };
 }

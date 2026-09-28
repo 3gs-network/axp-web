@@ -17,5 +17,5 @@
       "@repo/shared/*": ["../../packages/shared/src/*"]
     }
   },
-  "include": ["_core", "db", "routes", "service", "services", "../../packages/shared/src", "vite.config.ts"]
+  "include": ["_core", "routes", "services", "../../packages/shared/src", "vite.config.ts"]
 }
