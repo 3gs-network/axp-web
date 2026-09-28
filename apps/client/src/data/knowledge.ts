@@ -3,6 +3,15 @@ export type KnowledgeItem = {
   title: string;
   read: string;
   featured: boolean;
+  // Only posts from the CRM carry these; the built-in list leaves them unset.
+  slug?: string;
+  image?: string;
+  event?: {
+    startsAt: string;
+    location: string | null;
+    ctaUrl: string | null;
+    ctaLabel: string | null;
+  };
 };
 
 export const knowledgeItems: KnowledgeItem[] = [

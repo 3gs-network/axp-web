@@ -1,12 +1,50 @@
 import "./Portal.css";
 import { useState } from "react";
 import { RotateCcw, Search } from "lucide-react";
-import { knowledgeItems } from "@/data/knowledge";
+import { useKnowledge } from "@/data/useKnowledge";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import type { KnowledgeItem } from "@/data/knowledge";
 
-const types = ["All", "Housing guides", "Mortgage education", "Market intelligence", "Urban Living Reports", "Policy insights", "ReadyIQ™", "Research publications", "Videos", "Downloads"];
+// Events are shown in Lagos time whatever the visitor's clock says: the event
+// happens in Lagos, and a visitor abroad converting it wrongly is worse than
+// seeing the local time labelled as such.
+const eventDate = new Intl.DateTimeFormat("en-NG", {
+  weekday: "short",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: "Africa/Lagos"
+});
+
+function EventDetails({ event }: { event: NonNullable<KnowledgeItem["event"]> }) {
+  const when = new Date(event.startsAt);
+  const valid = !Number.isNaN(when.getTime());
+  // A past event keeps its card -- it is a record of what the firm did -- but
+  // loses the invite button, which would only lead to a closed form.
+  const upcoming = valid && when.getTime() > Date.now();
+  return (
+    <>
+      <p className="knowledge-event-meta">
+        {valid ? `${upcoming ? "" : "Held "}${eventDate.format(when)} WAT` : "Date to be confirmed"}
+        {event.location ? ` · ${event.location}` : ""}
+      </p>
+      {upcoming && event.ctaUrl && (
+        <a className="knowledge-event-cta" href={event.ctaUrl} target="_blank" rel="noopener noreferrer">
+          {event.ctaLabel?.trim() || "RSVP"}
+        </a>
+      )}
+    </>
+  );
+}
+
+const types = ["All", "Events", "Housing guides", "Mortgage education", "Market intelligence", "Urban Living Reports", "Policy insights", "ReadyIQ™", "Research publications", "Videos", "Downloads"];
 
 export function Portal() {
+  // Published posts from the AXP CRM, falling back to the built-in list until
+  // somebody publishes one. Everything below is unchanged.
+  const { items: knowledgeItems } = useKnowledge();
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
   const filtered = knowledgeItems.filter((item) => (filter === "All" || item.type === filter) && item.title.toLowerCase().includes(query.toLowerCase()));
@@ -32,12 +70,12 @@ export function Portal() {
         </div>
         <div className="knowledge-grid">
           {filtered.map((item) => (
-            <article key={item.title} className={item.featured ? "featured" : ""}>
-              {item.featured && <img src="/images/african_city.jpg" alt="An African urban community" />}
+            <article key={item.slug ?? item.title} className={[item.featured ? "featured" : "", item.event ? "is-event" : ""].filter(Boolean).join(" ")}>
+              {item.featured && <img src={item.image ?? "/images/african_city.jpg"} alt={item.image ? "" : "An African urban community"} />}
               <div>
                 <span>{item.type}</span>
                 <h2>{item.title}</h2>
-                <p>{item.read} read</p>
+                {item.event ? <EventDetails event={item.event} /> : <p>{item.read} read</p>}
               </div>
             </article>
           ))}

@@ -39,7 +39,15 @@ export const env = {
   SKYWORK_API_TOKEN: readEnv(process.env.SKYWORK_API_TOKEN) ?? "",
   GOOGLE_CLIENT_ID:
     readEnv(process.env.GOOGLE_CLIENT_ID, process.env.VITE_GOOGLE_CLIENT_ID, viteEnv.VITE_GOOGLE_CLIENT_ID) ?? "",
-  GOOGLE_CLIENT_SECRET: readEnv(process.env.GOOGLE_CLIENT_SECRET) ?? ""
+  GOOGLE_CLIENT_SECRET: readEnv(process.env.GOOGLE_CLIENT_SECRET) ?? "",
+  // AXP CRM (Supabase). Server-only: the browser never talks to it directly --
+  // see services/axp-crm.ts. The key here is the ANON key, which on its own can
+  // do exactly three things: read published Knowledge Centre posts, file an
+  // enquiry, and register a website sign-up as a CRM contact. It cannot read a
+  // client case, a staff record or another customer. Empty values simply
+  // disable the integration rather than crashing the site.
+  AXP_CRM_URL: readEnv(process.env.AXP_CRM_URL) ?? "",
+  AXP_CRM_ANON_KEY: readEnv(process.env.AXP_CRM_ANON_KEY) ?? ""
 };
 
 function readCliPort(argv: string[]) {

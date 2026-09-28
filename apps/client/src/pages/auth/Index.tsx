@@ -3,7 +3,8 @@ import { FormEvent, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ArrowRight } from "lucide-react";
-import { authClient } from "@/lib/auth";
+import { authClient, syncAuthTokenFromResult } from "@/lib/auth";
+import { apiFetch } from "@/lib/api";
 import { BrandMark } from "@/components/layout/BrandMark";
 
 /**
@@ -52,6 +53,21 @@ const AuthPage = () => {
       if (result.error) {
         throw new Error(result.error.message ?? "Authentication failed");
       }
+
+      // Store the bearer token. lib/auth.ts exports this helper for exactly
+      // this moment and nothing was calling it, so getAuthToken() stayed empty
+      // and every apiFetch(..., { auth: true }) went out unauthenticated.
+      syncAuthTokenFromResult(result);
+
+      // Mirror the new account into the AXP CRM as a contact, so an advisor
+      // can follow it up. The server takes the name and email from the session
+      // it has just verified -- never from anything sent here.
+      //
+      // Deliberately not awaited and deliberately swallowed: whether the CRM
+      // is reachable has nothing to do with whether this person's account was
+      // created, and a failure here must never make a successful sign-up look
+      // broken to the person who just completed it.
+      void apiFetch("/leads/me", { method: "POST", auth: true }).catch(() => {});
 
       toast.success(mode === "signup" ? "Account created" : "Signed in");
       navigate("/dashboard", { replace: true });
