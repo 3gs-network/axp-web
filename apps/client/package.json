@@ -7,6 +7,8 @@
     "dev": "LOVABLE_DEV_SERVER=true VITE_ENABLE_ROUTE_MESSAGING=true vite",
     "build": "LOVABLE_DEV_SERVER=true VITE_ENABLE_ROUTE_MESSAGING=true vite build --mode development",
     "postbuild": "node scripts/postbuild.mjs",
+    "build:api": "SERVER_BUILD_TARGET=vercel pnpm --filter server run build",
+    "vercel-build": "pnpm run build:api && pnpm run build",
     "lint": "eslint ."
   },
   "dependencies": {

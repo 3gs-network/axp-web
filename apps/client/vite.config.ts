@@ -217,7 +217,7 @@ export default defineConfig(({ mode, command }) => {
   // vitest.config.ts and never loads this file) are unaffected. We never
   // overwrite vars already present, so deploy-injected env still wins.
   if (command === 'serve') {
-    const runtimeEnv = loadEnv(mode, path.resolve(__dirname, '../..'), ['SKYBASE_DB_', 'BETTER_AUTH_', 'ALLOWED_ORIGINS']);
+    const runtimeEnv = loadEnv(mode, path.resolve(__dirname, '../..'), ['SKYBASE_DB_', 'BETTER_AUTH_', 'ALLOWED_ORIGINS', 'AXP_CRM_']);
     for (const [key, value] of Object.entries(runtimeEnv)) {
       if (process.env[key] === undefined && value !== '') process.env[key] = value;
     }
