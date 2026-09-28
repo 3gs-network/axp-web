@@ -1,8 +1,18 @@
 import { defineConfig } from "vite";
 import { fileURLToPath } from "node:url";
 
-const serverBuildTarget = process.env.SERVER_BUILD_TARGET === "web" ? "web" : "fc";
+const serverBuildTarget = (["web", "vercel"] as const).find((target) => target === process.env.SERVER_BUILD_TARGET) ?? "fc";
 const fromRoot = (path: string) => fileURLToPath(new URL(`../../${path}`, import.meta.url));
+
+const buildEntries = {
+  fc: "_core/fc-entry.ts",
+  web: "_core/fc-entry.web.ts",
+  vercel: "_core/vercel-entry.ts"
+};
+
+// The Vercel bundle lands inside the client project's api/ folder; the leading
+// underscore keeps Vercel from treating it as a function of its own.
+const outDir = serverBuildTarget === "vercel" ? fromRoot("apps/client/api/_server") : "dist";
 
 export default defineConfig({
   envDir: "../..",
@@ -17,8 +27,8 @@ export default defineConfig({
     ]
   },
   build: {
-    ssr: serverBuildTarget === "web" ? "_core/fc-entry.web.ts" : "_core/fc-entry.ts",
-    outDir: "dist",
+    ssr: buildEntries[serverBuildTarget],
+    outDir,
     emptyOutDir: true,
     target: "node20",
     rollupOptions: {

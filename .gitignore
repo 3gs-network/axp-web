@@ -43,6 +43,7 @@ coverage/
 
 # --- Build outputs / caches ---
 apps/client/dist/
+apps/client/api/_server/
 dist-ssr/
 build/
 electron-dist/
