@@ -4,8 +4,13 @@ export type Opportunity = {
   headline: string;
   location: string;
   price: string;
+  /** Raw NGN amount behind `price`, or null when unstated. For filtering --
+   *  `price` is a formatted display string and must never be parsed. */
+  priceValue: number | null;
   type: string;
   bedrooms: string;
+  /** Raw count behind `bedrooms`, or null when unstated. */
+  bedroomsValue: number | null;
   bathrooms: string;
   parking: string;
   tags: string[];
@@ -13,9 +18,76 @@ export type Opportunity = {
   overview: string;
 };
 
-export const opportunityData: Opportunity[] = [
-  { slug: "lekki-modern-terrace", title: "Own a Home in Lekki – From ₦85m.", headline: "Modern 3-Bedroom Terrace", location: "Lekki, Lagos", price: "From ₦85,000,000", type: "Terrace", bedrooms: "3 Bedrooms", bathrooms: "2 Bathrooms", parking: "2 Parking Spaces", tags: ["Mortgage Available", "Flexible Payment", "Ready to Move"], image: "https://res.cloudinary.com/gxhmv4fu/image/upload/w_800,c_limit,f_auto,q_auto/v1785536364/bedroom-terrace_catqzl.jpg", overview: "A representative modern terrace concept for buyers exploring accessible ownership pathways in a well-connected Lagos neighbourhood." },
-  { slug: "abuja-family-living", title: "Family Living in Abuja – Mortgage Available.", headline: "Family Living Residence", location: "Abuja", price: "Mortgage pathway available", type: "Family Home", bedrooms: "3 Bedrooms", bathrooms: "2 Bathrooms", parking: "2 Parking Spaces", tags: ["Mortgage Available", "Flexible Payment", "Ready to Move"], image: "https://res.cloudinary.com/gxhmv4fu/image/upload/w_800,c_limit,f_auto,q_auto/v1785536366/family-residence_q3gcl0.jpg", overview: "A representative family-living concept for buyers seeking a considered homeownership route in Abuja." },
-  { slug: "ibadan-modern-apartments", title: "Modern Apartments in Ibadan – Flexible Payment.", headline: "Modern Apartment Collection", location: "Ibadan, Oyo", price: "Flexible payment concept", type: "Apartment", bedrooms: "2 Bedrooms", bathrooms: "2 Bathrooms", parking: "1 Parking Space", tags: ["Flexible Payment", "Off-Plan", "Mortgage Available"], image: "https://res.cloudinary.com/gxhmv4fu/image/upload/w_800,c_limit,f_auto,q_auto/v1785536365/mordern-apartment-collection_bbphcm.jpg", overview: "A representative apartment concept that illustrates how phased payment and guidance could support an ownership journey." },
-  { slug: "upcoming-opportunity", title: "Upcoming Opportunity – Register Interest.", headline: "Future Urban Living Opportunity", location: "Nigeria", price: "Details to be confirmed", type: "Upcoming", bedrooms: "To be confirmed", bathrooms: "To be confirmed", parking: "To be confirmed", tags: ["Upcoming", "Flexible Payment", "Off-Plan"], image: "https://res.cloudinary.com/gxhmv4fu/image/upload/w_800,c_limit,f_auto,q_auto/v1785536365/future-living-opportunities_e4dpmo.jpg", overview: "A placeholder for a future curated opportunity. No developer, property, price or availability has been confirmed." },
-];
+/** Shown when a listing has no photo yet. The same fallback the Knowledge
+ *  Centre's featured card uses, rather than a new asset for one missing case. */
+export const FALLBACK_IMAGE = "/images/african_city.jpg";
+
+type CrmProperty = {
+  slug: string;
+  title: string;
+  summary: string | null;
+  description: string | null;
+  location: string | null;
+  city: string | null;
+  state: string | null;
+  price: number | null;
+  currency: string;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  property_type: string | null;
+  images: unknown;
+  features: unknown;
+};
+
+const strings = (value: unknown): string[] =>
+  Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
+
+/**
+ * A published CRM listing has no `parking` field -- that column does not
+ * exist on our side. Rather than invent a number, this reads it from a
+ * feature line if whoever published the listing wrote one ("2 Parking
+ * Spaces" among the features), and says plainly that it wasn't stated
+ * otherwise. features minus the parking line become the card's tags.
+ */
+function splitParking(features: string[]): { parking: string; tags: string[] } {
+  const parking = features.find((f) => /parking/i.test(f));
+  return {
+    parking: parking ?? "Parking details on request",
+    tags: features.filter((f) => f !== parking)
+  };
+}
+
+const nairaPrice = (value: number | null): { price: string; priceValue: number | null } =>
+  value && value > 0
+    ? { price: `From ₦${value.toLocaleString("en-NG")}`, priceValue: value }
+    : { price: "Details to be confirmed", priceValue: null };
+
+const countLabel = (n: number | null, unit: string): string =>
+  n && n > 0 ? `${n} ${unit}${n === 1 ? "" : "s"}` : "To be confirmed";
+
+/** A CRM row becomes the same shape every existing card, filter and detail
+ *  section already reads -- so none of that code needs to change, only where
+ *  the data comes from. */
+export function toOpportunity(p: CrmProperty): Opportunity {
+  const { price, priceValue } = nairaPrice(p.price);
+  const bedroomsValue = typeof p.bedrooms === "number" ? p.bedrooms : null;
+  const { parking, tags } = splitParking(strings(p.features));
+  const images = strings(p.images);
+
+  return {
+    slug: p.slug,
+    title: p.title,
+    headline: p.summary?.trim() || p.title,
+    location: p.location?.trim() || [p.city, p.state].filter(Boolean).join(", ") || "Nigeria",
+    price,
+    priceValue,
+    type: p.property_type?.trim() || "Home",
+    bedrooms: countLabel(bedroomsValue, "Bedroom"),
+    bedroomsValue,
+    bathrooms: countLabel(p.bathrooms, "Bathroom"),
+    parking,
+    tags,
+    image: images[0] ?? FALLBACK_IMAGE,
+    overview: p.description?.trim() || p.summary?.trim() || ""
+  };
+}

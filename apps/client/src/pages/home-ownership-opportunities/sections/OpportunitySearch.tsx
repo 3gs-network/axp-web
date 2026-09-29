@@ -1,50 +1,72 @@
 import "./OpportunitySearch.css";
-import { useState } from "react";
-import { BedDouble, Building2, ChevronDown, MapPin, RotateCcw, Search, Wallet } from "lucide-react";
+import { useMemo, useState } from "react";
+import { BedDouble, Building2, ChevronDown, Inbox, MapPin, RotateCcw, Search, Wallet } from "lucide-react";
 import { OpportunityCard } from "@/components/shared/OpportunityCard";
-import { opportunityData } from "@/data/opportunities";
+import { useOpportunities } from "@/data/useOpportunities";
 
 const pathwayOptions = ["Mortgage Available", "Ready to Move", "Off-Plan", "Flexible Payment"];
 
+const ALL = "All";
+
 export function OpportunitySearch() {
-  const [locationFilter, setLocationFilter] = useState("All locations");
-  const [typeFilter, setTypeFilter] = useState("All types");
-  const [budgetFilter, setBudgetFilter] = useState("All budgets");
-  const [bedroomFilter, setBedroomFilter] = useState("All bedrooms");
+  const { opportunities, status } = useOpportunities();
+
+  // Yesterday's dropdown was built around the four placeholder listings'
+  // exact values (Lekki/Abuja/Ibadan, "2 Bedrooms"/"3 Bedrooms") -- a fixed
+  // list that would silently stop matching anything real the moment the CRM
+  // published different locations or unit sizes. These are computed from
+  // whatever is actually published instead.
+  const locations = useMemo(
+    () => Array.from(new Set(opportunities.map((o) => o.location))).sort(),
+    [opportunities]
+  );
+  const types = useMemo(
+    () => Array.from(new Set(opportunities.map((o) => o.type))).sort(),
+    [opportunities]
+  );
+  const bedroomCounts = useMemo(
+    () =>
+      Array.from(new Set(opportunities.map((o) => o.bedroomsValue).filter((n): n is number => n !== null))).sort(
+        (a, b) => a - b
+      ),
+    [opportunities]
+  );
+
+  const [locationFilter, setLocationFilter] = useState(ALL);
+  const [typeFilter, setTypeFilter] = useState(ALL);
+  const [budgetFilter, setBudgetFilter] = useState(ALL);
+  const [bedroomFilter, setBedroomFilter] = useState<number | typeof ALL>(ALL);
   const [pathwayFilters, setPathwayFilters] = useState<string[]>([]);
 
   const togglePathway = (pathway: string) =>
     setPathwayFilters((current) => (current.includes(pathway) ? current.filter((item) => item !== pathway) : [...current, pathway]));
 
-  const visible = opportunityData.filter((item) => {
-    const matchesLocation = locationFilter === "All locations" || item.location.includes(locationFilter);
-    const matchesType = typeFilter === "All types" || item.type === typeFilter;
+  const visible = opportunities.filter((item) => {
+    const matchesLocation = locationFilter === ALL || item.location === locationFilter;
+    const matchesType = typeFilter === ALL || item.type === typeFilter;
+    // Real numeric comparisons, not string-matching a formatted display value
+    // -- the previous version checked item.price.includes("₦85"), which only
+    // ever matched the one placeholder price it was written against.
     const matchesBudget =
-      budgetFilter === "All budgets" ||
-      (budgetFilter === "Up to ₦100m" && item.price.includes("₦85")) ||
-      (budgetFilter === "Flexible payment" && item.tags.includes("Flexible Payment")) ||
-      (budgetFilter === "Mortgage pathway" && item.tags.includes("Mortgage Available")) ||
-      (budgetFilter === "To be confirmed" && item.price === "Details to be confirmed");
-    const matchesBedrooms =
-      bedroomFilter === "All bedrooms" || item.bedrooms === bedroomFilter || (bedroomFilter === "To be confirmed" && item.bedrooms === "To be confirmed");
+      budgetFilter === ALL ||
+      (budgetFilter === "Up to ₦100m" && item.priceValue !== null && item.priceValue <= 100_000_000) ||
+      (budgetFilter === "Over ₦100m" && item.priceValue !== null && item.priceValue > 100_000_000) ||
+      (budgetFilter === "To be confirmed" && item.priceValue === null);
+    const matchesBedrooms = bedroomFilter === ALL || item.bedroomsValue === bedroomFilter;
     const matchesPathways = pathwayFilters.every((pathway) => item.tags.includes(pathway));
     return matchesLocation && matchesType && matchesBudget && matchesBedrooms && matchesPathways;
   });
 
   const resetFilters = () => {
-    setLocationFilter("All locations");
-    setTypeFilter("All types");
-    setBudgetFilter("All budgets");
-    setBedroomFilter("All bedrooms");
+    setLocationFilter(ALL);
+    setTypeFilter(ALL);
+    setBudgetFilter(ALL);
+    setBedroomFilter(ALL);
     setPathwayFilters([]);
   };
 
   const isFiltered =
-    locationFilter !== "All locations" ||
-    typeFilter !== "All types" ||
-    budgetFilter !== "All budgets" ||
-    bedroomFilter !== "All bedrooms" ||
-    pathwayFilters.length > 0;
+    locationFilter !== ALL || typeFilter !== ALL || budgetFilter !== ALL || bedroomFilter !== ALL || pathwayFilters.length > 0;
 
   return (
     <section className="section opportunity-search">
@@ -63,11 +85,12 @@ export function OpportunitySearch() {
               </span>
               <span className="opportunity-select">
                 <select value={locationFilter} onChange={(event) => setLocationFilter(event.target.value)}>
-                  <option>All locations</option>
-                  <option>Lekki</option>
-                  <option>Abuja</option>
-                  <option>Ibadan</option>
-                  <option>Nigeria</option>
+                  <option value={ALL}>All locations</option>
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -80,11 +103,12 @@ export function OpportunitySearch() {
               </span>
               <span className="opportunity-select">
                 <select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}>
-                  <option>All types</option>
-                  <option>Terrace</option>
-                  <option>Family Home</option>
-                  <option>Apartment</option>
-                  <option>Upcoming</option>
+                  <option value={ALL}>All types</option>
+                  {types.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -93,14 +117,13 @@ export function OpportunitySearch() {
             <label className="opportunity-field">
               <span className="opportunity-field-label">
                 <Wallet aria-hidden />
-                Budget / pathway
+                Budget
               </span>
               <span className="opportunity-select">
                 <select value={budgetFilter} onChange={(event) => setBudgetFilter(event.target.value)}>
-                  <option>All budgets</option>
+                  <option value={ALL}>All budgets</option>
                   <option>Up to ₦100m</option>
-                  <option>Flexible payment</option>
-                  <option>Mortgage pathway</option>
+                  <option>Over ₦100m</option>
                   <option>To be confirmed</option>
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
@@ -113,11 +136,16 @@ export function OpportunitySearch() {
                 Bedrooms
               </span>
               <span className="opportunity-select">
-                <select value={bedroomFilter} onChange={(event) => setBedroomFilter(event.target.value)}>
-                  <option>All bedrooms</option>
-                  <option>2 Bedrooms</option>
-                  <option>3 Bedrooms</option>
-                  <option>To be confirmed</option>
+                <select
+                  value={bedroomFilter}
+                  onChange={(event) => setBedroomFilter(event.target.value === ALL ? ALL : Number(event.target.value))}
+                >
+                  <option value={ALL}>All bedrooms</option>
+                  {bedroomCounts.map((count) => (
+                    <option key={count} value={count}>
+                      {count} {count === 1 ? "Bedroom" : "Bedrooms"}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown aria-hidden className="opportunity-select-chevron" />
               </span>
@@ -144,22 +172,26 @@ export function OpportunitySearch() {
           </div>
         </div>
 
-        <div className="opportunity-results-head">
-          <div>
-            <p className="eyebrow">Curated opportunities</p>
-            <h2>
-              {visible.length} {visible.length === 1 ? "opportunity" : "opportunities"} to explore
-            </h2>
+        {status !== "loading" && (
+          <div className="opportunity-results-head">
+            <div>
+              <p className="eyebrow">Curated opportunities</p>
+              <h2>
+                {visible.length} {visible.length === 1 ? "opportunity" : "opportunities"} to explore
+              </h2>
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="opportunity-grid">
-          {visible.map((opportunity) => (
-            <OpportunityCard key={opportunity.slug} opportunity={opportunity} />
-          ))}
-        </div>
+        {status === "ready" && (
+          <div className="opportunity-grid">
+            {visible.map((opportunity) => (
+              <OpportunityCard key={opportunity.slug} opportunity={opportunity} />
+            ))}
+          </div>
+        )}
 
-        {visible.length === 0 && (
+        {status === "ready" && visible.length === 0 && (
           <div className="empty-state">
             <Search aria-hidden />
             <h3>No matches</h3>
@@ -168,6 +200,22 @@ export function OpportunitySearch() {
               <RotateCcw aria-hidden />
               Reset filters
             </button>
+          </div>
+        )}
+
+        {status === "empty" && (
+          <div className="empty-state">
+            <Inbox aria-hidden />
+            <h3>No opportunities published yet</h3>
+            <p>Our team is preparing the first listings. Check back soon, or get in touch to discuss what you're looking for.</p>
+          </div>
+        )}
+
+        {status === "unavailable" && (
+          <div className="empty-state">
+            <Inbox aria-hidden />
+            <h3>Listings are temporarily unavailable</h3>
+            <p>Please try again shortly, or get in touch and we'll help directly.</p>
           </div>
         )}
       </div>
