@@ -1,6 +1,7 @@
 import "./Portal.css";
 import { useState } from "react";
 import { RotateCcw, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useKnowledge } from "@/data/useKnowledge";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import type { KnowledgeItem } from "@/data/knowledge";
@@ -73,11 +74,12 @@ export function Portal() {
         <div className="knowledge-grid">
           {filtered.map((item) => (
             <article key={item.slug ?? item.title} className={[item.featured ? "featured" : "", item.event ? "is-event" : ""].filter(Boolean).join(" ")}>
-              {item.featured && <img src={item.image ?? "/images/african_city.jpg"} alt={item.image ? "" : "An African urban community"} />}
+              {item.featured && <img src={item.image ?? "/images/african_city.jpg"} alt={item.image ? `${item.title} cover image` : "An African urban community"} />}
               <div>
                 <span>{item.type}</span>
-                <h2>{item.title}</h2>
+                <h2>{item.slug ? <Link to={`/knowledge/${item.slug}`}>{item.title}</Link> : item.title}</h2>
                 {item.event ? <EventDetails event={item.event} slug={item.slug} /> : <p>{item.read} read</p>}
+                {item.slug && <Link className="knowledge-read-more" to={`/knowledge/${item.slug}`}>Read full details</Link>}
               </div>
             </article>
           ))}

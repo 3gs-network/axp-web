@@ -6,11 +6,17 @@ export type KnowledgeItem = {
   // Only posts from the CRM carry these; the built-in list leaves them unset.
   slug?: string;
   image?: string;
+  excerpt?: string;
+  body?: string;
+  author?: string;
+  publishedAt?: string;
   event?: {
     startsAt: string;
+    endsAt?: string;
     location: string | null;
     ctaUrl: string | null;
     ctaLabel: string | null;
+    contactNumbers?: string[];
   };
 };
 

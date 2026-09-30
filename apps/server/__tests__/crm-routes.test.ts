@@ -21,6 +21,12 @@ describe("GET /api/knowledge", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ ok: true, data: { posts: [], source: "unconfigured" } });
   });
+
+  it("answers 200 with no article for a detail route when the CRM is unconfigured", async () => {
+    const res = await app.fetch(new Request("http://localhost/api/knowledge/example-article"));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true, data: { post: null, source: "unconfigured" } });
+  });
 });
 
 describe("POST /api/leads", () => {

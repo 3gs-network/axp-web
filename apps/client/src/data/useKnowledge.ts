@@ -17,13 +17,15 @@ import { knowledgeItems, type KnowledgeItem } from "./knowledge";
  * browser.
  */
 
-type KnowledgePost = {
+export type KnowledgePost = {
   slug: string;
   title: string;
   excerpt: string | null;
+  body: string | null;
   cover_image_url: string | null;
   tags: unknown;
   published_at: string | null;
+  author_name: string | null;
   event_starts_at: string | null;
   event_location: string | null;
   cta_url: string | null;
@@ -36,13 +38,23 @@ type KnowledgePost = {
 const safeHttps = (value: string | null): string | null =>
   value && /^https:\/\/\S+$/i.test(value.trim()) ? value.trim() : null;
 
+// The current CRM schema stores an event's start but not its end time or
+// enquiry numbers. Keep brief-specific additions keyed by slug so they cannot
+// leak onto later events; these can move into the CMS when those fields exist.
+const eventExtras: Record<string, { endsAt?: string; contactNumbers?: string[] }> = {
+  "my-land-my-home-homeready-training": {
+    endsAt: "2026-10-17T17:00:00+01:00",
+    contactNumbers: ["0707 460 9612", "0707 460 9611"]
+  }
+};
+
 // The CRM stores a post; the page renders a card. `type` comes from the first
 // tag, because that is what the filter row is built from, and the read time is
 // estimated from the excerpt at a middling 200 words a minute -- an honest
 // guess, and better than an empty line where a reader expects one.
-function toItem(post: KnowledgePost, index: number): KnowledgeItem {
+export function toKnowledgeItem(post: KnowledgePost, index = 0): KnowledgeItem {
   const tags = Array.isArray(post.tags) ? (post.tags as string[]) : [];
-  const words = (post.excerpt ?? "").trim().split(/\s+/).filter(Boolean).length;
+  const words = (post.body ?? post.excerpt ?? "").trim().split(/\s+/).filter(Boolean).length;
   return {
     type: tags[0] ?? (post.event_starts_at ? "Events" : "Housing guides"),
     title: post.title,
@@ -50,9 +62,14 @@ function toItem(post: KnowledgePost, index: number): KnowledgeItem {
     featured: index === 0,
     slug: post.slug,
     image: safeHttps(post.cover_image_url) ?? undefined,
+    excerpt: post.excerpt ?? undefined,
+    body: post.body ?? undefined,
+    author: post.author_name ?? undefined,
+    publishedAt: post.published_at ?? undefined,
     event: post.event_starts_at
       ? {
           startsAt: post.event_starts_at,
+          ...eventExtras[post.slug],
           location: post.event_location,
           ctaUrl: safeHttps(post.cta_url),
           ctaLabel: post.cta_label
@@ -81,7 +98,7 @@ export function useKnowledge() {
         // failed -- so keep the fallback rather than emptying the page.
         if (posts.length === 0) return;
 
-        setItems(posts.map(toItem));
+        setItems(posts.map((post, index) => toKnowledgeItem(post, index)));
         setSource("crm");
       })
       .catch(() => {
@@ -95,4 +112,48 @@ export function useKnowledge() {
   }, []);
 
   return { items, source };
+}
+
+type DetailStatus = "loading" | "empty" | "unavailable" | "ready";
+
+export function useKnowledgePost(slug: string | undefined) {
+  const [post, setPost] = useState<KnowledgeItem | null>(null);
+  const [status, setStatus] = useState<DetailStatus>("loading");
+
+  useEffect(() => {
+    if (!slug) {
+      setStatus("empty");
+      return;
+    }
+
+    let cancelled = false;
+    setStatus("loading");
+
+    apiFetch(`/knowledge/${encodeURIComponent(slug)}`, { notify: false })
+      .then(async (response) => {
+        if (cancelled) return;
+        if (!response.ok) {
+          setStatus("unavailable");
+          return;
+        }
+        const payload = (await response.json()) as
+          | { ok: true; data: { post: KnowledgePost | null; source: "crm" | "unconfigured" } }
+          | { ok: false };
+        if (cancelled || !payload.ok || !payload.data.post) {
+          setStatus("empty");
+          return;
+        }
+        setPost(toKnowledgeItem(payload.data.post));
+        setStatus("ready");
+      })
+      .catch(() => {
+        if (!cancelled) setStatus("unavailable");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  return { post, status };
 }
