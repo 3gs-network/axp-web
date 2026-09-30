@@ -12,6 +12,7 @@ import { env } from "../_core/env";
  * exactly three things, because the CRM's row-level security says so:
  *
  *   - read published Knowledge Centre posts   (public_knowledge)
+ *   - read published property listings         (properties, published = true)
  *   - file an enquiry                          (mortgage_loans insert policy)
  *   - register a sign-up as a contact          (register_website_customer)
  *
@@ -41,6 +42,26 @@ export type KnowledgePost = {
   cta_url: string | null;
   cta_label: string | null;
 };
+
+export type CrmProperty = {
+  slug: string;
+  title: string;
+  summary: string | null;
+  description: string | null;
+  location: string | null;
+  city: string | null;
+  state: string | null;
+  price: number | null;
+  currency: string;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  property_type: string | null;
+  images: unknown;
+  features: unknown;
+};
+
+const PROPERTY_COLUMNS =
+  "slug,title,summary,description,location,city,state,price,currency,bedrooms,bathrooms,property_type,images,features";
 
 export type LeadInput = {
   fullName: string;
@@ -105,6 +126,35 @@ export async function listKnowledge(): Promise<KnowledgePost[]> {
   });
   const rows = (await response.json()) as KnowledgePost[];
   return Array.isArray(rows) ? rows : [];
+}
+
+/**
+ * Published property listings, in the order the CRM's website admin set.
+ *
+ * A direct table read, not an RPC -- unlike Knowledge Centre posts, the CRM's
+ * row-level security already restricts this table to published=true for
+ * anyone without a staff session, so there is nothing an RPC would add here.
+ */
+export async function listProperties(): Promise<CrmProperty[]> {
+  const response = await crmFetch(
+    `/rest/v1/properties?select=${PROPERTY_COLUMNS}&published=eq.true&order=sort_order.asc,created_at.desc`
+  );
+  const rows = (await response.json()) as CrmProperty[];
+  return Array.isArray(rows) ? rows : [];
+}
+
+/**
+ * One published listing by slug, or null if it does not exist or is not
+ * published. Never falls back to a different listing -- an old or mistyped
+ * slug must read as "not found", not as whichever property happens to load
+ * first.
+ */
+export async function getProperty(slug: string): Promise<CrmProperty | null> {
+  const response = await crmFetch(
+    `/rest/v1/properties?select=${PROPERTY_COLUMNS}&slug=eq.${encodeURIComponent(slug)}&published=eq.true&limit=1`
+  );
+  const rows = (await response.json()) as CrmProperty[];
+  return rows[0] ?? null;
 }
 
 /**
