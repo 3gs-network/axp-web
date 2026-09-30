@@ -1,0 +1,79 @@
+.event-flash {
+  padding-top: 0;
+}
+
+.event-flash-card {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: 38px;
+  align-items: center;
+  padding: 32px;
+  background: var(--axp-navy);
+  color: #fff;
+  border-top: 3px solid var(--axp-gold);
+  box-shadow: var(--shadow-soft);
+}
+
+/* The flyer is a tall portrait poster. Giving it its own column and letting it
+   keep its own proportions avoids cropping the event details printed on it. */
+.event-flash-flyer img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius) / 2);
+}
+
+.event-flash-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.event-flash-copy h2 {
+  margin: 0;
+  font: 500 clamp(26px, 3.2vw, 38px) / 1.15 var(--font-serif);
+  color: #fff;
+  text-wrap: balance;
+}
+
+.event-flash-meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-flash-meta li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, .88);
+}
+
+.event-flash-meta svg {
+  flex: none;
+  color: var(--axp-gold-light);
+}
+
+.event-flash-cta {
+  margin-top: 6px;
+}
+
+@media (max-width: 860px) {
+  .event-flash-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 22px;
+  }
+
+  /* On a phone the poster would otherwise push the details and the RSVP button
+     off the first screen, so it is capped and centred. */
+  .event-flash-flyer {
+    max-width: 320px;
+    margin-inline: auto;
+  }
+}

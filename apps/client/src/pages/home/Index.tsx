@@ -1,5 +1,6 @@
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Hero } from "./sections/Hero";
+import { EventFlashCard } from "./sections/EventFlashCard";
 import { FeaturedOpportunities } from "./sections/FeaturedOpportunities";
 import { ChallengePanel } from "./sections/ChallengePanel";
 import { PublicPromise } from "./sections/PublicPromise";
@@ -13,6 +14,7 @@ export function HomePage() {
   return (
     <SiteLayout>
       <Hero />
+      <EventFlashCard />
       <FeaturedOpportunities />
       <ChallengePanel />
       <PublicPromise />
