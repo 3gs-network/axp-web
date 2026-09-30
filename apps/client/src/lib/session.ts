@@ -165,6 +165,17 @@ export function getSnapshot() {
   return state;
 }
 
+/**
+ * The raw access token, for the one caller outside this module allowed to see
+ * it: the activity tracker (lib/track.ts), so a signed-in visitor's own
+ * events are attributed to their real account server-side rather than left
+ * anonymous. Never stored anywhere the tracker itself keeps; read fresh each
+ * time from where this module already keeps it.
+ */
+export function getAccessToken(): string | null {
+  return readStored()?.accessToken ?? null;
+}
+
 /** The prerendered HTML is built with no session, so hydration starts here too. */
 export function getServerSnapshot() {
   return LOADING;
@@ -175,7 +186,7 @@ export async function signIn(email: string, password: string) {
   adopt(session);
 }
 
-export async function signUp(input: { name: string; email: string; password: string; phone?: string }): Promise<SignUpResult> {
+export async function signUp(input: { name: string; email: string; password: string; phone?: string; sessionId?: string }): Promise<SignUpResult> {
   const result = await post<{ status: "signed_in"; session: StoredSession } | { status: "confirm_email" }>(
     "/account/sign-up",
     input

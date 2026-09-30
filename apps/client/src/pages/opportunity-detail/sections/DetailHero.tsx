@@ -2,6 +2,7 @@ import "./DetailHero.css";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { Opportunity } from "@/data/opportunities";
+import { trackClick } from "@/lib/track";
 
 export function DetailHero({ opportunity }: { opportunity: Opportunity }) {
   return (
@@ -12,7 +13,7 @@ export function DetailHero({ opportunity }: { opportunity: Opportunity }) {
         <p>{opportunity.location}</p>
         <h1>{opportunity.headline}</h1>
         <strong>{opportunity.price}</strong>
-        <div className="button-row"><Link to="/contact?route=Looking%20for%20a%20Home" className="button button--gold">Discuss this opportunity <ArrowRight size={16} /></Link><button className="button button--glass" disabled>Download brochure</button></div>
+        <div className="button-row"><Link to="/contact?route=Looking%20for%20a%20Home" className="button button--gold" onClick={() => trackClick("discuss_opportunity", opportunity.slug)}>Discuss this opportunity <ArrowRight size={16} /></Link><button className="button button--glass" disabled>Download brochure</button></div>
       </div>
     </section>
   );

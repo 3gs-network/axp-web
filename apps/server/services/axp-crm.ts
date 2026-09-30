@@ -168,6 +168,41 @@ export async function getProperty(slug: string): Promise<CrmProperty | null> {
  * return the row turns it into INSERT .. RETURNING, which needs read rights the
  * public does not have, and the whole call fails with the row never written.
  */
+export type TrackEventInput = {
+  eventType: "page_view" | "click" | "enquiry_submitted" | "signup_completed";
+  sessionId: string;
+  path?: string;
+  label?: string;
+  targetSlug?: string;
+  referrer?: string;
+  deviceType?: "mobile" | "tablet" | "desktop";
+};
+
+/**
+ * Record one piece of website activity. `callerAccessToken`, when present, is
+ * the signed-in visitor's own token -- forwarded so the CRM's
+ * track_website_event() sees their real auth.uid() and can attribute the
+ * event to their account. Without it, the call carries only the anon key, and
+ * the CRM records no identity at all. Never send a customer_id or user id
+ * here directly: the CRM derives identity itself from the token, exactly
+ * like every other authenticated call this service makes.
+ */
+export async function trackEvent(input: TrackEventInput, callerAccessToken?: string): Promise<void> {
+  await crmFetch("/rest/v1/rpc/track_website_event", {
+    method: "POST",
+    headers: callerAccessToken ? { Authorization: `Bearer ${callerAccessToken}` } : {},
+    body: JSON.stringify({
+      p_event_type: input.eventType,
+      p_session_id: input.sessionId,
+      p_path: input.path ?? null,
+      p_label: input.label ?? null,
+      p_target_slug: input.targetSlug ?? null,
+      p_referrer: input.referrer ?? null,
+      p_device_type: input.deviceType ?? null
+    })
+  });
+}
+
 export async function createLead(input: LeadInput): Promise<void> {
   await crmFetch("/rest/v1/mortgage_loans", {
     method: "POST",
