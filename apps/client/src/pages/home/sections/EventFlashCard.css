@@ -77,12 +77,12 @@
   margin-top: 6px;
 }
 
-.event-flash-details {
+.button.event-flash-details {
   border-color: rgba(255, 255, 255, .65);
   color: white;
 }
 
-.event-flash-details:hover {
+.button.event-flash-details:hover {
   border-color: white;
   background: white;
   color: var(--axp-navy);
