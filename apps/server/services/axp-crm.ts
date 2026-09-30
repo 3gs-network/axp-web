@@ -128,6 +128,15 @@ export async function listKnowledge(): Promise<KnowledgePost[]> {
   return Array.isArray(rows) ? rows : [];
 }
 
+/** One published Knowledge Centre post, identified by its public slug. */
+export async function getKnowledgePost(slug: string): Promise<KnowledgePost | null> {
+  // The public_knowledge RPC is the single security boundary for articles. It
+  // already excludes drafts and unpublished rows, so keep detail reads behind
+  // the same function rather than widening anonymous table access.
+  const posts = await listKnowledge();
+  return posts.find((post) => post.slug === slug) ?? null;
+}
+
 /**
  * Published property listings, in the order the CRM's website admin set.
  *

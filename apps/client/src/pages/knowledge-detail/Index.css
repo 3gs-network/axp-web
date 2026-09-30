@@ -1,0 +1,238 @@
+.knowledge-detail-hero {
+  padding: 54px 0 70px;
+  background: var(--axp-navy);
+  color: white;
+  border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.knowledge-detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 42px;
+  color: rgba(255, 255, 255, .62);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.knowledge-detail-breadcrumb a {
+  color: white;
+  text-decoration-color: var(--axp-gold);
+  text-underline-offset: 4px;
+}
+
+.knowledge-detail-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 430px);
+  gap: clamp(42px, 7vw, 94px);
+  align-items: center;
+}
+
+.knowledge-detail-intro h1 {
+  max-width: 790px;
+  margin: 16px 0 24px;
+  font: 500 clamp(42px, 6vw, 76px) / 1.04 var(--font-serif);
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.knowledge-detail-deck {
+  max-width: 720px;
+  margin: 0;
+  color: rgba(255, 255, 255, .76);
+  font-size: clamp(16px, 1.7vw, 20px);
+  line-height: 1.7;
+}
+
+.knowledge-detail-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0 0;
+  color: var(--axp-gold-light);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.knowledge-detail-cover {
+  display: block;
+  width: 100%;
+  max-height: 610px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, .04);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, .34);
+}
+
+.knowledge-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: clamp(54px, 8vw, 110px);
+  align-items: start;
+  padding-top: 84px;
+  padding-bottom: 110px;
+}
+
+.knowledge-detail-copy {
+  max-width: 760px;
+  color: #424753;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.knowledge-detail-byline {
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(26, 35, 61, .16);
+  color: var(--axp-navy);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.knowledge-detail-copy h2 {
+  margin: 52px 0 18px;
+  color: var(--axp-navy);
+  font: 500 clamp(28px, 3vw, 38px) / 1.2 var(--font-serif);
+}
+
+.knowledge-detail-copy p {
+  margin: 0 0 25px;
+}
+
+.knowledge-detail-copy ul {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 34px;
+  padding: 0;
+  list-style: none;
+}
+
+.knowledge-detail-copy li {
+  position: relative;
+  padding-left: 28px;
+}
+
+.knowledge-detail-copy li::before {
+  content: "";
+  position: absolute;
+  top: .72em;
+  left: 0;
+  width: 9px;
+  height: 2px;
+  background: var(--axp-gold);
+}
+
+.knowledge-detail-summary {
+  position: sticky;
+  top: 30px;
+  padding: 32px;
+  border-top: 3px solid var(--axp-gold);
+  background: var(--axp-alabaster);
+  box-shadow: var(--shadow-soft);
+}
+
+.knowledge-detail-summary dl {
+  display: grid;
+  gap: 22px;
+  margin: 26px 0;
+}
+
+.knowledge-detail-summary dl > div {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 12px;
+}
+
+.knowledge-detail-summary dt,
+.knowledge-detail-summary dd {
+  margin: 0;
+}
+
+.knowledge-detail-summary svg {
+  width: 18px;
+  height: 18px;
+  color: var(--axp-gold);
+}
+
+.knowledge-detail-summary dd {
+  color: var(--axp-navy);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.knowledge-detail-summary dd a {
+  color: inherit;
+}
+
+.knowledge-detail-free {
+  margin: 0 0 22px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(26, 35, 61, .14);
+  color: #626876;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.knowledge-detail-cta {
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.knowledge-detail-status {
+  min-height: 55vh;
+  display: grid;
+  place-content: center;
+  gap: 20px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .knowledge-detail-hero-grid,
+  .knowledge-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .knowledge-detail-cover {
+    max-width: 500px;
+    margin-inline: auto;
+  }
+
+  .knowledge-detail-summary {
+    position: static;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .knowledge-detail-hero {
+    padding: 34px 0 48px;
+  }
+
+  .knowledge-detail-breadcrumb {
+    margin-bottom: 28px;
+  }
+
+  .knowledge-detail-intro h1 {
+    font-size: 42px;
+  }
+
+  .knowledge-detail-date {
+    align-items: flex-start;
+    line-height: 1.55;
+  }
+
+  .knowledge-detail-layout {
+    gap: 46px;
+    padding-top: 54px;
+    padding-bottom: 72px;
+  }
+
+  .knowledge-detail-summary {
+    padding: 26px 22px;
+  }
+}

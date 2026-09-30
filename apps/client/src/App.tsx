@@ -10,6 +10,7 @@ import { HomeReadyPage } from "@/pages/homeready/Index";
 import { CoOwnershipPage } from "@/pages/co-ownership/Index";
 import { WorkWithAXPPage } from "@/pages/work-with-axp/Index";
 import { KnowledgePage } from "@/pages/knowledge/Index";
+import { KnowledgeDetailPage } from "@/pages/knowledge-detail/Index";
 import { ImpactPage } from "@/pages/impact/Index";
 import { MediaPage } from "@/pages/media/Index";
 import { CareersPage } from "@/pages/careers/Index";
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/work-with-axp" element={<WorkWithAXPPage />} />
           <Route path="/partnership-hub" element={<Navigate to="/work-with-axp" replace />} />
           <Route path="/knowledge" element={<KnowledgePage />} />
+          <Route path="/knowledge/:slug" element={<KnowledgeDetailPage />} />
           <Route path="/impact" element={<ImpactPage />} />
           <Route path="/media" element={<MediaPage />} />
           <Route path="/investors-partners" element={<Navigate to="/work-with-axp" replace />} />

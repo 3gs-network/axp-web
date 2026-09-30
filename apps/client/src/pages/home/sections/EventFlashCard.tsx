@@ -1,5 +1,6 @@
 import "./EventFlashCard.css";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useKnowledge } from "@/data/useKnowledge";
 import { trackClick } from "@/lib/track";
 
@@ -58,23 +59,26 @@ export function EventFlashCard() {
         )}
         <div className="event-flash-copy">
           <p className="eyebrow eyebrow--gold">Upcoming event</p>
-          <h2>{item.title}</h2>
+          <h2>{item.slug ? <Link to={`/knowledge/${item.slug}`}>{item.title}</Link> : item.title}</h2>
           <ul className="event-flash-meta">
             <li><CalendarDays size={17} aria-hidden="true" /> {eventDay.format(when)}</li>
             <li><Clock size={17} aria-hidden="true" /> From {eventTime.format(when)} WAT</li>
             {event.location && <li><MapPin size={17} aria-hidden="true" /> {event.location}</li>}
           </ul>
-          {event.ctaUrl && (
-            <a
-              className="button button--primary event-flash-cta"
-              href={event.ctaUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackClick("rsvp_event", item.slug)}
-            >
-              {event.ctaLabel?.trim() || "Reserve a place"}
-            </a>
-          )}
+          <div className="event-flash-actions">
+            {item.slug && <Link className="button button--outline event-flash-details" to={`/knowledge/${item.slug}`}>View event details</Link>}
+            {event.ctaUrl && (
+              <a
+                className="button button--primary event-flash-cta"
+                href={event.ctaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackClick("rsvp_event", item.slug)}
+              >
+                {event.ctaLabel?.trim() || "Reserve a place"}
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </section>

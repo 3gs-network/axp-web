@@ -1,9 +1,10 @@
 import { Hono, type Context } from "hono";
 import { apiFailure, apiSuccess } from "@repo/shared/http";
-import { CrmUnconfiguredError, isCrmConfigured, listKnowledge } from "../services/axp-crm";
+import { CrmUnconfiguredError, getKnowledgePost, isCrmConfigured, listKnowledge } from "../services/axp-crm";
 
 /**
- * GET /api/knowledge — the Knowledge Centre, edited in the AXP CRM.
+ * GET /api/knowledge       — the Knowledge Centre, edited in the AXP CRM.
+ * GET /api/knowledge/:slug — one published article or event.
  *
  * Public: these are marketing articles. The CRM decides what is published; this
  * only ever sees posts somebody deliberately published there, because the
@@ -11,10 +12,11 @@ import { CrmUnconfiguredError, isCrmConfigured, listKnowledge } from "../service
  */
 export const knowledgeRouter = new Hono();
 
-knowledgeRouter.get("", handler);
-knowledgeRouter.get("/", handler);
+knowledgeRouter.get("", listHandler);
+knowledgeRouter.get("/", listHandler);
+knowledgeRouter.get("/:slug", detailHandler);
 
-async function handler(c: Context) {
+async function listHandler(c: Context) {
   // Not configured is not an error the visitor caused, and the page has its own
   // fallback content -- so say so plainly and let the client fall back rather
   // than showing a failure on a marketing page.
@@ -31,6 +33,31 @@ async function handler(c: Context) {
     }
 
     // The CRM's own words go to the server log, never to the visitor.
+    console.error("[knowledge] could not reach the AXP CRM:", error);
+    return c.json(
+      apiFailure("KNOWLEDGE_UNAVAILABLE", "The Knowledge Centre is temporarily unavailable."),
+      502
+    );
+  }
+}
+
+async function detailHandler(c: Context) {
+  const slug = c.req.param("slug");
+  if (!slug) {
+    return c.json(apiFailure("INVALID_SLUG", "No article was specified."), 400);
+  }
+
+  if (!isCrmConfigured()) {
+    return c.json(apiSuccess({ post: null, source: "unconfigured" }));
+  }
+
+  try {
+    const post = await getKnowledgePost(slug);
+    return c.json(apiSuccess({ post, source: "crm" }));
+  } catch (error) {
+    if (error instanceof CrmUnconfiguredError) {
+      return c.json(apiSuccess({ post: null, source: "unconfigured" }));
+    }
     console.error("[knowledge] could not reach the AXP CRM:", error);
     return c.json(
       apiFailure("KNOWLEDGE_UNAVAILABLE", "The Knowledge Centre is temporarily unavailable."),
