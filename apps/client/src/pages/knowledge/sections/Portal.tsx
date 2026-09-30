@@ -4,6 +4,7 @@ import { RotateCcw, Search } from "lucide-react";
 import { useKnowledge } from "@/data/useKnowledge";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import type { KnowledgeItem } from "@/data/knowledge";
+import { trackClick } from "@/lib/track";
 
 // Events are shown in Lagos time whatever the visitor's clock says: the event
 // happens in Lagos, and a visitor abroad converting it wrongly is worse than
@@ -18,7 +19,7 @@ const eventDate = new Intl.DateTimeFormat("en-NG", {
   timeZone: "Africa/Lagos"
 });
 
-function EventDetails({ event }: { event: NonNullable<KnowledgeItem["event"]> }) {
+function EventDetails({ event, slug }: { event: NonNullable<KnowledgeItem["event"]>; slug?: string }) {
   const when = new Date(event.startsAt);
   const valid = !Number.isNaN(when.getTime());
   // A past event keeps its card -- it is a record of what the firm did -- but
@@ -31,7 +32,8 @@ function EventDetails({ event }: { event: NonNullable<KnowledgeItem["event"]> })
         {event.location ? ` · ${event.location}` : ""}
       </p>
       {upcoming && event.ctaUrl && (
-        <a className="knowledge-event-cta" href={event.ctaUrl} target="_blank" rel="noopener noreferrer">
+        <a className="knowledge-event-cta" href={event.ctaUrl} target="_blank" rel="noopener noreferrer"
+           onClick={() => trackClick("rsvp_event", slug)}>
           {event.ctaLabel?.trim() || "RSVP"}
         </a>
       )}
@@ -75,7 +77,7 @@ export function Portal() {
               <div>
                 <span>{item.type}</span>
                 <h2>{item.title}</h2>
-                {item.event ? <EventDetails event={item.event} /> : <p>{item.read} read</p>}
+                {item.event ? <EventDetails event={item.event} slug={item.slug} /> : <p>{item.read} read</p>}
               </div>
             </article>
           ))}

@@ -12,7 +12,8 @@ import {
   resendConfirmation,
   signInAccount,
   signOutAccount,
-  signUpAccount
+  signUpAccount,
+  trackEvent
 } from "../services/axp-crm";
 
 /**
@@ -33,7 +34,9 @@ const SignUpSchema = z.object({
   name: z.string().trim().min(1, "Please enter your name.").max(120),
   email: z.string().trim().email("That does not look like an email address.").max(200),
   password: z.string().min(8, "Use at least 8 characters for your password.").max(200),
-  phone: z.string().trim().max(40).optional()
+  phone: z.string().trim().max(40).optional(),
+  // From lib/track.ts's getSessionId(). Optional, same reasoning as leads.route.ts.
+  sessionId: z.string().trim().max(100).optional()
 });
 
 const SignInSchema = z.object({
@@ -107,6 +110,13 @@ accountRouter.post("/sign-up", async (c) => {
   await registerCustomer({ email, fullName: name, phone }).catch((error) => {
     console.error("[account] could not record the sign-up as a CRM contact:", error);
   });
+
+  // Best-effort, same as the enquiry side: the account already exists and
+  // that response must go back to the visitor regardless of this side-note.
+  trackEvent(
+    { eventType: "signup_completed", sessionId: parsed.data.sessionId || crypto.randomUUID() },
+    session?.accessToken
+  ).catch(() => undefined);
 
   return c.json(apiSuccess(session ? { status: "signed_in", session } : { status: "confirm_email" }));
 });

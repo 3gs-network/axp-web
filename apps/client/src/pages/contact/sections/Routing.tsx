@@ -6,6 +6,7 @@ import { ArrowRight, ChevronRight, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import { apiFetch } from "@/lib/api";
+import { getSessionId } from "@/lib/track";
 
 const routes = ["Looking for a Home", "A Homeowner", "Interested in a Mortgage", "A Property Developer", "An Investor", "A Financial Institution", "Looking to Collaborate", "Others"];
 
@@ -62,6 +63,7 @@ export function Routing() {
           email: form.email,
           message: form.message,
           interest: selected,
+          sessionId: getSessionId(),
           website: form.website
         })
       });

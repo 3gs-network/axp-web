@@ -17,6 +17,7 @@ import { ContactPage } from "@/pages/contact/Index";
 import AuthPage from "@/pages/auth/Index";
 import { DashboardPage } from "@/pages/dashboard/Index";
 import { NotFoundPage } from "@/pages/not-found/Index";
+import { PageViewTracker } from "@/components/shared/PageViewTracker";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
     <TooltipProvider>
       <Sonner />
       <BrowserRouter>
+        <PageViewTracker />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home-ownership-opportunities" element={<HomeOwnershipOpportunitiesPage />} />

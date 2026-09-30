@@ -1,6 +1,7 @@
 import "./InterestForm.css";
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
+import { getSessionId } from "@/lib/track";
 
 /**
  * Register interest — an enquiry into the AXP mortgage lead queue.
@@ -70,6 +71,7 @@ export function InterestForm() {
           ]
             .filter(Boolean)
             .join(" "),
+          sessionId: getSessionId(),
           website: form.website
         })
       });

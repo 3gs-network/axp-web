@@ -1,7 +1,7 @@
 import { Hono, type Context } from "hono";
 import { z } from "zod";
 import { apiFailure, apiSuccess } from "@repo/shared/http";
-import { CrmUnconfiguredError, createLead, isCrmConfigured } from "../services/axp-crm";
+import { CrmUnconfiguredError, createLead, isCrmConfigured, trackEvent } from "../services/axp-crm";
 
 /**
  * POST /api/leads — an enquiry from the public site, into the CRM queue.
@@ -15,6 +15,10 @@ const LeadSchema = z.object({
   loanAmount: z.coerce.number().min(0).max(100_000_000_000).optional(),
   message: z.string().trim().max(4000).optional(),
   interest: z.string().trim().max(200).optional(),
+  // From lib/track.ts's getSessionId(), so this enquiry can be tied back to
+  // the visit that led to it. Optional: an older cached bundle without this
+  // field must not fail the enquiry over an analytics detail.
+  sessionId: z.string().trim().max(100).optional(),
   // A field a person cannot see and a bot fills in. Empty means human.
   website: z.string().max(500).optional()
 });
@@ -54,6 +58,15 @@ async function createHandler(c: Context) {
         submittedFrom: "axplimited.com"
       }
     });
+
+    // Best-effort: the enquiry itself already succeeded and must be returned
+    // to the visitor regardless of whether this side-note about it does.
+    trackEvent({
+      eventType: "enquiry_submitted",
+      sessionId: parsed.data.sessionId || crypto.randomUUID(),
+      label: parsed.data.interest
+    }).catch(() => undefined);
+
     return c.json(apiSuccess({ received: true }));
   } catch (error) {
     if (error instanceof CrmUnconfiguredError) {

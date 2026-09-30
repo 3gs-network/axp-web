@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { ArrowRight, MailCheck } from "lucide-react";
 import { useSession } from "@/hooks/useSession";
 import { AccountError, completeSignInFromUrl, resendConfirmation, signIn, signUp } from "@/lib/session";
+import { getSessionId } from "@/lib/track";
 import { BrandMark } from "@/components/layout/BrandMark";
 
 /**
@@ -65,7 +66,7 @@ const AuthPage = () => {
     setUnconfirmed(false);
     try {
       if (mode === "signup") {
-        const result = await signUp({ name, email, password, phone: phone || undefined });
+        const result = await signUp({ name, email, password, phone: phone || undefined, sessionId: getSessionId() });
         if (result === "confirm_email") {
           setAwaitingConfirmation(true);
           return;
