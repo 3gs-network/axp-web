@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { OTP_LENGTH } from "@repo/shared/homeready";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { resendCode, verifyCode } from "@/lib/homeready";
 
 type Props = {
@@ -13,9 +15,13 @@ type Props = {
 };
 
 /**
- * Step 2: the 6-digit code from the email. One plain numeric input (with
- * autocomplete="one-time-code") rather than six boxes -- simpler for screen
- * readers, paste and phone autofill alike.
+ * Step 2: the code from the email, one box per digit. The number of boxes
+ * follows OTP_LENGTH, so changing the code length changes the form too.
+ *
+ * The boxes are drawn over ONE real input (the input-otp library), so
+ * screen readers, paste and phone autofill (autocomplete="one-time-code")
+ * all see a single ordinary field. The form submits itself once the last
+ * digit is in.
  */
 export function CodeStep({ pendingId, email, resendAfterSeconds, onVerified, onRestart }: Props) {
   const [code, setCode] = useState("");
@@ -25,6 +31,10 @@ export function CodeStep({ pendingId, email, resendAfterSeconds, onVerified, onR
   const [waitUntil, setWaitUntil] = useState(() => Date.now() + resendAfterSeconds * 1000);
   const [now, setNow] = useState(() => Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  // Synchronous guard: auto-submit on the last digit and a click on Confirm
+  // can land in the same tick, before `busy` state has re-rendered.
+  const inFlight = useRef(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -41,7 +51,7 @@ export function CodeStep({ pendingId, email, resendAfterSeconds, onVerified, onR
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (busy) return;
+    if (inFlight.current) return;
     const digits = code.replace(/\s/g, "");
     if (!new RegExp(`^\\d{${OTP_LENGTH}}$`).test(digits)) {
       setError(`Please enter the ${OTP_LENGTH}-digit code from the email.`);
@@ -49,10 +59,12 @@ export function CodeStep({ pendingId, email, resendAfterSeconds, onVerified, onR
       return;
     }
 
+    inFlight.current = true;
     setBusy(true);
     setError("");
     setStatus("");
     const result = await verifyCode(pendingId, digits);
+    inFlight.current = false;
     setBusy(false);
 
     if (result.ok) {
@@ -96,30 +108,40 @@ export function CodeStep({ pendingId, email, resendAfterSeconds, onVerified, onR
 
   return (
     <div className="register-step">
-      <h2 ref={headingRef} tabIndex={-1}>
+      <h1 ref={headingRef} tabIndex={-1}>
         Check your email
-      </h2>
-      <p>
+      </h1>
+      <p className="register-lead">
         We've sent a {OTP_LENGTH}-digit code to <strong>{email}</strong>. It expires in 10 minutes.
       </p>
 
-      <form className="register-form" onSubmit={submit} noValidate>
+      <form className="register-form" ref={formRef} onSubmit={submit} noValidate>
         <div className="register-field">
           <label htmlFor="otp-code">Verification code</label>
-          <input
+          <InputOTP
             id="otp-code"
             ref={inputRef}
-            className="register-code"
+            maxLength={OTP_LENGTH}
+            pattern={REGEXP_ONLY_DIGITS}
             value={code}
-            onChange={(e) => setCode(e.target.value.replace(/[^\d]/g, "").slice(0, OTP_LENGTH))}
+            onChange={(next) => {
+              setCode(next);
+              if (error) setError("");
+            }}
+            onComplete={() => formRef.current?.requestSubmit()}
             inputMode="numeric"
             autoComplete="one-time-code"
-            pattern="[0-9]*"
-            maxLength={OTP_LENGTH}
             aria-required="true"
             aria-invalid={Boolean(error)}
             aria-describedby={error ? "otp-error" : undefined}
-          />
+            containerClassName="register-otp"
+          >
+            <InputOTPGroup className="register-otp-group">
+              {Array.from({ length: OTP_LENGTH }, (_, index) => (
+                <InputOTPSlot key={index} index={index} className="register-otp-slot" aria-invalid={Boolean(error)} />
+              ))}
+            </InputOTPGroup>
+          </InputOTP>
           <div role="alert">
             {error && (
               <p className="register-error" id="otp-error">

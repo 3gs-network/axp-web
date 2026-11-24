@@ -1,50 +1,204 @@
-.register-section {
-  background: white;
-  padding-block: 72px 112px;
+/* /register: a standalone split screen. Left: what HomeReady is. Right: the
+   form, sized to fit one desktop screen without scrolling. */
+
+.register-page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  background: #fbfaf6;
+  color: var(--axp-navy);
 }
 
-.register-shell {
+/* ---------------------------------------------------------------- left -- */
+
+.register-showcase {
+  position: relative;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px clamp(28px, 4vw, 64px);
+  background: radial-gradient(120% 80% at 0% 100%, #24304f 0%, var(--axp-navy) 45%, var(--axp-navy-2) 100%);
+  color: white;
+  overflow: hidden;
+}
+
+.register-showcase-glow {
+  position: absolute;
+  width: 560px;
+  height: 560px;
+  right: -260px;
+  top: -220px;
+  border: 1px solid rgba(212, 160, 42, .25);
+  border-radius: 50%;
+  box-shadow: 0 0 0 80px rgba(255, 255, 255, .015), 0 0 0 160px rgba(255, 255, 255, .012);
+  pointer-events: none;
+}
+
+.register-showcase-top,
+.register-showcase-body {
+  position: relative;
+  z-index: 1;
+}
+
+.register-showcase-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  max-width: 520px;
 }
 
-.register-card {
+.register-showcase-title {
+  margin: 14px 0 0;
+  font: 500 clamp(2rem, 3.2vw, 3.1rem)/1.08 var(--font-serif);
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+
+.register-showcase-title em {
+  display: block;
+  font-style: italic;
+  color: var(--axp-gold-light);
+}
+
+.register-illustration {
+  overflow: visible; /* the breathing halo grows past the drawing's box */
   width: 100%;
-  max-width: 640px;
-  min-width: 0;
-  padding: 40px;
-  background: var(--axp-alabaster);
-  border-top: 2px solid var(--axp-gold);
-  box-shadow: var(--shadow-soft);
+  max-width: 440px;
+  height: auto;
+  max-height: 32vh;
+  margin: 24px 0 20px;
+}
+
+/* Illustration motion. Each shape scales/moves around its own centre. */
+.ill-key,
+.ill-star,
+.ill-sun,
+.ill-sun-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ill-key {
+    animation: ill-float 4.5s ease-in-out infinite;
+  }
+
+  .ill-sun {
+    animation: ill-breathe 5s ease-in-out infinite;
+  }
+
+  .ill-sun-halo {
+    animation: ill-halo 5s ease-in-out infinite;
+  }
+
+  .ill-star {
+    animation: ill-twinkle 2.8s ease-in-out infinite;
+  }
+
+  .ill-star--2 { animation-delay: -1s; animation-duration: 3.4s; }
+  .ill-star--3 { animation-delay: -2s; animation-duration: 2.4s; }
+}
+
+@keyframes ill-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-3deg); }
+}
+
+@keyframes ill-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+@keyframes ill-halo {
+  0%, 100% { transform: scale(.94); opacity: .7; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+@keyframes ill-twinkle {
+  0%, 100% { transform: scale(.55) rotate(0deg); opacity: .35; }
+  45% { transform: scale(1.1) rotate(22deg); opacity: 1; }
+  60% { transform: scale(1) rotate(30deg); opacity: .9; }
+}
+
+.register-steps {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: rgba(255, 255, 255, .86);
+}
+
+.register-steps li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.register-steps span {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(212, 160, 42, .6);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--axp-gold);
+}
+
+/* --------------------------------------------------------------- right -- */
+
+.register-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 32px clamp(20px, 4vw, 64px);
+}
+
+.register-panel {
+  width: 100%;
+  max-width: 560px;
+}
+
+.register-panel h1 {
+  margin: 0 0 6px;
+  font: 500 clamp(1.8rem, 2.6vw, 2.4rem)/1.1 var(--font-serif);
   color: var(--axp-navy);
 }
 
-.register-card h2 {
-  margin: 0 0 12px;
-  font: 500 clamp(1.9rem, 3vw, 2.6rem)/1.15 var(--font-serif);
-  color: var(--axp-navy);
-}
-
-.register-card h2:focus {
+.register-panel h1:focus {
   outline: none;
 }
 
-.register-card > p,
-.register-step > p {
-  margin: 0 0 24px;
+.register-lead {
+  margin: 0 0 22px;
+  font-size: 14px;
+  line-height: 1.6;
   color: #4f5563;
-  line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
 .register-form {
   display: grid;
-  gap: 22px;
+  gap: 16px;
+}
+
+.register-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .register-field {
   display: grid;
-  gap: 6px;
+  align-content: start;
+  gap: 5px;
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -52,28 +206,29 @@
 }
 
 .register-field > label,
+.register-label-row label,
 .register-field > legend {
   padding: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--axp-navy);
 }
 
-.register-field > legend {
-  margin-bottom: 8px;
+.register-label-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 6px;
 }
 
-.register-optional {
+.register-field > legend {
+  margin-bottom: 5px;
+}
+
+.register-hint {
+  font-size: 12px;
   font-weight: 400;
   color: #5b616e;
-}
-
-.register-hint,
-.register-note {
-  margin: 0;
-  font-size: 13px;
-  color: #5b616e;
-  line-height: 1.5;
 }
 
 .register-field input[type="text"],
@@ -82,121 +237,150 @@
 .register-field input[type="tel"] {
   width: 100%;
   min-width: 0;
-  min-height: 48px;
-  padding: 11px 14px;
+  min-height: 46px;
+  padding: 10px 13px;
   border: 1px solid #8a8f9a;
-  border-radius: 3px;
+  border-radius: 6px;
   background: white;
   font: inherit;
   font-size: 16px; /* 16px stops iOS zooming into the field */
   color: var(--axp-navy);
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
 
+.register-field input::placeholder {
+  color: #9a9ea8;
+}
+
+/* Focus: a crisp 2px navy edge, no glow. */
 .register-field input:focus-visible {
-  outline: 2px solid var(--axp-gold);
-  outline-offset: 2px;
+  outline: none;
   border-color: var(--axp-navy);
+  box-shadow: 0 0 0 1px var(--axp-navy);
 }
 
 .register-field input[aria-invalid="true"] {
   border-color: #b3261e;
-  border-width: 2px;
+  box-shadow: inset 0 0 0 1px #b3261e;
 }
 
 .register-error {
-  margin: 2px 0 0;
-  font-size: 14px;
+  margin: 0;
+  font-size: 12.5px;
   font-weight: 500;
+  line-height: 1.4;
   color: #b3261e;
-  line-height: 1.45;
 }
 
-.register-error::before {
-  content: "! ";
-  font-weight: 700;
+.register-form-error {
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #fdecea;
 }
 
 .register-success {
   margin: 4px 0 0;
-  font-size: 14px;
+  font-size: 13px;
   color: #1f6b3a;
 }
 
-.register-summary-slot:empty {
-  display: none;
-}
-
-.register-summary,
 .register-banner {
   margin: 0;
-  padding: 12px 14px;
-  border-left: 4px solid #b3261e;
-  background: #fdecea;
-  font-size: 14px;
-  color: #7a1712;
-  line-height: 1.5;
-}
-
-.register-banner {
-  border-left-color: var(--axp-gold);
+  padding: 10px 12px;
+  border-left: 3px solid var(--axp-gold);
+  border-radius: 0 6px 6px 0;
   background: #fdf6e3;
+  font-size: 13px;
   color: var(--axp-navy);
 }
 
-.register-choices {
-  gap: 8px;
-}
-
-.register-choice,
-.register-consent {
+/* "Who is applying?": plain radios in one row (they wrap on small screens).
+   The whole label is the click target, 44px tall. */
+.register-choice-row {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  cursor: pointer;
-  font-size: 15px;
-  color: var(--axp-navy);
+  flex-wrap: wrap;
+  gap: 0 22px;
 }
 
 .register-choice {
-  padding: 10px 14px;
-  border: 1px solid rgba(26, 35, 61, .25);
-  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--axp-navy);
+  cursor: pointer;
+}
+
+.register-choice input {
+  appearance: none;
+  flex: none;
+  display: grid;
+  place-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1.5px solid #8a8f9a;
+  border-radius: 50%;
   background: white;
+  cursor: pointer;
+  transition: border-color .15s ease;
 }
 
-.register-choice:has(input:checked) {
+.register-choice input::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--axp-navy);
+  transform: scale(0);
+  transition: transform .15s ease;
+}
+
+.register-choice input:checked {
   border-color: var(--axp-navy);
-  box-shadow: inset 0 0 0 1px var(--axp-navy);
 }
 
-.register-choices[aria-invalid="true"] .register-choice {
+.register-choice input:checked::before {
+  transform: scale(1);
+}
+
+.register-choice:hover input:not(:checked) {
+  border-color: var(--axp-navy);
+}
+
+.register-choice input:focus-visible {
+  outline: 1px solid var(--axp-navy);
+  outline-offset: 2px;
+}
+
+.register-choices[aria-invalid="true"] .register-choice input {
   border-color: #b3261e;
 }
 
-.register-choice input,
 .register-consent input {
   flex: none;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   margin: 0;
   accent-color: var(--axp-navy);
 }
 
-.register-choice input:focus-visible,
 .register-consent input:focus-visible {
-  outline: 2px solid var(--axp-gold);
-  outline-offset: 3px;
+  outline: 1px solid var(--axp-navy);
+  outline-offset: 2px;
 }
 
 .register-consent {
-  align-items: flex-start;
-  padding-block: 11px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding-block: 4px;
+  font-size: 13.5px;
   line-height: 1.5;
-}
-
-.register-consent input {
-  margin-top: 1px;
+  cursor: pointer;
 }
 
 .register-consent a {
@@ -216,7 +400,8 @@
 
 .register-submit {
   width: 100%;
-  min-height: 52px;
+  min-height: 50px;
+  border-radius: 6px;
 }
 
 .register-submit[aria-disabled="true"] {
@@ -224,18 +409,66 @@
   cursor: progress;
 }
 
-.register-code {
-  max-width: 220px;
-  font-size: 24px !important;
-  letter-spacing: .35em;
-  font-variant-numeric: tabular-nums;
+.register-fineprint {
+  margin: -6px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: #5b616e;
+}
+
+/* code step: one box per digit, sharing the full width like the button */
+.register-otp {
+  width: 100%;
+  gap: 0;
+}
+
+.register-otp-group {
+  width: 100%;
+  gap: 10px;
+}
+
+.register-otp-slot {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  height: 60px;
+  border: 1px solid #8a8f9a;
+  border-radius: 6px;
+  background: white;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--axp-navy);
+  box-shadow: none;
+}
+
+.register-otp-slot[data-active="true"] {
+  border-color: var(--axp-navy);
+  box-shadow: 0 0 0 1px var(--axp-navy);
+}
+
+.register-otp-slot[aria-invalid="true"] {
+  border-color: #b3261e;
+}
+
+.register-otp-slot .animate-caret-blink {
+  background: var(--axp-navy);
+  animation: otp-caret 1s step-end infinite;
+}
+
+@keyframes otp-caret {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 400px) {
+  .register-otp-group { gap: 6px; }
+  .register-otp-slot { height: 52px; }
 }
 
 .register-secondary {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 20px;
-  margin-top: 18px;
+  gap: 0 20px;
+  margin-top: 10px;
 }
 
 .register-link {
@@ -244,7 +477,7 @@
   border: 0;
   background: none;
   font: inherit;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--axp-navy);
   text-decoration: underline;
@@ -258,30 +491,136 @@
   cursor: not-allowed;
 }
 
+.register-step .register-hint {
+  display: block;
+  margin-top: 4px;
+}
+
+/* confirmation */
 .register-done {
   text-align: center;
-  padding-block: 12px;
 }
 
-.register-done-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 12px;
-  color: #1f6b3a;
+.register-done .register-lead {
+  margin-inline: auto;
+  max-width: 420px;
 }
 
-@media (max-width: 640px) {
-  .register-section {
-    padding-block: 40px 72px;
+.register-check {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  stroke: #1f6b3a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* pathLength-free dash values: circle 2*pi*24 = 151, tick about 36. */
+.register-check-circle {
+  stroke-dasharray: 151;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.register-check-tick {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .register-check-circle {
+    stroke-dashoffset: 151;
+    animation: check-draw .6s cubic-bezier(.65, 0, .45, 1) forwards;
   }
 
-  .register-card {
-    padding: 24px 18px;
+  .register-check-tick {
+    stroke-dashoffset: 36;
+    animation: check-draw .35s cubic-bezier(.65, 0, .45, 1) .6s forwards;
   }
 }
 
-/* Keep a focused field or heading clear of the sticky site header. */
-.register-card input,
-.register-card h2 {
-  scroll-margin-top: 120px;
+@keyframes check-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.register-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 13px;
+  color: #5b616e;
+}
+
+.register-back:hover {
+  color: var(--axp-navy);
+}
+
+/* ------------------------------------------------------------ responsive -- */
+
+/* Short desktop screens: tighten so the form still fits without scrolling. */
+@media (min-width: 961px) and (max-height: 800px) {
+  .register-main { padding-block: 20px; gap: 8px; }
+  .register-form { gap: 12px; }
+  .register-row { gap: 12px; }
+  .register-lead { margin-bottom: 14px; }
+  .register-showcase { padding-block: 24px; }
+  .register-showcase-title { font-size: clamp(1.8rem, 2.8vw, 2.6rem); }
+  .register-illustration { max-height: 27vh; margin: 16px 0 14px; }
+  .register-steps { gap: 8px; }
+}
+
+@media (max-width: 960px) {
+  .register-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  /* The left half becomes a compact band above the form. */
+  .register-showcase {
+    gap: 10px;
+    padding: 16px 16px 18px;
+  }
+
+  .register-showcase .brand-mark {
+    width: 92px;
+    height: 38px;
+  }
+
+  .register-showcase .eyebrow {
+    display: none;
+  }
+
+  .register-showcase-title {
+    margin-top: 0;
+    font-size: clamp(1.35rem, 5.2vw, 2rem);
+  }
+
+  .register-showcase-title em {
+    display: inline;
+  }
+
+  .register-illustration,
+  .register-steps {
+    display: none;
+  }
+
+  .register-main {
+    justify-content: flex-start;
+    padding: 24px 16px 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .register-row {
+    grid-template-columns: 1fr;
+  }
+
+  .register-choice-row {
+    grid-template-columns: 1fr;
+  }
 }

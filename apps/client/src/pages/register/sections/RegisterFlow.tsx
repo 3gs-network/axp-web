@@ -1,6 +1,7 @@
 import "./RegisterFlow.css";
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { registerInterest } from "@/lib/homeready";
 import { readUtm } from "@/lib/utm";
 import { CodeStep } from "./CodeStep";
@@ -12,8 +13,9 @@ type Step =
   | { kind: "done"; name: string };
 
 /**
- * HomeReady sign-up: details -> emailed code -> confirmation. Nothing is
- * saved as a lead until the code is confirmed (see routes/homeready.route.ts).
+ * The right half of /register: details -> emailed code -> confirmation.
+ * Nothing is saved as a lead until the code is confirmed (see
+ * routes/homeready.route.ts).
  */
 export function RegisterFlow() {
   const [step, setStep] = useState<Step>({ kind: "details" });
@@ -27,8 +29,7 @@ export function RegisterFlow() {
 
   const submitDetails = async (details: DetailsValues) => {
     setSubmitting(true);
-    const utm = readUtm();
-    const result = await registerInterest({ ...details, ...utm });
+    const result = await registerInterest({ ...details, ...readUtm() });
     setSubmitting(false);
 
     if (result.ok) {
@@ -44,45 +45,60 @@ export function RegisterFlow() {
   };
 
   return (
-    <section className="section register-section">
-      <div className="shell register-shell">
-        <div className="register-card">
-          {step.kind === "details" && (
-            <>
-              <h2>Your details</h2>
-              <p>It takes about a minute. We'll email you a code to confirm your address, then a HomeReady officer will be in touch.</p>
-              <DetailsForm
-                values={values}
-                onChange={setValues}
-                onSubmit={submitDetails}
-                submitting={submitting}
-                notice={step.notice}
-              />
-            </>
-          )}
-
-          {step.kind === "code" && (
-            <CodeStep
-              key={step.pendingId}
-              pendingId={step.pendingId}
-              email={step.email}
-              resendAfterSeconds={step.resendAfterSeconds}
-              onVerified={(name) => setStep({ kind: "done", name })}
-              onRestart={(notice) => setStep({ kind: "details", notice })}
+    <main className="register-main">
+      <div className="register-panel">
+        {step.kind === "details" && (
+          <>
+            <h1>Register your interest</h1>
+            <p className="register-lead">Takes about a minute. A HomeReady officer will be in touch.</p>
+            <DetailsForm
+              values={values}
+              onChange={setValues}
+              onSubmit={submitDetails}
+              submitting={submitting}
+              notice={step.notice}
             />
-          )}
+          </>
+        )}
 
-          {step.kind === "done" && (
-            <div className="register-step register-done">
-              <CheckCircle2 className="register-done-icon" aria-hidden />
-              <h2 ref={doneRef} tabIndex={-1}>
-                Thanks{step.name ? `, ${step.name}` : ""}.
-              </h2>
-              <p>We've received your details and an HomeReady officer will contact you shortly.</p>
-            </div>
-          )}
-        </div>
+        {step.kind === "code" && (
+          <CodeStep
+            key={step.pendingId}
+            pendingId={step.pendingId}
+            email={step.email}
+            resendAfterSeconds={step.resendAfterSeconds}
+            onVerified={(name) => setStep({ kind: "done", name })}
+            onRestart={(notice) => setStep({ kind: "details", notice })}
+          />
+        )}
+
+        {step.kind === "done" && (
+          <div className="register-done">
+            <AnimatedCheck />
+            <h1 ref={doneRef} tabIndex={-1}>
+              Thanks{step.name ? `, ${step.name}` : ""}.
+            </h1>
+            <p className="register-lead">We've received your details and an HomeReady officer will contact you shortly.</p>
+            <Link to="/homeready" className="button button--primary">
+              Learn more about HomeReady
+            </Link>
+          </div>
+        )}
       </div>
-    </section>
+
+      <Link to="/" className="register-back">
+        <ArrowLeft size={14} aria-hidden /> Back to homepage
+      </Link>
+    </main>
+  );
+}
+
+/** The circle draws itself, then the tick strokes in once it has closed. */
+function AnimatedCheck() {
+  return (
+    <svg className="register-check" viewBox="0 0 52 52" aria-hidden="true" focusable="false">
+      <circle className="register-check-circle" cx="26" cy="26" r="24" fill="none" />
+      <path className="register-check-tick" d="M15 27 l7.5 7.5 L37.5 19" fill="none" />
+    </svg>
   );
 }
