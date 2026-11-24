@@ -23,7 +23,8 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@repo/shared/*": ["../../packages/shared/src/*"]
     }
   },
   "include": ["src"]

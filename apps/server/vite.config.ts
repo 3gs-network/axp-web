@@ -14,6 +14,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: /^@repo\/shared\/http$/, replacement: fromRoot("packages/shared/src/http.ts") },
+      { find: /^@repo\/shared\/homeready$/, replacement: fromRoot("packages/shared/src/homeready.ts") },
       { find: /^@repo\/shared$/, replacement: fromRoot("packages/shared/src/index.ts") }
     ]
   },

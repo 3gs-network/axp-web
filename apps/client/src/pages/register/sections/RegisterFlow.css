@@ -1,0 +1,287 @@
+.register-section {
+  background: white;
+  padding-block: 72px 112px;
+}
+
+.register-shell {
+  display: flex;
+  justify-content: center;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 640px;
+  min-width: 0;
+  padding: 40px;
+  background: var(--axp-alabaster);
+  border-top: 2px solid var(--axp-gold);
+  box-shadow: var(--shadow-soft);
+  color: var(--axp-navy);
+}
+
+.register-card h2 {
+  margin: 0 0 12px;
+  font: 500 clamp(1.9rem, 3vw, 2.6rem)/1.15 var(--font-serif);
+  color: var(--axp-navy);
+}
+
+.register-card h2:focus {
+  outline: none;
+}
+
+.register-card > p,
+.register-step > p {
+  margin: 0 0 24px;
+  color: #4f5563;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.register-form {
+  display: grid;
+  gap: 22px;
+}
+
+.register-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.register-field > label,
+.register-field > legend {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--axp-navy);
+}
+
+.register-field > legend {
+  margin-bottom: 8px;
+}
+
+.register-optional {
+  font-weight: 400;
+  color: #5b616e;
+}
+
+.register-hint,
+.register-note {
+  margin: 0;
+  font-size: 13px;
+  color: #5b616e;
+  line-height: 1.5;
+}
+
+.register-field input[type="text"],
+.register-field input:not([type]),
+.register-field input[type="email"],
+.register-field input[type="tel"] {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid #8a8f9a;
+  border-radius: 3px;
+  background: white;
+  font: inherit;
+  font-size: 16px; /* 16px stops iOS zooming into the field */
+  color: var(--axp-navy);
+}
+
+.register-field input:focus-visible {
+  outline: 2px solid var(--axp-gold);
+  outline-offset: 2px;
+  border-color: var(--axp-navy);
+}
+
+.register-field input[aria-invalid="true"] {
+  border-color: #b3261e;
+  border-width: 2px;
+}
+
+.register-error {
+  margin: 2px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #b3261e;
+  line-height: 1.45;
+}
+
+.register-error::before {
+  content: "! ";
+  font-weight: 700;
+}
+
+.register-success {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #1f6b3a;
+}
+
+.register-summary-slot:empty {
+  display: none;
+}
+
+.register-summary,
+.register-banner {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 4px solid #b3261e;
+  background: #fdecea;
+  font-size: 14px;
+  color: #7a1712;
+  line-height: 1.5;
+}
+
+.register-banner {
+  border-left-color: var(--axp-gold);
+  background: #fdf6e3;
+  color: var(--axp-navy);
+}
+
+.register-choices {
+  gap: 8px;
+}
+
+.register-choice,
+.register-consent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--axp-navy);
+}
+
+.register-choice {
+  padding: 10px 14px;
+  border: 1px solid rgba(26, 35, 61, .25);
+  border-radius: 3px;
+  background: white;
+}
+
+.register-choice:has(input:checked) {
+  border-color: var(--axp-navy);
+  box-shadow: inset 0 0 0 1px var(--axp-navy);
+}
+
+.register-choices[aria-invalid="true"] .register-choice {
+  border-color: #b3261e;
+}
+
+.register-choice input,
+.register-consent input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--axp-navy);
+}
+
+.register-choice input:focus-visible,
+.register-consent input:focus-visible {
+  outline: 2px solid var(--axp-gold);
+  outline-offset: 3px;
+}
+
+.register-consent {
+  align-items: flex-start;
+  padding-block: 11px;
+  line-height: 1.5;
+}
+
+.register-consent input {
+  margin-top: 1px;
+}
+
+.register-consent a {
+  color: var(--axp-navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.register-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.register-submit {
+  width: 100%;
+  min-height: 52px;
+}
+
+.register-submit[aria-disabled="true"] {
+  opacity: .7;
+  cursor: progress;
+}
+
+.register-code {
+  max-width: 220px;
+  font-size: 24px !important;
+  letter-spacing: .35em;
+  font-variant-numeric: tabular-nums;
+}
+
+.register-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 18px;
+}
+
+.register-link {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--axp-navy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.register-link[aria-disabled="true"] {
+  color: #5b616e;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+.register-done {
+  text-align: center;
+  padding-block: 12px;
+}
+
+.register-done-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  color: #1f6b3a;
+}
+
+@media (max-width: 640px) {
+  .register-section {
+    padding-block: 40px 72px;
+  }
+
+  .register-card {
+    padding: 24px 18px;
+  }
+}
+
+/* Keep a focused field or heading clear of the sticky site header. */
+.register-card input,
+.register-card h2 {
+  scroll-margin-top: 120px;
+}

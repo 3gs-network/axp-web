@@ -23,6 +23,10 @@ export default defineConfig({
         replacement: path.resolve(__dirname, "../../packages/shared/src/http.ts")
       },
       {
+        find: /^@repo\/shared\/homeready$/,
+        replacement: path.resolve(__dirname, "../../packages/shared/src/homeready.ts")
+      },
+      {
         find: /^@repo\/shared$/,
         replacement: path.resolve(__dirname, "../../packages/shared/src/index.ts")
       }

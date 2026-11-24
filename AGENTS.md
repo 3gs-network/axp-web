@@ -17,6 +17,11 @@ There is no site database. Anything the site stores is written to the AXP CRM.
 Website accounts are users in the CRM's Supabase Auth, proxied through
 `/api/account/*` so the CRM key never reaches the browser.
 
+The one exception is the HomeReady sign-up (`/register`, `/api/homeready/*`):
+it inserts into `public.leads` in the separate leads database, which the HSG
+admin app reads. Do not change that table, its view or the admin app. See the
+README section "HomeReady sign-up".
+
 ## Project Map
 
 - Pages: `apps/client/src/pages/` (`auth/` and `dashboard/` are the account pages)
@@ -27,7 +32,12 @@ Website accounts are users in the CRM's Supabase Auth, proxied through
   vercel-entry.ts, dev-server.ts)
 - Middleware: `apps/server/middlewares/` (not-found, on-error)
 - Routes: `apps/server/routes/` (one `<name>.route.ts` per feature, auto-mounted)
-- Services: `apps/server/services/` (`axp-crm.ts` — the only CRM client)
+- Services: `apps/server/services/` (`axp-crm.ts` — the only CRM client;
+  `leads-db.ts` — the only writer to the leads database, INSERT only, no
+  RETURNING; `homeready-signup.ts` / `homeready-store.ts` — the code flow;
+  `sendbyte.ts` — email)
+- Shared rules: `packages/shared/src/homeready.ts` (form validation, privacy
+  notice version, lead source map), used by both apps
 - Tests: `apps/server/_test/infra/` (health, CORS) and `apps/server/__tests__/`
 
 ## Hard Boundaries
@@ -54,7 +64,10 @@ route file — do not edit `create-app.ts`. Export the Hono router under any nam
 
 Server:
 
-- `_core/env.ts` — `env.{NODE_ENV, PORT, AXP_CRM_URL, AXP_CRM_ANON_KEY}`.
+- `_core/env.ts` — `env.{NODE_ENV, PORT, AXP_CRM_URL, AXP_CRM_ANON_KEY,
+  LEADS_DB_URL, HOMEREADY_STORE_DB_URL, HOMEREADY_OTP_SECRET, SENDBYTE_*,
+  SUPABASE_DB_CA_CERT}`. Never log names, emails, phones or codes; log database
+  errors by code only.
 - `services/axp-crm.ts` — `isCrmConfigured()`, `listKnowledge()`,
   `createLead(input)`, `registerCustomer(input)`, the account calls
   (`signUpAccount`, `signInAccount`, `refreshAccountSession`, `getAccountUser`,
