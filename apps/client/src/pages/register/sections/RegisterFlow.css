@@ -4,7 +4,7 @@
 .register-page {
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); /* 40% illustration, 60% form */
+  grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); /* 30% illustration, 70% form */
   background: #fbfaf6;
   color: var(--axp-navy);
 }
