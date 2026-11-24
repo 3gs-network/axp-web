@@ -40,9 +40,9 @@ export function RegisterShowcase() {
 function HomeIllustration() {
   return (
     <svg className="register-illustration" viewBox="0 40 420 256" aria-hidden="true" focusable="false">
-      {/* sun */}
-      <circle cx="318" cy="78" r="38" fill="rgba(212,160,42,.16)" />
-      <circle cx="318" cy="78" r="24" fill="#D4A02A" />
+      {/* sun: the halo and the core breathe slightly out of step */}
+      <circle className="ill-sun-halo" cx="318" cy="78" r="38" fill="rgba(212,160,42,.16)" />
+      <circle className="ill-sun" cx="318" cy="78" r="24" fill="#D4A02A" />
       {/* ground: soft ellipses, so the drawing has no hard edge */}
       <ellipse cx="216" cy="262" rx="200" ry="30" fill="rgba(255,255,255,.05)" />
       <ellipse cx="216" cy="258" rx="140" ry="18" fill="rgba(255,255,255,.07)" />
@@ -59,14 +59,17 @@ function HomeIllustration() {
       <rect x="150" y="176" width="34" height="30" rx="2" fill="#1A233D" />
       <rect x="248" y="176" width="34" height="30" rx="2" fill="#1A233D" />
       <path d="M167 176 V206 M150 191 H184 M265 176 V206 M248 191 H282" stroke="rgba(212,160,42,.55)" strokeWidth="2" />
-      {/* key */}
-      <g transform="translate(66 92) rotate(-28)">
-        <circle cx="0" cy="0" r="17" fill="none" stroke="#D4A02A" strokeWidth="6" />
-        <path d="M17 0 H68 M54 0 V12 M64 0 V9" stroke="#D4A02A" strokeWidth="6" strokeLinecap="round" />
+      {/* key: floats (outer group animates, inner group keeps its pose) */}
+      <g className="ill-key">
+        <g transform="translate(66 92) rotate(-28)">
+          <circle cx="0" cy="0" r="17" fill="none" stroke="#D4A02A" strokeWidth="6" />
+          <path d="M17 0 H68 M54 0 V12 M64 0 V9" stroke="#D4A02A" strokeWidth="6" strokeLinecap="round" />
+        </g>
       </g>
-      {/* sparkles */}
-      <path d="M362 160 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z" fill="#e9c66c" />
-      <path d="M92 196 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z" fill="rgba(233,198,108,.7)" />
+      {/* sparkles: twinkle at staggered times */}
+      <path className="ill-star ill-star--1" d="M362 160 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z" fill="#e9c66c" />
+      <path className="ill-star ill-star--2" d="M92 196 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z" fill="#e9c66c" />
+      <path className="ill-star ill-star--3" d="M262 62 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5Z" fill="#e9c66c" />
     </svg>
   );
 }

@@ -125,18 +125,25 @@ describe("details form", () => {
     expect(screen.getByRole("heading", { name: "Check your email" })).toBeTruthy();
     expect(screen.getByText("ada@example.com")).toBeTruthy();
 
-    // A wrong code is shown and announced.
+    // One box per digit, over a single labelled input.
+    const codeInput = screen.getByLabelText("Verification code") as HTMLInputElement;
+    expect(codeInput.maxLength).toBe(6);
+    expect(document.querySelectorAll(".register-otp-slot")).toHaveLength(6);
+
+    // A wrong code submits itself once complete, and the error is announced.
     replies.push({ status: 400, body: { ok: false, error: { code: "CODE_INVALID", message: "That code isn't right. You have 4 tries left." } } });
-    fireEvent.change(screen.getByLabelText("Verification code"), { target: { value: "111111" } });
-    fireEvent.click(screen.getByRole("button", { name: /Confirm/ }));
+    fireEvent.change(codeInput, { target: { value: "111111" } });
     await flush();
+    expect(calls.filter((c) => c.path === "/api/homeready/verify")).toHaveLength(1);
     expect(screen.getByRole("alert").textContent).toContain("4 tries left");
 
+    // Confirm still works as a button too, and never sends twice.
     replies.push({ status: 200, body: { ok: true, data: { name: "Adaeze" } } });
-    fireEvent.change(screen.getByLabelText("Verification code"), { target: { value: "123456" } });
-    fireEvent.click(screen.getByRole("button", { name: /Confirm/ }));
+    fireEvent.change(codeInput, { target: { value: "123456" } });
+    fireEvent.click(screen.getByRole("button", { name: /Confirm|Checking/ }));
     await flush();
 
+    expect(calls.filter((c) => c.path === "/api/homeready/verify")).toHaveLength(2);
     expect(calls[2]).toEqual({ path: "/api/homeready/verify", body: { pendingId: "p1", code: "123456" } });
     const heading = screen.getByRole("heading", { name: "Thanks, Adaeze." });
     expect(document.activeElement).toBe(heading);

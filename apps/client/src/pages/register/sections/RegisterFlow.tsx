@@ -1,7 +1,7 @@
 import "./RegisterFlow.css";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { registerInterest } from "@/lib/homeready";
 import { readUtm } from "@/lib/utm";
 import { CodeStep } from "./CodeStep";
@@ -74,7 +74,7 @@ export function RegisterFlow() {
 
         {step.kind === "done" && (
           <div className="register-done">
-            <CheckCircle2 className="register-done-icon" aria-hidden />
+            <AnimatedCheck />
             <h1 ref={doneRef} tabIndex={-1}>
               Thanks{step.name ? `, ${step.name}` : ""}.
             </h1>
@@ -90,5 +90,15 @@ export function RegisterFlow() {
         <ArrowLeft size={14} aria-hidden /> Back to homepage
       </Link>
     </main>
+  );
+}
+
+/** The circle draws itself, then the tick strokes in once it has closed. */
+function AnimatedCheck() {
+  return (
+    <svg className="register-check" viewBox="0 0 52 52" aria-hidden="true" focusable="false">
+      <circle className="register-check-circle" cx="26" cy="26" r="24" fill="none" />
+      <path className="register-check-tick" d="M15 27 l7.5 7.5 L37.5 19" fill="none" />
+    </svg>
   );
 }

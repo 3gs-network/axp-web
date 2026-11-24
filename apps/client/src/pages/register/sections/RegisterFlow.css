@@ -62,11 +62,63 @@
 }
 
 .register-illustration {
+  overflow: visible; /* the breathing halo grows past the drawing's box */
   width: 100%;
   max-width: 440px;
   height: auto;
   max-height: 32vh;
   margin: 24px 0 20px;
+}
+
+/* Illustration motion. Each shape scales/moves around its own centre. */
+.ill-key,
+.ill-star,
+.ill-sun,
+.ill-sun-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ill-key {
+    animation: ill-float 4.5s ease-in-out infinite;
+  }
+
+  .ill-sun {
+    animation: ill-breathe 5s ease-in-out infinite;
+  }
+
+  .ill-sun-halo {
+    animation: ill-halo 5s ease-in-out infinite;
+  }
+
+  .ill-star {
+    animation: ill-twinkle 2.8s ease-in-out infinite;
+  }
+
+  .ill-star--2 { animation-delay: -1s; animation-duration: 3.4s; }
+  .ill-star--3 { animation-delay: -2s; animation-duration: 2.4s; }
+}
+
+@keyframes ill-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-3deg); }
+}
+
+@keyframes ill-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+@keyframes ill-halo {
+  0%, 100% { transform: scale(.94); opacity: .7; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+@keyframes ill-twinkle {
+  0%, 100% { transform: scale(.55) rotate(0deg); opacity: .35; }
+  45% { transform: scale(1.1) rotate(22deg); opacity: 1; }
+  60% { transform: scale(1) rotate(30deg); opacity: .9; }
 }
 
 .register-steps {
@@ -200,10 +252,11 @@
   color: #9a9ea8;
 }
 
+/* Focus: a crisp 2px navy edge, no glow. */
 .register-field input:focus-visible {
   outline: none;
   border-color: var(--axp-navy);
-  box-shadow: 0 0 0 3px rgba(212, 160, 42, .55);
+  box-shadow: 0 0 0 1px var(--axp-navy);
 }
 
 .register-field input[aria-invalid="true"] {
@@ -241,43 +294,71 @@
   color: var(--axp-navy);
 }
 
-/* "Who is applying?" as three side-by-side cards */
+/* "Who is applying?": plain radios in one row (they wrap on small screens).
+   The whole label is the click target, 44px tall. */
 .register-choice-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 22px;
 }
 
 .register-choice {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 9px;
-  min-height: 48px;
-  padding: 8px 12px;
-  border: 1px solid rgba(26, 35, 61, .25);
-  border-radius: 6px;
-  background: white;
-  font-size: 13.5px;
-  line-height: 1.25;
+  min-height: 44px;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--axp-navy);
   cursor: pointer;
-  transition: border-color .15s ease, background .15s ease;
 }
 
-.register-choice:hover {
-  border-color: rgba(212, 160, 42, .8);
+.register-choice input {
+  appearance: none;
+  flex: none;
+  display: grid;
+  place-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1.5px solid #8a8f9a;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  transition: border-color .15s ease;
 }
 
-.register-choice:has(input:checked) {
+.register-choice input::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--axp-navy);
+  transform: scale(0);
+  transition: transform .15s ease;
+}
+
+.register-choice input:checked {
   border-color: var(--axp-navy);
-  background: #f4f1e8;
-  box-shadow: inset 0 0 0 1px var(--axp-navy);
 }
 
-.register-choices[aria-invalid="true"] .register-choice {
+.register-choice input:checked::before {
+  transform: scale(1);
+}
+
+.register-choice:hover input:not(:checked) {
+  border-color: var(--axp-navy);
+}
+
+.register-choice input:focus-visible {
+  outline: 1px solid var(--axp-navy);
+  outline-offset: 2px;
+}
+
+.register-choices[aria-invalid="true"] .register-choice input {
   border-color: #b3261e;
 }
 
-.register-choice input,
 .register-consent input {
   flex: none;
   width: 20px;
@@ -286,9 +367,8 @@
   accent-color: var(--axp-navy);
 }
 
-.register-choice:has(input:focus-visible),
 .register-consent input:focus-visible {
-  outline: 2px solid var(--axp-gold);
+  outline: 1px solid var(--axp-navy);
   outline-offset: 2px;
 }
 
@@ -336,12 +416,48 @@
   color: #5b616e;
 }
 
-/* code step */
-.register-code {
-  max-width: 220px;
-  font-size: 24px !important;
-  letter-spacing: .35em;
-  font-variant-numeric: tabular-nums;
+/* code step: one box per digit */
+.register-otp {
+  gap: 0;
+}
+
+.register-otp-group {
+  gap: 8px;
+}
+
+.register-otp-slot {
+  width: 48px;
+  height: 56px;
+  border: 1px solid #8a8f9a;
+  border-radius: 6px;
+  background: white;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--axp-navy);
+  box-shadow: none;
+}
+
+.register-otp-slot[data-active="true"] {
+  border-color: var(--axp-navy);
+  box-shadow: 0 0 0 1px var(--axp-navy);
+}
+
+.register-otp-slot[aria-invalid="true"] {
+  border-color: #b3261e;
+}
+
+.register-otp-slot .animate-caret-blink {
+  background: var(--axp-navy);
+  animation: otp-caret 1s step-end infinite;
+}
+
+@keyframes otp-caret {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 400px) {
+  .register-otp-group { gap: 6px; }
+  .register-otp-slot { width: 42px; height: 52px; }
 }
 
 .register-secondary {
@@ -386,12 +502,45 @@
   max-width: 420px;
 }
 
-.register-done-icon {
+.register-check {
   display: block;
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 14px;
-  color: #1f6b3a;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  stroke: #1f6b3a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* pathLength-free dash values: circle 2*pi*24 = 151, tick about 36. */
+.register-check-circle {
+  stroke-dasharray: 151;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.register-check-tick {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .register-check-circle {
+    stroke-dashoffset: 151;
+    animation: check-draw .6s cubic-bezier(.65, 0, .45, 1) forwards;
+  }
+
+  .register-check-tick {
+    stroke-dashoffset: 36;
+    animation: check-draw .35s cubic-bezier(.65, 0, .45, 1) .6s forwards;
+  }
+}
+
+@keyframes check-draw {
+  to { stroke-dashoffset: 0; }
 }
 
 .register-back {
