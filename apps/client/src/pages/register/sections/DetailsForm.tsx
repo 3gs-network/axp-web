@@ -41,10 +41,11 @@ type Props = {
 };
 
 /**
- * Step 1. The same rules as the server (@repo/shared/homeready) run on submit;
- * after the first attempt each field re-checks as it changes, so a fixed
- * error clears straight away. The first field with an error gets focus, and
- * the summary above the form is announced to screen readers.
+ * Step 1, laid out to fit one screen: short fields are paired side by side
+ * (they stack on narrow screens). The same rules as the server
+ * (@repo/shared/homeready) run on submit; after the first attempt each field
+ * re-checks as it changes. Errors show under their field, the first one gets
+ * focus, and a screen-reader-only live region announces how many there are.
  */
 export function DetailsForm({ values, onChange, onSubmit, submitting, notice }: Props) {
   const [errors, setErrors] = useState<HomeReadyFieldErrors>({});
@@ -99,118 +100,113 @@ export function DetailsForm({ values, onChange, onSubmit, submitting, notice }: 
         {errors[field]}
       </p>
     ) : null;
+  const ref = (field: HomeReadyField) => (el: HTMLInputElement | null) => {
+    refs.current[field] = el;
+  };
 
   return (
-    <form className="register-form" onSubmit={submit} noValidate aria-describedby="register-required-note">
+    <form className="register-form" onSubmit={submit} noValidate>
       {notice && (
         <p className="register-banner" role="status">
           {notice}
         </p>
       )}
-      <div role="alert" className="register-summary-slot">
-        {attempted && errorCount > 0 && (
-          <p className="register-summary">
-            {errorCount === 1 ? "There is 1 problem with the form." : `There are ${errorCount} problems with the form.`}{" "}
-            Please check the highlighted {errorCount === 1 ? "field" : "fields"}.
-          </p>
-        )}
-        {formError && <p className="register-summary">{formError}</p>}
+      {/* Announced, not shown: the errors themselves sit under each field. */}
+      <div role="alert" className="sr-only">
+        {attempted && errorCount > 0
+          ? errorCount === 1
+            ? "There is 1 problem with the form."
+            : `There are ${errorCount} problems with the form.`
+          : ""}
       </div>
 
-      <p className="register-note" id="register-required-note">
-        All fields are required unless marked optional.
-      </p>
+      <div className="register-row">
+        <div className="register-field">
+          <div className="register-label-row">
+            <label htmlFor="legalName">Full legal name</label>
+            <span className="register-hint" id="legalName-hint">
+              as it appears on your ID
+            </span>
+          </div>
+          <input
+            id="legalName"
+            name="legalName"
+            ref={ref("legalName")}
+            value={values.legalName}
+            onChange={(e) => set("legalName", e.target.value)}
+            autoComplete="name"
+            aria-required="true"
+            aria-invalid={Boolean(errors.legalName)}
+            aria-describedby={describedBy("legalName", "legalName-hint")}
+            maxLength={400}
+          />
+          {fieldError("legalName")}
+        </div>
 
-      <div className="register-field">
-        <label htmlFor="legalName">Full legal name</label>
-        <p className="register-hint" id="legalName-hint">
-          As it appears on your ID
-        </p>
-        <input
-          id="legalName"
-          name="legalName"
-          ref={(el) => {
-            refs.current.legalName = el;
-          }}
-          value={values.legalName}
-          onChange={(e) => set("legalName", e.target.value)}
-          autoComplete="name"
-          aria-required="true"
-          aria-invalid={Boolean(errors.legalName)}
-          aria-describedby={describedBy("legalName", "legalName-hint")}
-          maxLength={400}
-        />
-        {fieldError("legalName")}
+        <div className="register-field">
+          <label htmlFor="preferredName">
+            What should we call you? <span className="register-hint">(optional)</span>
+          </label>
+          <input
+            id="preferredName"
+            name="preferredName"
+            ref={ref("preferredName")}
+            value={values.preferredName}
+            onChange={(e) => set("preferredName", e.target.value)}
+            autoComplete="nickname"
+            aria-invalid={Boolean(errors.preferredName)}
+            aria-describedby={describedBy("preferredName")}
+            maxLength={400}
+          />
+          {fieldError("preferredName")}
+        </div>
       </div>
 
-      <div className="register-field">
-        <label htmlFor="preferredName">
-          What should we call you? <span className="register-optional">(optional)</span>
-        </label>
-        <input
-          id="preferredName"
-          name="preferredName"
-          ref={(el) => {
-            refs.current.preferredName = el;
-          }}
-          value={values.preferredName}
-          onChange={(e) => set("preferredName", e.target.value)}
-          autoComplete="nickname"
-          aria-invalid={Boolean(errors.preferredName)}
-          aria-describedby={describedBy("preferredName")}
-          maxLength={400}
-        />
-        {fieldError("preferredName")}
-      </div>
+      <div className="register-row">
+        <div className="register-field">
+          <label htmlFor="email">Email address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            inputMode="email"
+            ref={ref("email")}
+            value={values.email}
+            onChange={(e) => set("email", e.target.value)}
+            autoComplete="email"
+            spellCheck={false}
+            autoCapitalize="none"
+            placeholder="name@example.com"
+            aria-required="true"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={describedBy("email")}
+            maxLength={320}
+          />
+          {fieldError("email")}
+        </div>
 
-      <div className="register-field">
-        <label htmlFor="email">Email address</label>
-        <p className="register-hint" id="email-hint">
-          We'll send a 6-digit code here to confirm it's you.
-        </p>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          inputMode="email"
-          ref={(el) => {
-            refs.current.email = el;
-          }}
-          value={values.email}
-          onChange={(e) => set("email", e.target.value)}
-          autoComplete="email"
-          spellCheck={false}
-          autoCapitalize="none"
-          aria-required="true"
-          aria-invalid={Boolean(errors.email)}
-          aria-describedby={describedBy("email", "email-hint")}
-          maxLength={320}
-        />
-        {fieldError("email")}
-      </div>
-
-      <div className="register-field">
-        <label htmlFor="phone">Phone number</label>
-        <p className="register-hint" id="phone-hint">
-          For example 0803 123 4567 or +234 803 123 4567
-        </p>
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          inputMode="tel"
-          ref={(el) => {
-            refs.current.phone = el;
-          }}
-          value={values.phone}
-          onChange={(e) => set("phone", e.target.value)}
-          autoComplete="tel"
-          aria-required="true"
-          aria-invalid={Boolean(errors.phone)}
-          aria-describedby={describedBy("phone", "phone-hint")}
-          maxLength={40}
-        />
-        {fieldError("phone")}
+        <div className="register-field">
+          <label htmlFor="phone">Phone number</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            ref={ref("phone")}
+            value={values.phone}
+            onChange={(e) => set("phone", e.target.value)}
+            autoComplete="tel"
+            placeholder="0803 123 4567"
+            aria-required="true"
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={describedBy("phone", "phone-hint")}
+            maxLength={40}
+          />
+          <span className="sr-only" id="phone-hint">
+            For example 0803 123 4567 or +234 803 123 4567
+          </span>
+          {fieldError("phone")}
+        </div>
       </div>
 
       <fieldset
@@ -222,22 +218,22 @@ export function DetailsForm({ values, onChange, onSubmit, submitting, notice }: 
         aria-describedby={describedBy("applicationType")}
       >
         <legend id="applicationType-legend">Who is applying?</legend>
-        {APPLICATION_TYPES.map((type, index) => (
-          <label className="register-choice" key={type}>
-            <input
-              type="radio"
-              name="applicationType"
-              value={type}
-              checked={values.applicationType === type}
-              onChange={() => set("applicationType", type)}
-              ref={(el) => {
+        <div className="register-choice-row">
+          {APPLICATION_TYPES.map((type, index) => (
+            <label className="register-choice" key={type}>
+              <input
+                type="radio"
+                name="applicationType"
+                value={type}
+                checked={values.applicationType === type}
+                onChange={() => set("applicationType", type)}
                 // Focus lands on the first option when nothing is chosen.
-                if (index === 0) refs.current.applicationType = el;
-              }}
-            />
-            <span>{APPLICATION_TYPE_LABELS[type]}</span>
-          </label>
-        ))}
+                ref={index === 0 ? ref("applicationType") : undefined}
+              />
+              <span>{APPLICATION_TYPE_LABELS[type]}</span>
+            </label>
+          ))}
+        </div>
         {fieldError("applicationType")}
       </fieldset>
 
@@ -246,9 +242,7 @@ export function DetailsForm({ values, onChange, onSubmit, submitting, notice }: 
           <input
             type="checkbox"
             name="consent"
-            ref={(el) => {
-              refs.current.consent = el;
-            }}
+            ref={ref("consent")}
             checked={values.consent}
             onChange={(e) => set("consent", e.target.checked)}
             aria-required="true"
@@ -262,13 +256,12 @@ export function DetailsForm({ values, onChange, onSubmit, submitting, notice }: 
                 privacy notice<span className="sr-only"> (opens in a new tab)</span>
               </a>
             ) : (
-              <>privacy notice</>
+              <>
+                privacy notice <span className="register-hint">(link coming soon)</span>
+              </>
             )}
           </span>
         </label>
-        {!PRIVACY_NOTICE && (
-          <p className="register-hint">The privacy notice is being finalised and will be linked here.</p>
-        )}
         {fieldError("consent")}
       </div>
 
@@ -288,9 +281,16 @@ export function DetailsForm({ values, onChange, onSubmit, submitting, notice }: 
         </label>
       </div>
 
+      {formError && (
+        <p className="register-error register-form-error" role="alert">
+          {formError}
+        </p>
+      )}
+
       <button type="submit" className="button button--gold register-submit" aria-disabled={submitting}>
         {submitting ? "Sending your code…" : "Continue"} <ArrowRight size={16} aria-hidden />
       </button>
+      <p className="register-fineprint">We'll email you a 6-digit code to confirm it's you.</p>
     </form>
   );
 }

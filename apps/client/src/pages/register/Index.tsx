@@ -1,21 +1,17 @@
-import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/shared/PageHero";
 import { RegisterFlow } from "./sections/RegisterFlow";
+import { RegisterShowcase } from "./sections/RegisterShowcase";
 
 /**
- * /register -- HomeReady sign-up with email verification. Lives alongside the
- * existing "Register interest" route on /contact so the two can be compared;
- * it does not replace it.
+ * /register -- HomeReady sign-up with email verification. A standalone,
+ * split-screen page (no site header or footer), like /auth: the left half
+ * shows what HomeReady is, the right half holds the form. It lives alongside
+ * the existing "Register interest" route on /contact; it does not replace it.
  */
 export function RegisterPage() {
   return (
-    <SiteLayout>
-      <PageHero
-        eyebrow="HomeReady™"
-        title="Register your interest."
-        copy="Tell us a little about you and we'll guide you through the next steps towards owning your home."
-      />
+    <div className="register-page">
+      <RegisterShowcase />
       <RegisterFlow />
-    </SiteLayout>
+    </div>
   );
 }

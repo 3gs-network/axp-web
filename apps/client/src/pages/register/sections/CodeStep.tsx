@@ -96,10 +96,10 @@ export function CodeStep({ pendingId, email, resendAfterSeconds, onVerified, onR
 
   return (
     <div className="register-step">
-      <h2 ref={headingRef} tabIndex={-1}>
+      <h1 ref={headingRef} tabIndex={-1}>
         Check your email
-      </h2>
-      <p>
+      </h1>
+      <p className="register-lead">
         We've sent a {OTP_LENGTH}-digit code to <strong>{email}</strong>. It expires in 10 minutes.
       </p>
 

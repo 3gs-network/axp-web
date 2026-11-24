@@ -4,7 +4,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { captureUtm, readUtm } from "@/lib/utm";
-import { RegisterFlow } from "@/pages/register/sections/RegisterFlow";
+import { MemoryRouter } from "react-router-dom";
+import { RegisterFlow as Flow } from "@/pages/register/sections/RegisterFlow";
+
+const RegisterFlow = () => (
+  <MemoryRouter>
+    <Flow />
+  </MemoryRouter>
+);
 
 type Call = { path: string; body: Record<string, unknown> };
 let calls: Call[];
