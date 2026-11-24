@@ -243,6 +243,8 @@ export default defineConfig(({ mode, command }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
+        // Shared rules with the API (packages/shared), read from source.
+        "@repo/shared": path.resolve(__dirname, "../../packages/shared/src"),
         // Proxy react-router-dom to our wrapper
         "react-router-dom": path.resolve(__dirname, "./src/lib/react-router-dom-proxy.tsx"),
         // Original react-router-dom under a different name

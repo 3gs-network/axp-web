@@ -19,6 +19,8 @@ import AuthPage from "@/pages/auth/Index";
 import { DashboardPage } from "@/pages/dashboard/Index";
 import { NotFoundPage } from "@/pages/not-found/Index";
 import { PageViewTracker } from "@/components/shared/PageViewTracker";
+import { UtmCapture } from "@/components/shared/UtmCapture";
+import { RegisterPage } from "@/pages/register/Index";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <PageViewTracker />
+        <UtmCapture />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home-ownership-opportunities" element={<HomeOwnershipOpportunitiesPage />} />
@@ -46,6 +49,9 @@ const App = () => (
           <Route path="/investors-partners" element={<Navigate to="/work-with-axp" replace />} />
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          {/* HomeReady sign-up with email verification, alongside (not replacing)
+              the existing /contact Register Interest route, for comparison. */}
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="*" element={<NotFoundPage />} />
