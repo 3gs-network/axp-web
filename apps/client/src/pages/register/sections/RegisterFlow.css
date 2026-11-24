@@ -416,18 +416,22 @@
   color: #5b616e;
 }
 
-/* code step: one box per digit */
+/* code step: one box per digit, sharing the full width like the button */
 .register-otp {
+  width: 100%;
   gap: 0;
 }
 
 .register-otp-group {
-  gap: 8px;
+  width: 100%;
+  gap: 10px;
 }
 
 .register-otp-slot {
-  width: 48px;
-  height: 56px;
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  height: 60px;
   border: 1px solid #8a8f9a;
   border-radius: 6px;
   background: white;
@@ -457,7 +461,7 @@
 
 @media (max-width: 400px) {
   .register-otp-group { gap: 6px; }
-  .register-otp-slot { width: 42px; height: 52px; }
+  .register-otp-slot { height: 52px; }
 }
 
 .register-secondary {
